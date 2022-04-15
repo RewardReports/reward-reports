@@ -1,0 +1,85 @@
+\documentclass[12pt, a4paper, twocolumn]{article}
+
+\usepackage[                            % Configure page geometry
+    a4paper,
+    margin=0.5in,
+    top=1in,
+    bottom=1in
+]{geometry}
+\usepackage{fancyhdr}                   % For control over headers and footers
+\usepackage{sectsty}                    % To adjust section heading styles
+\usepackage{graphicx}                   % For images
+
+\usepackage{hyperref}
+
+\title{Reward Report - Template}
+\author{Foozle}
+
+% Set path(s) to figures
+\graphicspath{
+    {./figures/}
+}
+
+% Set spacing between columns
+\setlength{\columnsep}{0.5in}
+
+% Adjust section heading font size
+\sectionfont{\fontsize{14}{16}\selectfont}
+\subsectionfont{\fontsize{12}{14}\selectfont}
+
+% Configure header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Reward Report Template}
+\rhead{Page \thepage}
+%\rfoot{}
+%\lfoot{}
+
+% Get the RR template commands
+\input{reward-report-questions}
+
+\begin{document}
+
+\SystemDetails{% System Owner
+}{% Dates
+}{% Feedback & Communication
+}{% Other Resources
+}
+
+\OptIntent{% Goal of Reinforcement
+}{% Defined Performance Metrics
+}{% Oversight Metrics
+}{% Known failure modes
+}
+
+\Interfaces{% Deployment Agency
+}{% Stakeholders
+}{% Explainability & Transparency
+}{% Recourse
+}
+
+\Implementation{% Reward Details
+}{% Environment Details
+}{% Measurement Details
+}{% Algorithmic Details
+}{% Data Flow
+}{% Limitations
+}{% Engineering Tricks
+}
+
+\Evaluation{% Evaluation Environment
+}{% Offline Evaluations
+}{% Evaluation Validity
+}{% Performance Standards
+}
+
+\Maintenance{% Reporting Cadance
+}{% Update Triggers
+}{% Changelog
+}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{main}
+
+\end{document}
