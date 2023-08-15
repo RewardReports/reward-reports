@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    padding: 0px;
+    font-family: 'Trebuchet MS','Ariel', Calibri,  sans-serif;
+}
+
+nav {
+    background-color: #FDFEFF;
+    color: #464B53;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: .15rem solid lightgray;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    height: 70px;
+    z-index: 1;
+}
+
+.site-name {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black;
+    margin: 2vh 2vw;
+    height: auto;
+    width: auto;
+}
+
+.tabs {
+    font-size: 0.9rem;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 2vh 2vw;
+    height: auto;
+    width: auto;
+}
+
+.tabs li {
+    cursor: pointer;
+    padding-bottom: 25px;
+    margin-bottom: -25px;
+}
+
+.active {
+    color: #0092B2;
+    border-bottom:  solid #0092B2;
+}
+
+.active-section {
+    color: #0092B2;
+    border-left:  solid #0092B2;
+}
+
+
+.columns {
+    display: flex;
+    position: relative; /* To create a containing block for fixed positioning */
+    margin-top: 10vh;
+}
+
+.left-scan {
+    font-size: 0.9rem;
+    flex: 0 0 20%;
+    background-color: #FDFEFF;
+    color: #464B53;
+    border-right: .1em solid lightgray;
+    position: fixed;
+    top: 10vh; /* Align the left scan column to the top */
+    left: 0; /* Align the left scan column to the left */
+    height: 100vh; /* Set the height to full viewport height */
+    overflow-y: auto; /* Enable scrolling for the left scan column */
+    width: 18%;
+}
+
+.sections {
+    list-style: none;
+    margin-top: 15%;
+    padding-left: 0;
+}
+
+.sections li {
+    margin-bottom: 30px;
+    cursor: pointer;
+    padding-left: 1vw;
+    margin-left: 1vw;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 18%; /* Adjust margin to account for the left scan column */
+    margin-right: 18%; /* Adjust margin to account for the right scan column */
+}
+
+.section {
+    margin-bottom: 50px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+.subsections{
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    font-size: 0.8rem;
+    color:#808080
+}
+.subsections.active-sub {
+    height: auto;
+    width: auto;
+    list-style: none;
+    padding: 0;
+}
+
+.subsections li {
+    margin-bottom: 5px;
+    cursor: pointer;
+    margin-top: 15px; /* Indent the subsections */
+}
+
+.right-scan {
+    flex: 0 0 20%;
+    width: 18%;
+    background-color: #FDFEFF;
+    color: #464B53;
+    border-left: .1em solid lightgray;
+    position: fixed;
+    top: 10vh; /* Align the right scan column to the top */
+    right: 0; /* Align the right scan column to the right */
+    height: 100vh; /* Set the height to full viewport height */
+    overflow-y: auto; /* Enable scrolling for the right scan column */
+}
+.spacer {
+    height: 60vh;
+}

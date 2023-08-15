@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Reward Reports</title>
+</head>
+<body>
+    <nav>
+        <div class="site-name">Reward Reports</div>
+        <ul class="tabs">
+            <li class="active">Build Report</li>
+            <li>Version History</li>
+            <li>Performance</li>
+            <li>View Changes</li>
+        </ul>
+    </nav>
+    <main>
+        <div class="columns">
+            <div class="left-scan">
+                <ul class="sections">
+                    <li data-target="system-detail" class="sections-head">System Detail
+                        <ul class="subsections">
+                            <li data-target="system-detail-sub1">System Owner</li>
+                            <li data-target="system-detail-sub2">Dates</li>
+                            <li data-target="system-detail-sub3">Feedback & Commmunication</li>
+                            <li data-target="system-detail-sub4">Other Resources</li>
+                        </ul>
+                    </li>
+                    <li data-target="optimization-intent" class="sections-head">Optimization Intent
+                        <ul class="subsections">
+                            <li data-target="optimization-intent-sub1">Goal of Reinforcement</li>
+                            <li data-target="optimization-intent-sub2">Defined Performance Metrics</li>
+                            <li data-target="optimization-intent-sub3">Oversight Metrics</li>
+                            <li data-target="optimization-intent-sub4">Known Failure Modes</li>
+                        </ul>
+                    </li>
+                    <li data-target="institutional-interface" class="sections-head">Institutional Interface
+                        <ul class="subsections">
+                            <li data-target="system-detail-sub1">Deployment Agency</li>
+                            <li data-target="system-detail-sub2">Stakeholders</li>
+                            <li data-target="system-detail-sub3">Explainability & Transparency</li>
+                            <li data-target="system-detail-sub4">Recourse</li>
+                        </ul>
+                    </li>
+                    <li data-target="implementation" class="sections-head">Implementation
+                        <ul class="subsections">
+                            <li data-target="system-detail-sub1">Reward Details</li>
+                            <li data-target="system-detail-sub2">Environment Details</li>
+                            <li data-target="system-detail-sub3">Measurement Details</li>
+                            <li data-target="system-detail-sub4">Algorithmic Details</li>
+                            <li data-target="system-detail-sub2">Data Flow</li>
+                            <li data-target="system-detail-sub3">Limitations</li>
+                            <li data-target="system-detail-sub4">Engineering Tricks</li>
+                        </ul>
+                    </li>
+                    <li data-target="evaluation" class="sections-head">Evaluation
+                        <ul class="subsections">
+                            <li data-target="system-detail-sub1">Evaluation Environment</li>
+                            <li data-target="system-detail-sub2">Offline Evaluations</li>
+                            <li data-target="system-detail-sub3">Evaluation Validity</li>
+                            <li data-target="system-detail-sub4">Performance Standards</li>
+                        </ul>
+                    </li>
+                    <li data-target="system-maintenance" class="sections-head">System Maintenance
+                        <ul class="subsections">
+                            <li data-target="system-detail-sub1">Reporting Cadence</li>
+                            <li data-target="system-detail-sub2">Update Triggers</li>
+                            <li data-target="system-detail-sub3">Changelog</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="main-content">
+                <div id="system-detail" class="section">System Detail
+                    <div id="system-detail-sub1" class="subsection" contenteditable="true">System Owner
+                        <p>*This may be the designer deploying the system, a larger agency or body, or some combination of the two. The entity completing the report should also be indicated.*</p>
+                    </div>
+                    <div id="system-detail-sub2" class="subsection" contenteditable="true">Dates
+                        <p>*The known or intended timespan over which this reward function & optimization is active.*</p>
+                    </div>
+                    <div id="system-detail-sub3" class="subsection" contenteditable="true">Feedback & Communication
+                        <p>*Contact information for the designer, team, or larger agency responsible for system deployment.*</p>
+                    </div>
+                    <div id="system-detail-sub4" class="subsection" contenteditable="true">Other Resources
+                        <p>*Where can users or stakeholders find more information about this system? Is this system based on one or more research papers?*</p>
+                    </div>
+                </div>
+            
+                <div id="optimization-intent" class="section">Optimization Intent
+                    <div id="optimization-intent-sub1" class="subsection" contenteditable="true">Goal of Reinforcement
+                        <p>*A statement of system scope and purpose, including the planning horizon and justification of a data-driven approach to policy design (*e.g.* the use of reinforcement learning or repeated retraining). This justification should contrast with alternative approaches, like static models and hand-designed policies. What is there to gain with the chosen approach?*</p>
+                    </div>
+                    <div id="optimization-intent-sub2" class="subsection" contenteditable="true">Defined Performance Metrics
+                        <p>*A list of "performance metrics" included explicitly in the reward signal, the criteria for why these metrics were chosen, and from where these criteria were drawn (*e.g.* government agencies, domain precedent, GitHub repositories, toy environments). Performance metrics that are used by the designer to tune the system, but not explicitly included in the reward signal should also be reported here.*</p>
+                    </div>
+                    <div id="optimization-intent-sub3" class="subsection" contenteditable="true">Oversight Metrics
+                        <p>*Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g. performance differences across demographic groups)? Why aren't they part of the reward signal, and why must they be monitored?*</p>
+                    </div>
+                    <div id="optimization-intent-sub4" class="subsection" contenteditable="true">Known Failure Modes
+                        <p>*A description of any prior known instances of "reward hacking" or model misalignment in the domain at stake, and description of how the current system avoids this.*</p>
+                    </div>
+                </div>
+            
+                <div id="institutional-interface" class="section">Institutional Interface
+                    <div id="institutional-interface-sub1" class="subsection" contenteditable="true">Deployment Agency
+                        <p>*What other agency or controlling entity roles, if any, are intended to be subsumed by the system? How may these roles change following system deployment?*</p>
+                    </div>
+                    <div id="institutional-interface-sub2" class="subsection" contenteditable="true">Stakeholders
+                        <p>*What other interests are implicated in the design specification or system deployment, beyond the designer? What role will these interests play in subsequent report documentation? What other entities, if any, does the deployed system interface with whose interests are not intended to be in scope?*</p>
+                    </div>
+                    <div id="institutional-interface-sub3" class="subsection" contenteditable="true">Explainability & Transparency
+                        <p>*Does the system offer explanations of its decisions or actions? What is the purpose of these explanations? To what extent is the policy transparent, *i.e.* can decisions or actions be understood in terms of meaningful intermediate quantities?*</p>
+                    </div>
+                    <div id="institutional-interface-sub4" class="subsection" contenteditable="true">Recourse
+                        <p>*Can stakeholders or users contest the decisions or actions of the system? What processes, technical or otherwise, are in place to handle this?*</p>
+                    </div>
+                </div>
+                
+                <div id="implementation" class="section">Implementation
+                    <div id="implementation-sub1" class="subsection" contenteditable="true">Reward Details
+                        <p>*How was the reward function engineered? Is it based on a well-defined metric? Is it tuned to represent a specific behavior? Are multiple terms scaled to make one central loss, and how was the scaling decided?*</p>
+                    </div>
+                    <div id="implementation-sub2" class="subsection" contenteditable="true">Environment Details
+                        <p>*Description of states, observations, and actions with reference to planning horizon and hypothesized dynamics/impact. What dynamics are brought into the scope of the optimization via feedback? Which dynamics are left external to the system, as drift? Have there been any observed gaps between conceptualization and resultant dynamics?*</p>
+                    </div>
+                    <div id="implementation-sub3" class="subsection" contenteditable="true">Measurement Details
+                        <p>*How are the components of the reward and observations measured? Are measurement techniques consistent across time and data sources? Under what conditions are measurements valid and correct? What biases might arise during the measurement process?*</p>
+                    </div>
+                    <div id="implementation-sub4" class="subsection" contenteditable="true">Algorithmic Details
+                        <p>*The key points on the specific algorithm(s) used for learning and planning. This includes the form of the policy (*e.g.* neural network, optimization problem), the class of learning algorithm (*e.g.* model-based RL, off-policy RL, repeated retraining), the form of any intermediate model (*e.g.* of the value function, dynamics function, reward function), technical infrastructure, and any other considerations necessary for implementing the system. Is the algorithm publicly documented and is code publicly available? Have different algorithms been used or tried to accomplish the same goal?*</p>
+                    </div>
+                    <div id="implementation-sub5" class="subsection" contenteditable="true">Data Flow
+                        <p>*How is data collected, stored, and used for (re)training? How frequently are various components of the system retrained, and why was this frequency chosen? Could the data exhibit sampling bias, and is this accounted for in the learning algorithm? Is data reweighted, filtered, or discarded? Have data sources changed over time?*</p>
+                    </div>
+                    <div id="implementation-sub6" class="subsection" contenteditable="true">Limitations
+                        <p>*Discussion and justification of modeling choices arising from computational, statistical, and measurement limitations. How might (or how have) improvements in computational power and data collection change(d) these considerations and impact(ed) system behavior?*</p>
+                    </div>
+                    <div id="implementation-sub7" class="subsection" contenteditable="true">Engineering Tricks
+                        <p>*RL systems are known to be sensitive to implementation tricks that are key to performance. Are there any design elements that have a surprisingly strong impact on performance? For example, state-action normalization, hard-coded curricula, model-initialization, loss bounds, or more?*</p>
+                    </div>
+                </div>
+            
+                <div id="evaluation" class="section">Evaluation
+                    <div id="evaluation-sub1" class="subsection" contenteditable="true">Evaluation Environment
+                        <p>*How is the system evaluated (and if applicable, trained) prior to deployment (*e.g.* using simulation, static datasets, *etc*.)? Exhaustive details of the offline evaluation environment should be provided. For simulation, details should include description or external reference to the underlying model, ranges of parameters, etc. For evaluation on static datasets, considering referring to associated documentation (*e.g.* *Datasheets* [@gebru2021datasheets]).*</p>
+                    </div>
+                    <div id="evaluation-sub2" class="subsection" contenteditable="true">Offline Evaluations
+                        <p>*Present and discuss the results of offline evaluation. For static evaluation, consider referring to associated documentation (*e.g.* *Model Cards* [@mitchell2019model]). If applicable, compare the behaviors arising from counterfactual specifications (e.g. of states, observations, actions).*<p>
+                    </div>
+                    <div id="evaluation-sub3" class="subsection" contenteditable="true">Evaluation Validity
+                        <p>*To what extent is it reasonable to draw conclusions about the behavior of the deployed system based on presented offline evaluations? What is the current state of understanding of the online performance of the system? If the system has been deployed, were any unexpected behaviors observed?*</p>
+                    </div>
+                    <div id="evaluation-sub4" class="subsection" contenteditable="true">Performance standards
+                        <p>*What standards of performance and safety is the system required to meet? Where do these standards come from? How is the system verified to meet these standards?*</p>
+                    </div>
+                </div>
+            
+                <div id="system-maintenance" class="section">System Maintenance
+                    <div id="system-maintenance-sub1" class="subsection" contenteditable="true">Reporting Cadence
+                        <p>*The intended timeframe for revisiting the reward report. How was this decision reached and motivated?*</p>
+                    </div>
+                    <div id="system-maintenance-sub2" class="subsection" contenteditable="true">Update Triggers
+                        <p>*Specific events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above. Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either of performance or oversight) that falls outside a defined threshold of critical safety.*</p>
+                    </div>
+                    <div id="system-maintenance-sub3" class="subsection" contenteditable="true">Changelog
+                        <p>*Descriptions of updates and lessons learned from observing and maintaining the deployed system. This includes when the updates were made and what motivated them in light of previous reports. The changelog comprises the central difference between reward reports and other forms of machine learning documentation, as it directly reflects their intrinsically dynamic nature.*</p>
+                    </div>
+                </div>
+                <div id="spacer" class="spacer"></div>
+            </div>
+            <div class="right-scan"></div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
