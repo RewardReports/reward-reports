@@ -4,6 +4,22 @@ body {
     font-family: 'Trebuchet MS','Ariel', Calibri,  sans-serif;
 }
 
+button {
+    background-color: #0092B2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    outline: none; /* Removes the outline */
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Hover effect */
+  button:hover {
+    background-color: #115c6d; /* Darker shade of blue for hover effect */
+  }
+
 nav {
     background-color: #FDFEFF;
     color: #464B53;
@@ -14,7 +30,7 @@ nav {
     position: fixed;
     width: 100vw;
     top: 0;
-    height: 70px;
+    height: 60px;
     z-index: 1;
 }
 
@@ -39,9 +55,20 @@ nav {
 
 .tabs li {
     cursor: pointer;
-    padding-bottom: 25px;
-    margin-bottom: -25px;
+    padding-bottom: 20px;
+    margin-bottom: -20px;
 }
+
+
+.content-section {
+    display: none;
+}
+
+.content-section.active-tab {
+    display: block;
+}
+
+
 
 .active {
     color: #0092B2;
@@ -57,7 +84,7 @@ nav {
 .columns {
     display: flex;
     position: relative; /* To create a containing block for fixed positioning */
-    margin-top: 10vh;
+    margin-top: 60px;
 }
 
 .left-scan {
@@ -67,7 +94,7 @@ nav {
     color: #464B53;
     border-right: .1em solid lightgray;
     position: fixed;
-    top: 10vh; /* Align the left scan column to the top */
+    top: 60px; /* Align the left scan column to the top */
     left: 0; /* Align the left scan column to the left */
     height: 100vh; /* Set the height to full viewport height */
     overflow-y: auto; /* Enable scrolling for the left scan column */
@@ -88,10 +115,19 @@ nav {
 }
 
 .main-content {
+    display: none;
     flex: 1;
     padding: 20px;
     margin-left: 18%; /* Adjust margin to account for the left scan column */
     margin-right: 18%; /* Adjust margin to account for the right scan column */
+}
+
+.main-content.active-mode {
+    display: block;
+}
+
+.pre-build{
+    padding: 20px 50px;
 }
 
 .section {
@@ -127,7 +163,7 @@ nav {
     color: #464B53;
     border-left: .1em solid lightgray;
     position: fixed;
-    top: 10vh; /* Align the right scan column to the top */
+    top: 60px; /* Align the right scan column to the top */
     right: 0; /* Align the right scan column to the right */
     height: 100vh; /* Set the height to full viewport height */
     overflow-y: auto; /* Enable scrolling for the right scan column */

@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
     const leftScanItems = document.querySelectorAll('.sections-head');
     const subsections = document.querySelectorAll('.sections ul');
+    const contentSections = document.querySelectorAll('.content-section');
+    const buildReportButton = document.getElementById('build');
+    const uploadReportButton = document.getElementById('upload');
+    const preBuildMainContent = document.querySelector('.main-content.pre-build');
+    const buildMainContent = document.querySelector('.main-content.build');
+
+
 
     const offset = 100;
 
@@ -10,6 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
+
+            const targetSectionId = tab.textContent.toLowerCase().replace(' ', '-');
+            contentSections.forEach(section => {
+                if (section.id === targetSectionId) {
+                    section.classList.add('active-tab');
+                } else {
+                    section.classList.remove('active-tab');
+                }
+            });
         });
     });
 
@@ -19,6 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
     //         section.classList.add('active-section');
     //     });
     // });
+
+    buildReportButton.addEventListener('click', () => {
+        if (preBuildMainContent.classList.contains('active-mode')) {
+            preBuildMainContent.classList.remove('active-mode');
+            buildMainContent.classList.add('active-mode');
+            console.log('build')
+        }
+    });
+
+    uploadReportButton.addEventListener('click', () => {
+        // Add functionality for the "Upload Existing Reward Reports" button here
+        // This code will run when the "Upload Existing Reward Reports" button is clicked
+        console.log('upload')
+    });
 
     leftScanItems.forEach((item) => {
         item.addEventListener('click', () => {
