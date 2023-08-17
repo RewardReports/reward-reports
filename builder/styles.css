@@ -4,21 +4,64 @@ body {
     font-family: 'Trebuchet MS','Ariel', Calibri,  sans-serif;
 }
 
+h3{
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-right: 30px;
+}
+
+h4{
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 30px;
+    margin-right: 5px;
+}
+p{
+    margin: 10px 0;
+    line-height: 120%;
+    font-size: 16px;
+}
+
 button {
     background-color: #0092B2;
     color: white;
-    font-weight: bold;
+    /* font-weight: bold; */
     border: none;
     outline: none; /* Removes the outline */
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-  }
+}
+
+.main {
+    display: block; /* Display as block-level elements */
+    width: 500px; /* Set a width for the buttons */
+    margin: 25px auto; /* Add margin to create spacing and center horizontally */
+}
+
+.edit-button {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 10px;
+    margin: auto 0;
+}
+
+.editing-button {
+    background-color: white;
+    color: #0092B2;
+    border: 1px solid #0092B2;
+}
   
   /* Hover effect */
-  button:hover {
+button:hover {
     background-color: #115c6d; /* Darker shade of blue for hover effect */
-  }
+}
+
+.editing-button:hover {
+    background-color: white;
+    color: #0092B2;
+    border: 1px solid #0092B2;
+}
 
 nav {
     background-color: #FDFEFF;
@@ -67,8 +110,6 @@ nav {
 .content-section.active-tab {
     display: block;
 }
-
-
 
 .active {
     color: #0092B2;
@@ -133,7 +174,6 @@ nav {
 .section {
     margin-bottom: 50px;
     padding: 20px;
-    border: 1px solid #ccc;
     background-color: #fff;
 }
 .subsections{
@@ -154,6 +194,12 @@ nav {
     margin-bottom: 5px;
     cursor: pointer;
     margin-top: 15px; /* Indent the subsections */
+}
+
+.subsection p[contenteditable="true"] {
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 3px;
 }
 
 .right-scan {

@@ -8,8 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadReportButton = document.getElementById('upload');
     const preBuildMainContent = document.querySelector('.main-content.pre-build');
     const buildMainContent = document.querySelector('.main-content.build');
-
-
+    const editButtons = document.querySelectorAll('.edit-button');
 
     const offset = 100;
 
@@ -83,6 +82,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             
             } 
+        });
+    });  
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const section = button.closest('.section');
+            const subsections = section.querySelectorAll('.subsection p');
+            
+            subsections.forEach(subsection => {
+                subsection.contentEditable = true;
+            });
+
+            button.textContent = 'Editing';
+            button.classList.add('editing-button');
+            button.removeEventListener('click', () => {});
         });
     });    
     
