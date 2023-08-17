@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tabs li');
     const sections = document.querySelectorAll('.section');
     const leftScanItems = document.querySelectorAll('.sections-head');
+    const leftScanItemsAll = document.querySelectorAll('.sections li');
     const subsections = document.querySelectorAll('.sections ul');
     const contentSections = document.querySelectorAll('.content-section');
     const buildReportButton = document.getElementById('build');
@@ -9,6 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const preBuildMainContent = document.querySelector('.main-content.pre-build');
     const buildMainContent = document.querySelector('.main-content.build');
     const editButtons = document.querySelectorAll('.edit-button');
+    const authorForm = document.querySelector('.author-form');
+    const cancelButton = document.getElementById('cancel-button');
+    const saveButton = document.getElementById('save-button');
+    const infoIcons = document.querySelectorAll('.info');
+    const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
+
+
 
     const offset = 100;
 
@@ -49,10 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('upload')
     });
 
-    leftScanItems.forEach((item) => {
+    leftScanItemsAll.forEach((item) => {
         item.addEventListener('click', () => {
             const targetId = item.getAttribute('data-target');
             const targetSection = document.querySelector(`#${targetId}`);
+            console.log(targetSection.id)
             if (targetSection) {
                 window.scrollTo({
                     top: targetSection.offsetTop - offset,
@@ -89,17 +98,124 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const section = button.closest('.section');
             const subsections = section.querySelectorAll('.subsection p');
+
+            // Hide all other sections
+            sections.forEach(otherSection => {
+                if (otherSection !== section) {
+                    otherSection.style.display = 'none';
+                }
+            });
             
             subsections.forEach(subsection => {
                 subsection.contentEditable = true;
+                subsection.dataset.originalContent = subsection.textContent;
             });
 
             button.textContent = 'Editing';
             button.classList.add('editing-button');
             button.removeEventListener('click', () => {});
+
+            authorForm.style.display = 'block';
+        });
+    });
+
+    
+    document.getElementById('export-button').addEventListener('click', () => {
+        const sections = document.querySelectorAll('.section');
+        let markdownContent = '';
+    
+        sections.forEach(section => {
+            markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
+    
+            const subsections = section.querySelectorAll('.subsection');
+    
+            subsections.forEach(subsection => {
+                const title = subsection.querySelector('h4').textContent;
+                const content = subsection.querySelector('p').textContent;
+    
+                markdownContent += `## ${title}\n\n${content}\n\n`;
+            });
+    
+            markdownContent += '\n';
+        });
+    
+        const blob = new Blob([markdownContent], { type: 'text/plain;charset=utf-8' });
+        const filename = 'reward_report.md';
+        
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    });
+
+    
+    cancelButton.addEventListener('click', () => {
+        // Show a confirmation dialog before proceeding
+        const confirmCancel = confirm('Are you sure you want to cancel? Any unsaved changes will be discarded.');
+        if (confirmCancel) {
+            const paragraphs = document.querySelectorAll('p[data-original-content]');
+            paragraphs.forEach((paragraph) => {
+                paragraph.textContent = paragraph.dataset.originalContent;
+            });
+            paragraphs.forEach(subsection => {
+                subsection.contentEditable = false;
+            });
+            authorForm.style.display = 'none';
+            editButtons.forEach((button) => {
+                button.textContent = 'Edit';
+                button.classList.remove('editing-button');
+            });  
+            sections.forEach(section => {
+                section.style.display = 'block';
+            });
+        }
+        
+    });
+
+    saveButton.addEventListener('click', () => {
+        const subsections = document.querySelectorAll('.subsection p');
+            
+        subsections.forEach(subsection => {
+            subsection.contentEditable = false;
+        });
+
+        sections.forEach(section => {
+            section.style.display = 'block';
+        });
+
+        authorForm.style.display = 'none';
+        editButtons.forEach((button) => {
+            button.textContent = 'Edit';
+            button.classList.remove('editing-button');
+        });  
+    });
+
+    infoIcons.forEach((icon) => {
+        icon.addEventListener('mouseover', (event) => {
+            const targetId = icon.closest('.subsection').id + '-info';
+            const targetInfoDiv = document.querySelector(`[data-target="${targetId}"]`);
+            const scrollTop = window.scrollY || window.pageYOffset;
+
+    
+            if (targetInfoDiv) {
+                targetInfoDiv.style.left = event.clientX + 'px';
+                targetInfoDiv.style.top = (event.clientY + scrollTop - 50) + 'px';
+                targetInfoDiv.classList.add('show-info');
+            }
+        });
+    
+        icon.addEventListener('mouseout', () => {
+            hiddenInfoDivs.forEach((div) => {
+                div.classList.remove('show-info');
+            });
         });
     });    
-    
     
     
 

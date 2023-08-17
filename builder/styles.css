@@ -1,13 +1,13 @@
 body {
     margin: 0;
     padding: 0px;
-    font-family: 'Trebuchet MS','Ariel', Calibri,  sans-serif;
+    font-family: 'Trebuchet MS','Verdana','Ariel', Calibri,  sans-serif;
 }
 
 h3{
     margin-bottom: 10px;
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 5px;
 }
 
 h4{
@@ -33,6 +33,11 @@ button {
     cursor: pointer;
 }
 
+textarea, input {
+    font-family: inherit;
+    font-size: inherit;
+ }
+
 .main {
     display: block; /* Display as block-level elements */
     width: 500px; /* Set a width for the buttons */
@@ -44,6 +49,7 @@ button {
     padding: 8px 12px;
     font-size: 10px;
     margin: auto 0;
+    position: relative;
 }
 
 .editing-button {
@@ -51,6 +57,8 @@ button {
     color: #0092B2;
     border: 1px solid #0092B2;
 }
+
+
   
   /* Hover effect */
 button:hover {
@@ -74,7 +82,7 @@ nav {
     width: 100vw;
     top: 0;
     height: 60px;
-    z-index: 1;
+    z-index: 2;
 }
 
 .site-name {
@@ -140,6 +148,7 @@ nav {
     height: 100vh; /* Set the height to full viewport height */
     overflow-y: auto; /* Enable scrolling for the left scan column */
     width: 18%;
+    z-index: 1;
 }
 
 .sections {
@@ -200,6 +209,7 @@ nav {
     border: 1px solid lightgrey;
     padding: 5px;
     border-radius: 3px;
+    color: #464B53;
 }
 
 .right-scan {
@@ -213,7 +223,87 @@ nav {
     right: 0; /* Align the right scan column to the right */
     height: 100vh; /* Set the height to full viewport height */
     overflow-y: auto; /* Enable scrolling for the right scan column */
+    z-index: 1;
 }
 .spacer {
     height: 60vh;
 }
+
+.author-form {
+    font-size: 12px;
+    color: #464B53;
+    position: fixed;
+    bottom: 0;
+    left: 18%;
+    width: 64%;
+    height: auto;
+    background-color: #EDF4F8;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Hide the div initially */
+    z-index: 0;
+}
+
+.form-content {
+    margin: 30px 40px;
+}
+
+/* Style for full-width elements */
+.full-width {
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for the flex-right container */
+.flex-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.flex-right button{
+    margin-left: 20px;
+}
+
+#cancel-button {
+    background-color: white;
+    color: #0092B2;
+    border: 1px solid #0092B2;
+}
+
+#export-button{
+    margin: 10px auto;
+}
+
+.hidden-info {
+    position: absolute;
+    display: none;
+    padding: 0 8px;
+    background-color: #000000;
+    color: whitesmoke;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    z-index: 999;
+    font-size: 9px;
+    width: 400px;
+    border-radius: 3px;
+}
+
+.info {
+    cursor: pointer;
+}
+
+/* Position the info div based on cursor */
+.show-info {
+    display: block;
+}
+
