@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('save-button');
     const infoIcons = document.querySelectorAll('.info');
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
-
+    let importedMarkdownFiles = [];
 
 
     const offset = 100;
@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('export-button').addEventListener('click', () => {
         const sections = document.querySelectorAll('.section');
         let markdownContent = '';
+
     
         sections.forEach(section => {
             markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
@@ -181,6 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const zip = new JSZip();
         const folder = zip.folder(folderName);
         folder.file(markdownFileName, markdownContent);
+        console.log(importedMarkdownFiles)
+
+        // Export imported markdown files as separate markdown files
+        if (importedMarkdownFiles.length > 0) {
+            importedMarkdownFiles.forEach(importedFile => {
+                folder.file(importedFile.name, importedFile.content);
+            });
+        }
     
         zip.generateAsync({ type: 'blob' }).then(function (content) {
             const filename = `${folderName}.zip`;
@@ -280,6 +289,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const markdownFiles = Object.keys(folder.files).filter(fileName => {
                 return fileName.startsWith(folderName + 'reward_report_') && fileName.endsWith('.md'); 
             });
+
+
+            importedMarkdownFiles = await Promise.all(markdownFiles.map(async fileName => {
+                const content = await folder.files[fileName].async('string');
+                const trimmedFileName = fileName.substring(fileName.lastIndexOf('/') + 1); // Extract file name after last "/"
+                return { name: trimmedFileName, content: content };
+            }));
     
             if (markdownFiles.length === 1) {
                 console.log('Markdown files found:', markdownFiles);
