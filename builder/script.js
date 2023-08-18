@@ -120,6 +120,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     
+    // document.getElementById('export-button').addEventListener('click', () => {
+    //     const sections = document.querySelectorAll('.section');
+    //     let markdownContent = '';
+    
+    //     sections.forEach(section => {
+    //         markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
+    
+    //         const subsections = section.querySelectorAll('.subsection');
+    
+    //         subsections.forEach(subsection => {
+    //             const title = subsection.querySelector('h4').textContent;
+    //             const content = subsection.querySelector('p').textContent;
+    
+    //             markdownContent += `## ${title}\n\n${content}\n\n`;
+    //         });
+    
+    //         markdownContent += '\n';
+    //     });
+    
+    //     const blob = new Blob([markdownContent], { type: 'text/plain;charset=utf-8' });
+    //     const filename = 'reward_report.md';
+        
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //         window.navigator.msSaveOrOpenBlob(blob, filename);
+    //     } else {
+    //         const url = URL.createObjectURL(blob);
+    //         const link = document.createElement('a');
+    //         link.href = url;
+    //         link.download = filename;
+    //         link.click();
+    //         URL.revokeObjectURL(url);
+    //     }
+    // });
+
     document.getElementById('export-button').addEventListener('click', () => {
         const sections = document.querySelectorAll('.section');
         let markdownContent = '';
@@ -139,21 +173,31 @@ document.addEventListener('DOMContentLoaded', () => {
             markdownContent += '\n';
         });
     
-        const blob = new Blob([markdownContent], { type: 'text/plain;charset=utf-8' });
-        const filename = 'reward_report.md';
-        
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-            link.click();
-            URL.revokeObjectURL(url);
-        }
+        const now = new Date();
+        const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
+        const folderName = `reward_reports_${formattedDate}`;
+        const markdownFileName = `reward_report_${formattedDate}.md`;
+    
+        const zip = new JSZip();
+        const folder = zip.folder(folderName);
+        folder.file(markdownFileName, markdownContent);
+    
+        zip.generateAsync({ type: 'blob' }).then(function (content) {
+            const filename = `${folderName}.zip`;
+    
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(content, filename);
+            } else {
+                const url = URL.createObjectURL(content);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+        });
     });
-
+    
     
     cancelButton.addEventListener('click', () => {
         // Show a confirmation dialog before proceeding

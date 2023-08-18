@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="builder/styles.css">
     <title>Reward Reports</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+</head>
 </head>
 <body>
     <svg style="display: none;">
@@ -77,7 +79,9 @@
                             </ul>
                         </li>
                     </ul>
-                    <button id="export-button">Export as Markdown</button>
+                    <div class="export-container">
+                        <button id="export-button">Export as Markdown</button>
+                    </div>
                 </div>
                 <div class="main-content pre-build active-mode">
                     <h1>About Reward Reports</h1>
@@ -479,6 +483,6 @@
             <p>This is the content of the View Changes tab.</p>
         </section>
     </main>
-    <script src="script.js"></script>
+    <script src="builder/script.js"></script>
 </body>
 </html>

@@ -281,9 +281,21 @@ nav {
     border: 1px solid #0092B2;
 }
 
-#export-button{
-    margin: 10px auto;
+#cancel-button:hover {
+    background-color: rgb(220, 220, 220);
+    color: #0092B2;
+    border: 1px solid #0092B2;
 }
+
+.export-container {
+    margin: 10px auto;
+    text-align: center;
+}
+
+/* #export-button{
+    margin: 10px auto;
+    display: block; 
+} */
 
 .hidden-info {
     position: absolute;
@@ -293,9 +305,12 @@ nav {
     color: whitesmoke;
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     z-index: 999;
-    font-size: 9px;
     width: 400px;
     border-radius: 3px;
+}
+
+.hidden-info p{
+    font-size: 0.8rem;
 }
 
 .info {
