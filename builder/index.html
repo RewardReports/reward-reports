@@ -28,12 +28,12 @@
             <div class="columns">
                 <div class="left-scan">
                     <ul class="sections">
-                        <li data-target="system-detail" class="sections-head">System Details
+                        <li data-target="system-details" class="sections-head">System Details
                             <ul class="subsections">
-                                <li data-target="system-detail-sub1">System Owner</li>
-                                <li data-target="system-detail-sub2">Dates</li>
-                                <li data-target="system-detail-sub3">Feedback & Commmunication</li>
-                                <li data-target="system-detail-sub4">Other Resources</li>
+                                <li data-target="system-details-sub1">System Owner</li>
+                                <li data-target="system-details-sub2">Dates</li>
+                                <li data-target="system-details-sub3">Feedback & Commmunication</li>
+                                <li data-target="system-details-sub4">Other Resources</li>
                             </ul>
                         </li>
                         <li data-target="optimization-intent" class="sections-head">Optimization Intent
@@ -81,6 +81,16 @@
                     </ul>
                     <div class="export-container">
                         <button id="export-button">Export as Markdown</button>
+                        <button id="import-button">Import Markdown</button>
+                    </div>
+                    <div id="import-modal" class="modal">
+                        <div class="modal-content">
+                            <h2>Upload Reward Report</h2>
+                            <p>Select a .zip file containing the reward report folder to import.</p>
+                            <input type="file" id="import-file" accept=".zip">
+                            <button id="confirm-import">Import</button>
+                            <button id="cancel-import">Cancel</button>
+                        </div>
                     </div>
                 </div>
                 <div class="main-content pre-build active-mode">
@@ -93,31 +103,31 @@
                     <button id="upload" class="main">Upload Existing Reward Reports</button>
                 </div>
                 <div class="main-content build">
-                    <div id="system-detail" class="section">
+                    <div id="system-details" class="section">
                         <h3>System Details</h3> 
                         <button class="edit-button">Edit</button>
-                        <div id="system-detail-sub1" class="subsection">
+                        <div id="system-details-sub1" class="subsection">
                             <h4>System Owner</h4>
                             <svg class="info" style="width: 15px; height:15px; margin:0">
                                 <use xlink:href="#info"/>
                             </svg>
                             <p >This may be the designer deploying the system, a larger agency or body, or some combination of the two. The entity completing the report should also be indicated.</p>
                         </div>
-                        <div id="system-detail-sub2" class="subsection">
+                        <div id="system-details-sub2" class="subsection">
                             <h4>Dates</h4>
                             <svg class="info" style="width: 15px; height:15px; margin:0">
                                 <use xlink:href="#info"/>
                             </svg>
                             <p >The known or intended timespan over which this reward function & optimization is active.</p>
                         </div>
-                        <div id="system-detail-sub3" class="subsection">
+                        <div id="system-details-sub3" class="subsection">
                             <h4>Feedback & Communication</h4>
                             <svg class="info" style="width: 15px; height:15px; margin:0">
                                 <use xlink:href="#info"/>
                             </svg>
                             <p >Contact information for the designer, team, or larger agency responsible for system deployment.</p>
                         </div>
-                        <div id="system-detail-sub4" class="subsection">
+                        <div id="system-details-sub4" class="subsection">
                             <h4>Other Resources</h4>
                             <svg class="info" style="width: 15px; height:15px; margin:0">
                                 <use xlink:href="#info"/>
@@ -305,18 +315,18 @@
                         </div>
                     </div>
 
-                    <div class="hidden-info" data-target="system-detail-sub1-info">
+                    <div class="hidden-info" data-target="system-details-sub1-info">
                         <p>This may be the designer deploying the system, a larger agency or body, or some combination of the two. The entity completing the report should also be indicated.</p>
                     </div>
-                    <div class="hidden-info" data-target="system-detail-sub2-info">
+                    <div class="hidden-info" data-target="system-details-sub2-info">
                         <p>The known or intended timespan over which this reward function & optimization is active.</p>
                     </div>
-                    <div class="hidden-info" data-target="system-detail-sub3-info">
+                    <div class="hidden-info" data-target="system-details-sub3-info">
                         <p>
                             Contact information for the designer, team, or larger agency responsible for system deployment.
                         </p>
                     </div>
-                    <div class="hidden-info" data-target="system-detail-sub4-info">
+                    <div class="hidden-info" data-target="system-details-sub4-info">
                         <p>
                             Where can users or stakeholders find more information about this system? Is this system based on one or more research papers?
                         </p>

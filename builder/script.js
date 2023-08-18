@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (preBuildMainContent.classList.contains('active-mode')) {
             preBuildMainContent.classList.remove('active-mode');
             buildMainContent.classList.add('active-mode');
-            console.log('build')
+            console.log('build');
         }
     });
 
     uploadReportButton.addEventListener('click', () => {
         // Add functionality for the "Upload Existing Reward Reports" button here
         // This code will run when the "Upload Existing Reward Reports" button is clicked
-        console.log('upload')
+        console.log('upload');
     });
 
     leftScanItemsAll.forEach((item) => {
@@ -195,7 +195,125 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.click();
                 URL.revokeObjectURL(url);
             }
+        }).catch(function (error) {
+            console.error('Error generating ZIP:', error);
         });
+    });
+
+    // Function to open the modal
+    function openImportModal() {
+        const modal = document.getElementById('import-modal');
+        modal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeImportModal() {
+        const modal = document.getElementById('import-modal');
+        modal.style.display = 'none';
+    }
+
+    // Event listener for import button click
+    document.getElementById('import-button').addEventListener('click', () => {
+        openImportModal();
+    });
+
+    // Event listener for cancel button in the modal
+    document.getElementById('cancel-import').addEventListener('click', () => {
+        closeImportModal();
+    });
+
+    function parseMarkdown(markdownContent) {
+        const sections = markdownContent.split(/^(?=# [^#])/gm);
+
+    
+        sections.forEach(section => {
+            const sectionTitle = section.split('\n\n')[0].slice(2); // Remove the '# ' from the title
+            const sectionEl = document.querySelector(`[data-target="${sectionTitle.toLowerCase().replace(/\s/g, '-')}"]`);
+            console.log(sectionEl)
+
+            if (!sectionEl) {
+                return; // Skip if section element not found
+            }
+    
+            const subsections = section.split('## ');
+            subsections.shift();
+            console.log(subsections)
+
+    
+            subsections.forEach((subsection, index) => {
+                const lines = subsection.split('\n\n');
+                const title = lines[0];
+                const content = lines.slice(1).join('\n'); // Join lines using '\n' to maintain line breaks
+
+    
+                const subsectionEl = document.getElementById(`${sectionTitle.toLowerCase().replace(/\s/g, '-')}-sub${index + 1}`);
+                console.log(subsectionEl)
+
+                if (!subsectionEl) {
+                    return; // Skip if subsection element not found
+                }
+    
+                const contentEl = subsectionEl.querySelector('p');
+                contentEl.textContent = content;
+            });
+        });
+    }
+
+    // Event listener for confirm import button in the modal
+    document.getElementById('confirm-import').addEventListener('click', async () => {
+        const importFileInput = document.getElementById('import-file');
+        const file = importFileInput.files[0];
+    
+        if (!file) {
+            return;
+        }
+    
+        try {
+            const zip = new JSZip();
+            const importedZip = await zip.loadAsync(file);
+
+    
+            const folderName = Object.keys(importedZip.files)[0];
+            console.log('Imported zip folder:', folderName);
+            console.log('Zip files:', Object.keys(importedZip.files));
+            const folder = importedZip.folder(folderName);
+            const markdownFiles = Object.keys(folder.files).filter(fileName => {
+                return fileName.startsWith(folderName + 'reward_report_') && fileName.endsWith('.md'); 
+            });
+    
+            if (markdownFiles.length === 1) {
+                console.log('Markdown files found:', markdownFiles);
+                const markdownContent = await importedZip.files[markdownFiles[0]].async('string');
+                // Use the markdown content to populate the HTML page (similar to the export code)
+                console.log('Markdown content:', markdownContent);
+
+                // Parse markdown sections
+                parseMarkdown(markdownContent)
+                
+
+            } else if (markdownFiles.length > 1) {
+                console.log('Multiple Markdown files found:', markdownFiles);
+                const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
+                    const latestDateTime = new Date(latestFile.match(/reward_report_(.*)\.md/)[1]);
+                    const currentDateTime = new Date(currentFile.match(/reward_report_(.*)\.md/)[1]);
+                    return currentDateTime > latestDateTime ? currentFile : latestFile;
+                });
+    
+                const markdownContent = await importedZip.files[latestMarkdownFile].async('string');
+                console.log('Latest Markdown files found:', markdownContent);
+
+                // Use the markdown content to populate the HTML page (similar to the export code)
+                parseMarkdown(markdownContent);
+                console.log("parsed and replaced?");
+
+            } else {
+                console.error('No reward report markdown files found.');
+            }
+        } catch (error) {
+            console.error('Error importing reward report:', error);
+        }
+    
+        closeImportModal();
     });
     
     
