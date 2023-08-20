@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Code for Builder Tab
+
     const tabs = document.querySelectorAll('.tabs li');
     const sections = document.querySelectorAll('.section');
     const leftScanItems = document.querySelectorAll('.sections-head');
@@ -13,9 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const authorForm = document.querySelector('.author-form');
     const cancelButton = document.getElementById('cancel-button');
     const saveButton = document.getElementById('save-button');
+    const publishButton = document.getElementById('publish-button');
+    const editorInput = document.getElementById('editor-input');
+    const descriptionInput = document.getElementById('description-input');
     const infoIcons = document.querySelectorAll('.info');
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
     let importedMarkdownFiles = [];
+    let currentEditSection;
+//     const diffString = `diff --git a/sample.js b/sample.js
+// index 0000001..0ddf2ba
+// --- a/sample.js
+// +++ b/sample.js
+// @@ -1 +1 @@
+// -console.log("Hello World!")
+// +console.log("Hello from Diff2Html!")`;
 
 
     const offset = 100;
@@ -97,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     editButtons.forEach(button => {
         button.addEventListener('click', () => {
             const section = button.closest('.section');
+            currentEditSection = section;
             const subsections = section.querySelectorAll('.subsection p');
 
             // Hide all other sections
@@ -209,6 +224,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    publishButton.addEventListener('click', () => {
+        
+        // Show a confirmation dialog before proceeding
+        const confirmPublish = confirm('Publishing will publish all pages under drafts.');
+        if (confirmPublish) {
+            const sections = document.querySelectorAll('.section');
+            let markdownContent = '';
+
+        
+            sections.forEach(section => {
+                markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
+        
+                const subsections = section.querySelectorAll('.subsection');
+        
+                subsections.forEach(subsection => {
+                    const title = subsection.querySelector('h4').textContent;
+                    const content = subsection.querySelector('p').textContent;
+        
+                    markdownContent += `## ${title}\n\n${content}\n\n`;
+                });
+        
+                markdownContent += '\n';
+            });
+        
+            const now = new Date();
+            const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
+            const folderName = `reward_reports_${formattedDate}`;
+            const markdownFileName = `reward_report_${formattedDate}.md`;
+        
+            const zip = new JSZip();
+            const folder = zip.folder(folderName);
+            folder.file(markdownFileName, markdownContent);
+            console.log(importedMarkdownFiles)
+
+            // Export imported markdown files as separate markdown files
+            if (importedMarkdownFiles.length > 0) {
+                importedMarkdownFiles.forEach(importedFile => {
+                    folder.file(importedFile.name, importedFile.content);
+                });
+            }
+        
+            zip.generateAsync({ type: 'blob' }).then(function (content) {
+                const filename = `${folderName}.zip`;
+        
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(content, filename);
+                } else {
+                    const url = URL.createObjectURL(content);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }
+            }).catch(function (error) {
+                console.error('Error generating ZIP:', error);
+            });
+            currentEditSection = undefined;
+        }
+    });
+
     // Function to open the modal
     function openImportModal() {
         const modal = document.getElementById('import-modal');
@@ -300,12 +376,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (markdownFiles.length === 1) {
                 console.log('Markdown files found:', markdownFiles);
                 const markdownContent = await importedZip.files[markdownFiles[0]].async('string');
+                
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 console.log('Markdown content:', markdownContent);
 
                 // Parse markdown sections
-                parseMarkdown(markdownContent)
-                
+                parseMarkdown(markdownContent);
 
             } else if (markdownFiles.length > 1) {
                 console.log('Multiple Markdown files found:', markdownFiles);
@@ -320,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 parseMarkdown(markdownContent);
+                populateDropdowns();
                 console.log("parsed and replaced?");
 
             } else {
@@ -352,16 +429,27 @@ document.addEventListener('DOMContentLoaded', () => {
             sections.forEach(section => {
                 section.style.display = 'block';
             });
+            currentEditSection = undefined;
         }
         
     });
 
     saveButton.addEventListener('click', () => {
+        console.log(currentEditSection.id);
         const subsections = document.querySelectorAll('.subsection p');
+        const targetNav = document.querySelector(`[data-target="${currentEditSection.id}"]`);
+        const indicator = targetNav.querySelector('.indicator');
+        console.log(indicator)
+
+
             
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
         });
+
+        if (indicator) {
+            indicator.classList.remove('hidden');
+        }
 
         sections.forEach(section => {
             section.style.display = 'block';
@@ -372,6 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Edit';
             button.classList.remove('editing-button');
         });  
+        currentEditSection = undefined;
     });
 
     infoIcons.forEach((icon) => {
@@ -393,11 +482,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.classList.remove('show-info');
             });
         });
-    });    
+    });
+
+    // Add event listeners to input and textarea elements
+    editorInput.addEventListener('input', updateButtonStatus);
+    descriptionInput.addEventListener('input', updateButtonStatus);
+
+    // Function to update the button status
+    function updateButtonStatus() {
+        // Check if both input and textarea have content
+        const hasContent = editorInput.value.trim() !== '' && descriptionInput.value.trim() !== '';
+
+        // Update the button's disabled attribute based on the content status
+        saveButton.disabled = !hasContent;
+        publishButton.disabled = !hasContent;
+    }
+
+    // Initial call to update button status
+    updateButtonStatus();
     
     
 
     tabs[0].click();
     leftScanItems[0].classList.add('active-section');
     subsections[0].classList.add('active-sub')
+
+    //Code for Chnage tab
+
+    const container = document.getElementById('diff-container');
+    const file1Dropdown = document.getElementById('file1');
+    const file2Dropdown = document.getElementById('file2');
+    const compareButton = document.getElementById('compareButton');
+
+    // Function to populate the dropdowns
+    function populateDropdowns() {
+        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
+        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
+        
+        importedMarkdownFiles.forEach(file => {
+            const option1 = document.createElement('option');
+            const option2 = document.createElement('option');
+            option1.value = file.name;
+            option1.textContent = file.name;
+            option2.value = file.name;
+            option2.textContent = file.name;
+            file1Dropdown.appendChild(option1);
+            file2Dropdown.appendChild(option2);
+        });
+    }
+    
+    // Event listener for the Compare button
+    compareButton.addEventListener('click', () => {
+        const selectedFile1 = file1Dropdown.value;
+        const selectedFile2 = file2Dropdown.value;
+
+        // Find the corresponding content for the selected files
+        const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+        const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+
+        // Compute the diff using jsdiff
+        const diff = Diff.diffLines(content1, content2);
+
+        // Display the diff in the container
+        container.innerHTML = '';
+        diff.forEach(part => {
+            const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+            const span = document.createElement('span');
+            span.style.color = color;
+            span.textContent = part.value;
+            container.appendChild(span);
+        });
+    });
+    // var targetElement = document.getElementById('myDiffElement');
+    //     var configuration = {
+    //         drawFileList: true,
+    //         fileListToggle: false,
+    //         fileListStartVisible: false,
+    //         fileContentToggle: false,
+    //         matching: 'lines',
+    //         outputFormat: 'side-by-side',
+    //         synchronisedScroll: true,
+    //         highlight: true,
+    //         renderNothingWhenEmpty: false,
+    //     };
+    // var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
+    // diff2htmlUi.draw();
+    // diff2htmlUi.highlightCode();
 });

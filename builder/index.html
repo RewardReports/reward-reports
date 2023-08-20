@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <!-- Make sure to load the highlight.js CSS file before the Diff2Html CSS file -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/github.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css"
+    /> -->
     <title>Reward Reports</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.0.0/diff.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script></head> -->
 </head>
 <body>
     <svg style="display: none;">
@@ -28,7 +36,11 @@
             <div class="columns">
                 <div class="left-scan">
                     <ul class="sections">
-                        <li data-target="system-details" class="sections-head">System Details
+                        <li data-target="system-details" class="sections-head">
+                            <div class="section-header">
+                                System Details
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="system-details-sub1">System Owner</li>
                                 <li data-target="system-details-sub2">Dates</li>
@@ -36,7 +48,11 @@
                                 <li data-target="system-details-sub4">Other Resources</li>
                             </ul>
                         </li>
-                        <li data-target="optimization-intent" class="sections-head">Optimization Intent
+                        <li data-target="optimization-intent" class="sections-head">
+                            <div class="section-header">
+                                Optimization Intent
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="optimization-intent-sub1">Goal of Reinforcement</li>
                                 <li data-target="optimization-intent-sub2">Defined Performance Metrics</li>
@@ -44,7 +60,11 @@
                                 <li data-target="optimization-intent-sub4">Known Failure Modes</li>
                             </ul>
                         </li>
-                        <li data-target="institutional-interface" class="sections-head">Institutional Interface
+                        <li data-target="institutional-interface" class="sections-head">
+                            <div class="section-header">
+                                Institutional Interface
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="institutional-interface-sub1">Deployment Agency</li>
                                 <li data-target="institutional-interface-sub2">Stakeholders</li>
@@ -52,7 +72,11 @@
                                 <li data-target="institutional-interface-sub4">Recourse</li>
                             </ul>
                         </li>
-                        <li data-target="implementation" class="sections-head">Implementation
+                        <li data-target="implementation" class="sections-head">
+                            <div class="section-header">
+                                Implementation
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="implementation-sub1">Reward Details</li>
                                 <li data-target="implementation-sub2">Environment Details</li>
@@ -63,7 +87,11 @@
                                 <li data-target="implementation-sub7">Engineering Tricks</li>
                             </ul>
                         </li>
-                        <li data-target="evaluation" class="sections-head">Evaluation
+                        <li data-target="evaluation" class="sections-head">
+                            <div class="section-header">
+                                Evaluation
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="evaluation-sub1">Evaluation Environment</li>
                                 <li data-target="evaluation-sub2">Offline Evaluations</li>
@@ -71,7 +99,11 @@
                                 <li data-target="evaluation-sub4">Performance Standards</li>
                             </ul>
                         </li>
-                        <li data-target="system-maintenance" class="sections-head">System Maintenance
+                        <li data-target="system-maintenance" class="sections-head">
+                            <div class="section-header">
+                                System Maintenance
+                                <div class="indicator hidden"></div>
+                            </div>
                             <ul class="subsections">
                                 <li data-target="system-maintenance-sub1">Reporting Cadence</li>
                                 <li data-target="system-maintenance-sub2">Update Triggers</li>
@@ -464,8 +496,8 @@
                         <div class="form-actions">
                             <button id="cancel-button">Cancel</button>
                             <div class="flex-right">
-                                <button id="save-button">Save</button>
-                                <button id="publish-button">Publish</button>
+                                <button id="save-button" disabled>Save</button>
+                                <button id="publish-button" disabled>Publish</button>
                             </div>
                         </div>
                     </div>
@@ -490,7 +522,26 @@
         <section id="view-changes" class="content-section">
             <!-- Content of View Changes tab -->
             <h2>View Changes</h2>
-            <p>This is the content of the View Changes tab.</p>
+            <h1>Markdown File Comparison</h1>
+            <label for="file1">Select File 1:</label>
+            <select id="file1">
+                <option value="" disabled selected>Select a file</option>
+                <!-- Populate options from importedMarkdownFiles -->
+                <option value="file1Name">File 1 Name</option>
+                <!-- Add more options here -->
+            </select>
+
+            <label for="file2">Select File 2:</label>
+            <select id="file2">
+                <option value="" disabled selected>Select a file</option>
+                <!-- Populate options from importedMarkdownFiles -->
+                <option value="file2Name">File 2 Name</option>
+                <!-- Add more options here -->
+            </select>
+
+            <button id="compareButton">Compare</button>
+            <div id="diff-container"></div>
+            <div id="myDiffElement"></div>
         </section>
     </main>
     <script src="script.js"></script>

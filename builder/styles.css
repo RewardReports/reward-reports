@@ -33,6 +33,12 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    /* Styles for the disabled button */
+    background-color: #0091b284;
+    cursor: not-allowed;
+}
+
 textarea, input {
     font-family: inherit;
     font-size: inherit;
@@ -341,3 +347,21 @@ nav {
     border: 1px solid #888;
     width: 50%;
 }
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #F55A5A;
+    margin:10px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
