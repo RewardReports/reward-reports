@@ -224,9 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    publishButton.addEventListener('click', () => {
-        
+    publishButton.addEventListener('click', async () => {
         // Show a confirmation dialog before proceeding
+        const editSubsections = document.querySelectorAll('.subsection p');
         const confirmPublish = confirm('Publishing will publish all pages under drafts.');
         if (confirmPublish) {
             const sections = document.querySelectorAll('.section');
@@ -249,7 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         
             const now = new Date();
-            const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
             const folderName = `reward_reports_${formattedDate}`;
             const markdownFileName = `reward_report_${formattedDate}.md`;
         
@@ -257,6 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const folder = zip.folder(folderName);
             folder.file(markdownFileName, markdownContent);
             console.log(importedMarkdownFiles)
+
+             // Update importedMarkdownFiles with the newly generated markdown file
+            const newFileContent = await folder.file(markdownFileName).async('string');
+            const newFileName = markdownFileName;
+            importedMarkdownFiles.push({ name: newFileName, content: newFileContent });
 
             // Export imported markdown files as separate markdown files
             if (importedMarkdownFiles.length > 0) {
@@ -283,6 +295,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             currentEditSection = undefined;
         }
+        console.log('Markdown content:', importedMarkdownFiles);
+        populateDropdowns();
+        authorForm.style.display = 'none';
+        currentEditSection = undefined;
+        
+        sections.forEach(section => {
+            section.style.display = 'block';
+        });
+
+        editButtons.forEach((button) => {
+            button.textContent = 'Edit';
+            button.classList.remove('editing-button');
+        });  
+
+        editSubsections.forEach(subsection => {
+            subsection.contentEditable = false;
+        });
     });
 
     // Function to open the modal
@@ -308,9 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function parseMarkdown(markdownContent) {
-        const sections = markdownContent.split(/^(?=# [^#])/gm);
-
-    
+        const sections = markdownContent.split(/^(?=# [^#])/gm);    
         sections.forEach(section => {
             const sectionTitle = section.split('\n\n')[0].slice(2); // Remove the '# ' from the title
             const sectionEl = document.querySelector(`[data-target="${sectionTitle.toLowerCase().replace(/\s/g, '-')}"]`);
@@ -446,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
         });
+        
 
         if (indicator) {
             indicator.classList.remove('hidden');
@@ -454,6 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => {
             section.style.display = 'block';
         });
+
 
         authorForm.style.display = 'none';
         editButtons.forEach((button) => {
@@ -518,17 +547,36 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateDropdowns() {
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
         file2Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
-        
-        importedMarkdownFiles.forEach(file => {
-            const option1 = document.createElement('option');
-            const option2 = document.createElement('option');
-            option1.value = file.name;
-            option1.textContent = file.name;
-            option2.value = file.name;
-            option2.textContent = file.name;
-            file1Dropdown.appendChild(option1);
-            file2Dropdown.appendChild(option2);
-        });
+
+        // Sort importedMarkdownFiles from newest to oldest
+        if (importedMarkdownFiles.length > 0) {
+            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+                const dateA = a.name.match(/reward_report_(.*).md/)[1];
+                const dateB = b.name.match(/reward_report_(.*).md/)[1];
+                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+            });        
+            sortedFiles.forEach(file => {
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = file.name;
+                option1.textContent = file.name;
+                option2.value = file.name;
+                option2.textContent = file.name;
+                file1Dropdown.appendChild(option1);
+                file2Dropdown.appendChild(option2);
+            });       
+        } else {
+            importedMarkdownFiles.forEach(file => {
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = file.name;
+                option1.textContent = file.name;
+                option2.value = file.name;
+                option2.textContent = file.name;
+                file1Dropdown.appendChild(option1);
+                file2Dropdown.appendChild(option2);
+            }); 
+        }
     }
     
     // Event listener for the Compare button
