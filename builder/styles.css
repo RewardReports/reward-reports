@@ -159,7 +159,7 @@ nav {
 
 .sections {
     list-style: none;
-    margin-top: 15%;
+    margin: 30px 15px 10px 15px;
     padding-left: 0;
 }
 
@@ -167,7 +167,6 @@ nav {
     margin-bottom: 30px;
     cursor: pointer;
     padding-left: 1vw;
-    margin-left: 1vw;
 }
 
 .main-content {
@@ -365,3 +364,10 @@ nav {
     display: none;
 }
 
+.right-content{
+    margin: 30px 15px 10px 15px;
+}
+
+.right-content-sub{
+    margin-left: 5px;
+}

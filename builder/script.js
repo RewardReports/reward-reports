@@ -21,8 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionInput = document.getElementById('description-input');
     const infoIcons = document.querySelectorAll('.info');
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
+    const lastEditContainer = document.getElementById('last-edit');
+
     let importedMarkdownFiles = [];
     let currentEditSection;
+    let contextInfo = {};
+
 //     const diffString = `diff --git a/sample.js b/sample.js
 // index 0000001..0ddf2ba
 // --- a/sample.js
@@ -228,14 +232,33 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show a confirmation dialog before proceeding
         const editSubsections = document.querySelectorAll('.subsection p');
         const confirmPublish = confirm('Publishing will publish all pages under drafts.');
+        if (currentEditSection) {
+            // Save content to contextInfo
+            contextInfo[currentEditSection.id] = {
+                editorInput: editorInput.value,
+                descriptionInput: descriptionInput.value
+            };
+            console.log(contextInfo);
+        }
         if (confirmPublish) {
             const sections = document.querySelectorAll('.section');
             let markdownContent = '';
 
         
             sections.forEach(section => {
-                markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
-        
+                markdownContent += `# ${section.querySelector('h3').textContent}`;
+
+                const contextInfoSection = contextInfo[section.id]; // Get context info for this section
+                if (contextInfoSection) {
+                    // markdownContent += `## Context Info\n\n`;
+                    // markdownContent += `Editor Input:\n\n${contextInfoSection.editorInput}\n\n`;
+                    // markdownContent += `Description Input:\n\n${contextInfoSection.descriptionInput}\n\n`;
+                    markdownContent += `<!-- Author: ${contextInfoSection.editorInput} --> `;
+                    markdownContent += `<!-- Description: ${contextInfoSection.descriptionInput} -->\n\n`;
+                } else {
+                    markdownContent += '\n\n'
+                }
+
                 const subsections = section.querySelectorAll('.subsection');
         
                 subsections.forEach(subsection => {
@@ -246,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         
                 markdownContent += '\n';
+                
             });
         
             const now = new Date();
@@ -293,25 +317,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(function (error) {
                 console.error('Error generating ZIP:', error);
             });
+            console.log('Markdown content:', importedMarkdownFiles);
+            populateDropdowns();
+            populateLastEdit()
+            authorForm.style.display = 'none';
             currentEditSection = undefined;
+            
+            sections.forEach(section => {
+                section.style.display = 'block';
+            });
+
+            editButtons.forEach((button) => {
+                button.textContent = 'Edit';
+                button.classList.remove('editing-button');
+            });  
+
+            editSubsections.forEach(subsection => {
+                subsection.contentEditable = false;
+            });
+            
+            const indicators = document.querySelectorAll('.indicator');
+
+            indicators.forEach(indicator => {
+                indicator.classList.add('hidden');
+            });
+            currentEditSection = undefined;
+            descriptionInput.value = '';
         }
-        console.log('Markdown content:', importedMarkdownFiles);
-        populateDropdowns();
-        authorForm.style.display = 'none';
-        currentEditSection = undefined;
-        
-        sections.forEach(section => {
-            section.style.display = 'block';
-        });
-
-        editButtons.forEach((button) => {
-            button.textContent = 'Edit';
-            button.classList.remove('editing-button');
-        });  
-
-        editSubsections.forEach(subsection => {
-            subsection.contentEditable = false;
-        });
     });
 
     // Function to open the modal
@@ -337,20 +369,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function parseMarkdown(markdownContent) {
+        contextInfo = {}; // Clear contextInfo
         const sections = markdownContent.split(/^(?=# [^#])/gm);    
         sections.forEach(section => {
-            const sectionTitle = section.split('\n\n')[0].slice(2); // Remove the '# ' from the title
+            const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
+            const contextInfoMatch = section.match(contextInfoPattern);
+            let author = '';
+            let description = '';
+
+            const sectionWithoutContext = section.replace(contextInfoPattern, '').trim();
+            const sectionTitleLine = sectionWithoutContext.split('\n')[0];
+            const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
             const sectionEl = document.querySelector(`[data-target="${sectionTitle.toLowerCase().replace(/\s/g, '-')}"]`);
-            console.log(sectionEl)
+
+            if (contextInfoMatch) {
+                author = contextInfoMatch[1];
+                description = contextInfoMatch[2];
+                contextInfo[sectionTitle.toLowerCase().replace(/\s/g, '-')] = { author, description };
+            }
 
             if (!sectionEl) {
                 return; // Skip if section element not found
             }
     
-            const subsections = section.split('## ');
+            const subsections = sectionWithoutContext.split('## ');
             subsections.shift();
-            console.log(subsections)
-
+            console.log(sectionEl)
+            console.log(sectionTitle)
     
             subsections.forEach((subsection, index) => {
                 const lines = subsection.split('\n\n');
@@ -369,6 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 contentEl.textContent = content;
             });
         });
+        console.log(contextInfo)
     }
 
     // Event listener for confirm import button in the modal
@@ -424,6 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 parseMarkdown(markdownContent);
                 populateDropdowns();
+                populateLastEdit()
                 console.log("parsed and replaced?");
 
             } else {
@@ -457,8 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.style.display = 'block';
             });
             currentEditSection = undefined;
+            descriptionInput.value = '';
         }
-        
     });
 
     saveButton.addEventListener('click', () => {
@@ -468,6 +515,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const indicator = targetNav.querySelector('.indicator');
         console.log(indicator)
 
+        if (currentEditSection) {
+            // Save content to contextInfo
+            contextInfo[currentEditSection.id] = {
+                editorInput: editorInput.value,
+                descriptionInput: descriptionInput.value
+            };
+            console.log(contextInfo);
+        }
 
             
         subsections.forEach(subsection => {
@@ -490,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.remove('editing-button');
         });  
         currentEditSection = undefined;
+        descriptionInput.value = '';
     });
 
     infoIcons.forEach((icon) => {
@@ -577,6 +633,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 file2Dropdown.appendChild(option2);
             }); 
         }
+    }
+
+    function populateLastEdit() {
+        const latestImportedFile = importedMarkdownFiles.reduce((latestFile, currentFile) => {
+            const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '));
+            const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '));
+            return currentDateTime > latestDateTime ? currentFile : latestFile;
+        }, {});
+                
+        if (importedMarkdownFiles.length > 0) {
+            // Find the most recent imported file
+            const mostRecentFile = importedMarkdownFiles.reduce((latestFile, currentFile) => {
+                const latestDate = new Date(latestFile.lastModified);
+                const currentDate = new Date(currentFile.lastModified);
+                return currentDate > latestDate ? currentFile : latestFile;
+            });
+        
+            // Update the content of the last edit container
+            lastEditContainer.style.display = 'block';
+            const dateElement = lastEditContainer.querySelector('.right-content-sub p:first-child');
+            const formattedDate = new Date(latestImportedFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ')).toLocaleDateString();
+            dateElement.textContent = formattedDate;
+        } else {
+            lastEditContainer.style.display = 'none';
+        }        
     }
     
     // Event listener for the Compare button
