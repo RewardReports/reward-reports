@@ -373,14 +373,11 @@ nav {
 .right-content{
     margin: 30px 15px 10px 15px;
     font-size: 0.9rem;
+    display: none;
 }
 
 .right-content-sub{
     margin: 0 5px;
-}
-
-#last-edit{
-    display: none;
 }
 
 #version-history-link {

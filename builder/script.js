@@ -22,13 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoIcons = document.querySelectorAll('.info');
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
     const lastEditedSection = document.getElementById('last-edit');
+    const learnMoreSection = document.getElementById('learn-more');
     const versionHistoryLink = document.getElementById('version-history-link');
 
 
     let importedMarkdownFiles = [];
     let currentEditSection;
     let contextInfo = {};
-    let currentScrollSection;
+    let currentScrollSection = document.getElementById('system-details');
 
 //     const diffString = `diff --git a/sample.js b/sample.js
 // index 0000001..0ddf2ba
@@ -70,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             buildMainContent.classList.add('active-mode');
             // console.log('build');
         }
+        learnMoreSection.style.display = 'block';
+        populateLastEdit()
     });
 
     uploadReportButton.addEventListener('click', () => {
@@ -79,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             buildMainContent.classList.add('active-mode');
             // console.log('build');
         }
+        learnMoreSection.style.display = 'block';
+        populateLastEdit()
     });
 
     leftScanItemsAll.forEach((item) => {
@@ -117,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             } 
         });
+        populateLastEdit()
     });  
 
     editButtons.forEach(button => {
@@ -647,7 +653,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateLastEdit() {
         lastEditedSection.style.display = 'block';
         const dateElement = document.getElementById('last-edit-date');
-        console.log(dateElement)
+        const descriptionElement = document.getElementById('last-edit-description');
+        const learnElement = document.getElementById('learn-more-section');
+        const descriptionSection = currentScrollSection.id;
+        learnElement.textContent = kebabToTitleCase(descriptionSection);
 
 
         if (importedMarkdownFiles.length > 0) {
@@ -668,10 +677,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             console.log(sortedFiles[0].name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '))
             dateElement.textContent = formattedDate;
+
+            if(contextInfo[descriptionSection]){
+                descriptionElement.textContent = contextInfo[descriptionSection]['description'];
+                console.log(contextInfo[descriptionSection]['description'])
+            } else {
+                descriptionElement.textContent = "";
+            }
+
         } else {
             lastEditedSection.style.display = 'none';
         } 
     }
+
+    function kebabToTitleCase(kebabString) {
+        const words = kebabString.split('-');
+        const capitalizedWords = words.map(word => {
+          const firstLetter = word[0].toUpperCase();
+          const restOfWord = word.slice(1);
+          return firstLetter + restOfWord;
+        });
+        return capitalizedWords.join(' ');
+      }
     
     // Event listener for the Compare button
     compareButton.addEventListener('click', () => {
