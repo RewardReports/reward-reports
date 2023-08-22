@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0px;
     font-family: 'Trebuchet MS','Verdana','Ariel', Calibri,  sans-serif;
+    font-size: 16px;
 }
 
 h3{
@@ -19,7 +20,6 @@ h4{
 p{
     margin: 10px 0;
     line-height: 120%;
-    font-size: 16px;
 }
 
 button {
@@ -133,6 +133,7 @@ nav {
 .active-section {
     color: #0092B2;
     border-left:  solid #0092B2;
+    font-weight: bold;
 }
 
 
@@ -228,7 +229,9 @@ nav {
     right: 0; /* Align the right scan column to the right */
     height: 100vh; /* Set the height to full viewport height */
     overflow-y: auto; /* Enable scrolling for the right scan column */
-    z-index: 1;
+    z-index: 0;
+    font-size: 0.9rem !important;
+
 }
 .spacer {
     height: 60vh;
@@ -330,21 +333,24 @@ nav {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 99;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 40vh auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: fit-content;
+    padding: 5px 30px 15px 30px;
 }
 
 .indicator {
@@ -366,8 +372,33 @@ nav {
 
 .right-content{
     margin: 30px 15px 10px 15px;
+    font-size: 0.9rem;
 }
 
 .right-content-sub{
-    margin-left: 5px;
+    margin: 0 5px;
+}
+
+#last-edit{
+    display: none;
+}
+
+#version-history-link {
+    color: #0092B2;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#version-history-link:hover {
+    color: #115c6d;
+}
+
+a {
+    color: #0092B2;
+    font-weight: bold;
+}
+  
+a:hover {
+    color: #115c6d;
 }

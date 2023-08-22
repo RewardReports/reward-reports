@@ -21,19 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionInput = document.getElementById('description-input');
     const infoIcons = document.querySelectorAll('.info');
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
-    const lastEditContainer = document.getElementById('last-edit');
+    const lastEditedSection = document.getElementById('last-edit');
+    const versionHistoryLink = document.getElementById('version-history-link');
+
 
     let importedMarkdownFiles = [];
     let currentEditSection;
     let contextInfo = {};
+    let currentScrollSection;
 
 //     const diffString = `diff --git a/sample.js b/sample.js
 // index 0000001..0ddf2ba
 // --- a/sample.js
 // +++ b/sample.js
 // @@ -1 +1 @@
-// -console.log("Hello World!")
-// +console.log("Hello from Diff2Html!")`;
+// -// console.log("Hello World!")
+// +// console.log("Hello from Diff2Html!")`;
 
 
     const offset = 100;
@@ -65,21 +68,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (preBuildMainContent.classList.contains('active-mode')) {
             preBuildMainContent.classList.remove('active-mode');
             buildMainContent.classList.add('active-mode');
-            console.log('build');
+            // console.log('build');
         }
     });
 
     uploadReportButton.addEventListener('click', () => {
-        // Add functionality for the "Upload Existing Reward Reports" button here
-        // This code will run when the "Upload Existing Reward Reports" button is clicked
-        console.log('upload');
+        openImportModal();
+        if (preBuildMainContent.classList.contains('active-mode')) {
+            preBuildMainContent.classList.remove('active-mode');
+            buildMainContent.classList.add('active-mode');
+            // console.log('build');
+        }
     });
 
     leftScanItemsAll.forEach((item) => {
         item.addEventListener('click', () => {
             const targetId = item.getAttribute('data-target');
             const targetSection = document.querySelector(`#${targetId}`);
-            console.log(targetSection.id)
+            // console.log(targetSection.id)
             if (targetSection) {
                 window.scrollTo({
                     top: targetSection.offsetTop - offset,
@@ -98,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const correspondingNavItem = document.querySelector(`.sections li[data-target="${sectionId}"]`);
             
             if (scrollTop >= sectionTop && scrollTop <= sectionBottom) {
+                currentScrollSection = section;
                 leftScanItems.forEach(li => li.classList.remove('active-section'));
                 correspondingNavItem.classList.add('active-section');
                 
@@ -201,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const zip = new JSZip();
         const folder = zip.folder(folderName);
         folder.file(markdownFileName, markdownContent);
-        console.log(importedMarkdownFiles)
+        // console.log(importedMarkdownFiles)
 
         // Export imported markdown files as separate markdown files
         if (importedMarkdownFiles.length > 0) {
@@ -238,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 editorInput: editorInput.value,
                 descriptionInput: descriptionInput.value
             };
-            console.log(contextInfo);
+            // console.log(contextInfo);
         }
         if (confirmPublish) {
             const sections = document.querySelectorAll('.section');
@@ -287,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const zip = new JSZip();
             const folder = zip.folder(folderName);
             folder.file(markdownFileName, markdownContent);
-            console.log(importedMarkdownFiles)
+            // console.log(importedMarkdownFiles)
 
              // Update importedMarkdownFiles with the newly generated markdown file
             const newFileContent = await folder.file(markdownFileName).async('string');
@@ -317,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(function (error) {
                 console.error('Error generating ZIP:', error);
             });
-            console.log('Markdown content:', importedMarkdownFiles);
+            // console.log('Markdown content:', importedMarkdownFiles);
             populateDropdowns();
             populateLastEdit()
             authorForm.style.display = 'none';
@@ -394,8 +401,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const subsections = sectionWithoutContext.split('## ');
             subsections.shift();
-            console.log(sectionEl)
-            console.log(sectionTitle)
+            // console.log(sectionEl)
+            // console.log(sectionTitle)
     
             subsections.forEach((subsection, index) => {
                 const lines = subsection.split('\n\n');
@@ -404,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
                 const subsectionEl = document.getElementById(`${sectionTitle.toLowerCase().replace(/\s/g, '-')}-sub${index + 1}`);
-                console.log(subsectionEl)
+                // console.log(subsectionEl)
 
                 if (!subsectionEl) {
                     return; // Skip if subsection element not found
@@ -414,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 contentEl.textContent = content;
             });
         });
-        console.log(contextInfo)
+        // console.log(contextInfo)
     }
 
     // Event listener for confirm import button in the modal
@@ -432,8 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
             const folderName = Object.keys(importedZip.files)[0];
-            console.log('Imported zip folder:', folderName);
-            console.log('Zip files:', Object.keys(importedZip.files));
+            // console.log('Imported zip folder:', folderName);
+            // console.log('Zip files:', Object.keys(importedZip.files));
             const folder = importedZip.folder(folderName);
             const markdownFiles = Object.keys(folder.files).filter(fileName => {
                 return fileName.startsWith(folderName + 'reward_report_') && fileName.endsWith('.md'); 
@@ -447,17 +454,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
     
             if (markdownFiles.length === 1) {
-                console.log('Markdown files found:', markdownFiles);
+                // console.log('Markdown files found:', markdownFiles);
                 const markdownContent = await importedZip.files[markdownFiles[0]].async('string');
                 
                 // Use the markdown content to populate the HTML page (similar to the export code)
-                console.log('Markdown content:', markdownContent);
+                // console.log('Markdown content:', markdownContent);
 
                 // Parse markdown sections
                 parseMarkdown(markdownContent);
+                populateDropdowns();
+                populateLastEdit()
 
             } else if (markdownFiles.length > 1) {
-                console.log('Multiple Markdown files found:', markdownFiles);
+                // console.log('Multiple Markdown files found:', markdownFiles);
                 const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
                     const latestDateTime = new Date(latestFile.match(/reward_report_(.*)\.md/)[1]);
                     const currentDateTime = new Date(currentFile.match(/reward_report_(.*)\.md/)[1]);
@@ -465,13 +474,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
     
                 const markdownContent = await importedZip.files[latestMarkdownFile].async('string');
-                console.log('Latest Markdown files found:', markdownContent);
+                // console.log('Latest Markdown files found:', markdownContent);
 
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit()
-                console.log("parsed and replaced?");
+                // console.log("parsed and replaced?");
 
             } else {
                 console.error('No reward report markdown files found.');
@@ -509,11 +518,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     saveButton.addEventListener('click', () => {
-        console.log(currentEditSection.id);
+        // console.log(currentEditSection.id);
         const subsections = document.querySelectorAll('.subsection p');
         const targetNav = document.querySelector(`[data-target="${currentEditSection.id}"]`);
         const indicator = targetNav.querySelector('.indicator');
-        console.log(indicator)
+        // console.log(indicator)
 
         if (currentEditSection) {
             // Save content to contextInfo
@@ -521,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 editorInput: editorInput.value,
                 descriptionInput: descriptionInput.value
             };
-            console.log(contextInfo);
+            // console.log(contextInfo);
         }
 
             
@@ -636,28 +645,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateLastEdit() {
-        const latestImportedFile = importedMarkdownFiles.reduce((latestFile, currentFile) => {
-            const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '));
-            const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '));
-            return currentDateTime > latestDateTime ? currentFile : latestFile;
-        }, {});
-                
+        lastEditedSection.style.display = 'block';
+        const dateElement = document.getElementById('last-edit-date');
+        console.log(dateElement)
+
+
         if (importedMarkdownFiles.length > 0) {
-            // Find the most recent imported file
-            const mostRecentFile = importedMarkdownFiles.reduce((latestFile, currentFile) => {
-                const latestDate = new Date(latestFile.lastModified);
-                const currentDate = new Date(currentFile.lastModified);
-                return currentDate > latestDate ? currentFile : latestFile;
+            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+                const dateA = a.name.match(/reward_report_(.*).md/)[1];
+                const dateB = b.name.match(/reward_report_(.*).md/)[1];
+                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
             });
-        
-            // Update the content of the last edit container
-            lastEditContainer.style.display = 'block';
-            const dateElement = lastEditContainer.querySelector('.right-content-sub p:first-child');
-            const formattedDate = new Date(latestImportedFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ')).toLocaleDateString();
+            const filename = sortedFiles[0].name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
+            const parts = filename.split(/[- :]/);
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; // Months in JavaScript are 0-indexed
+            const day = parseInt(parts[2]);
+            const hours = parseInt(parts[3]);
+            const minutes = parseInt(parts[4]);
+            const seconds = parseInt(parts[5]);
+
+            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            console.log(sortedFiles[0].name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '))
             dateElement.textContent = formattedDate;
         } else {
-            lastEditContainer.style.display = 'none';
-        }        
+            lastEditedSection.style.display = 'none';
+        } 
     }
     
     // Event listener for the Compare button
@@ -682,6 +695,20 @@ document.addEventListener('DOMContentLoaded', () => {
             container.appendChild(span);
         });
     });
+
+    versionHistoryLink.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabs[1].classList.add('active');
+
+        contentSections.forEach(section => {
+            if (section.id === 'version-history') {
+                section.classList.add('active-tab');
+            } else {
+                section.classList.remove('active-tab');
+            }
+        });
+    });
+
     // var targetElement = document.getElementById('myDiffElement');
     //     var configuration = {
     //         drawFileList: true,
