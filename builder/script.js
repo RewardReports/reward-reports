@@ -4,9 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tabs = document.querySelectorAll('.tabs li');
     const sections = document.querySelectorAll('.section');
-    const leftScanItems = document.querySelectorAll('.sections-head');
-    const leftScanItemsAll = document.querySelectorAll('.sections li');
-    const subsections = document.querySelectorAll('.sections ul');
+    const buildTab = document.getElementById('build-report');
+    const leftScanItems = buildTab.querySelectorAll('.sections-head');
+    const leftScanItemsAll = buildTab.querySelectorAll('.sections li');
+    const subsections = buildTab.querySelectorAll('.sections ul');
     const contentSections = document.querySelectorAll('.content-section');
     const buildReportButton = document.getElementById('build');
     const uploadReportButton = document.getElementById('upload');
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('build');
         }
         learnMoreSection.style.display = 'block';
-        populateLastEdit()
+        // populateLastEdit()
     });
 
     uploadReportButton.addEventListener('click', () => {
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('build');
         }
         learnMoreSection.style.display = 'block';
-        populateLastEdit()
+        // populateLastEdit()
     });
 
     leftScanItemsAll.forEach((item) => {
@@ -372,8 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event listener for import button click
-    document.getElementById('import-button').addEventListener('click', () => {
-        openImportModal();
+    document.querySelectorAll('.import-button').forEach(button => {
+        button.addEventListener('click', () => {
+            openImportModal();
+        });
     });
 
     // Event listener for cancel button in the modal
@@ -598,58 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
         publishButton.disabled = !hasContent;
     }
 
-    // Initial call to update button status
-    updateButtonStatus();
-    
-    
-
-    tabs[0].click();
-    leftScanItems[0].classList.add('active-section');
-    subsections[0].classList.add('active-sub')
-
-    //Code for Chnage tab
-
-    const container = document.getElementById('diff-container');
-    const file1Dropdown = document.getElementById('file1');
-    const file2Dropdown = document.getElementById('file2');
-    const compareButton = document.getElementById('compareButton');
-
-    // Function to populate the dropdowns
-    function populateDropdowns() {
-        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
-        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
-
-        // Sort importedMarkdownFiles from newest to oldest
-        if (importedMarkdownFiles.length > 0) {
-            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
-                const dateA = a.name.match(/reward_report_(.*).md/)[1];
-                const dateB = b.name.match(/reward_report_(.*).md/)[1];
-                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-            });        
-            sortedFiles.forEach(file => {
-                const option1 = document.createElement('option');
-                const option2 = document.createElement('option');
-                option1.value = file.name;
-                option1.textContent = file.name;
-                option2.value = file.name;
-                option2.textContent = file.name;
-                file1Dropdown.appendChild(option1);
-                file2Dropdown.appendChild(option2);
-            });       
-        } else {
-            importedMarkdownFiles.forEach(file => {
-                const option1 = document.createElement('option');
-                const option2 = document.createElement('option');
-                option1.value = file.name;
-                option1.textContent = file.name;
-                option2.value = file.name;
-                option2.textContent = file.name;
-                file1Dropdown.appendChild(option1);
-                file2Dropdown.appendChild(option2);
-            }); 
-        }
-    }
-
     function populateLastEdit() {
         lastEditedSection.style.display = 'block';
         const dateElement = document.getElementById('last-edit-date');
@@ -698,30 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return firstLetter + restOfWord;
         });
         return capitalizedWords.join(' ');
-      }
-    
-    // Event listener for the Compare button
-    compareButton.addEventListener('click', () => {
-        const selectedFile1 = file1Dropdown.value;
-        const selectedFile2 = file2Dropdown.value;
-
-        // Find the corresponding content for the selected files
-        const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
-        const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
-
-        // Compute the diff using jsdiff
-        const diff = Diff.diffLines(content1, content2);
-
-        // Display the diff in the container
-        container.innerHTML = '';
-        diff.forEach(part => {
-            const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
-            const span = document.createElement('span');
-            span.style.color = color;
-            span.textContent = part.value;
-            container.appendChild(span);
-        });
-    });
+    }
 
     versionHistoryLink.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
@@ -736,19 +664,225 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // var targetElement = document.getElementById('myDiffElement');
-    //     var configuration = {
-    //         drawFileList: true,
-    //         fileListToggle: false,
-    //         fileListStartVisible: false,
-    //         fileContentToggle: false,
-    //         matching: 'lines',
-    //         outputFormat: 'side-by-side',
-    //         synchronisedScroll: true,
-    //         highlight: true,
-    //         renderNothingWhenEmpty: false,
-    //     };
-    // var diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
-    // diff2htmlUi.draw();
-    // diff2htmlUi.highlightCode();
+
+    // Initial call to update button status
+    updateButtonStatus();
+    
+    tabs[0].click();
+    leftScanItems[0].classList.add('active-section');
+    subsections[0].classList.add('active-sub')
+
+    
+
+    
+    
+    
+    
+    
+    
+    //CODE FOR VIEW CHANGES TAB
+    const diffContainer = document.getElementById('diff-container');
+    const originalContainer = document.getElementById('original-container');
+    const file1Dropdown = document.getElementById('file1');
+    const file2Dropdown = document.getElementById('file2');
+    // const compareButton = document.getElementById('compareButton');
+    const changesNav = document.getElementById('changeNav');
+    
+
+    const sectionHeaders = changesNav.querySelectorAll('.sections li');
+    const subsectionHeaders = changesNav.querySelectorAll('.sections ul');
+    console.log(sectionHeaders)
+
+
+
+    sectionHeaders.forEach(sectionHeader => {
+        sectionHeader.addEventListener('click', () =>{
+            console.log('clicked!')
+            sectionHeaders.forEach(li => li.classList.remove('active-section'));
+            sectionHeader.classList.add('active-section');
+            
+            subsectionHeaders.forEach((sub) => {
+                sub.classList.remove('active-sub');
+                if (sub.parentElement.classList.contains('active-section')) {
+                    sub.classList.add('active-sub');
+                } 
+            });
+        });
+    });
+
+
+    // Function to populate the dropdowns
+    function populateDropdowns() {
+        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
+        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
+
+        // Sort importedMarkdownFiles from newest to oldest
+        if (importedMarkdownFiles.length > 0) {
+            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+                const dateA = a.name.match(/reward_report_(.*).md/)[1];
+                const dateB = b.name.match(/reward_report_(.*).md/)[1];
+                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+            });        
+            sortedFiles.forEach(file => {
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = file.name;
+                option1.textContent = file.name;
+                option2.value = file.name;
+                option2.textContent = file.name;
+                file1Dropdown.appendChild(option1);
+                file2Dropdown.appendChild(option2);
+            });       
+        } else {
+            importedMarkdownFiles.forEach(file => {
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = file.name;
+                option1.textContent = file.name;
+                option2.value = file.name;
+                option2.textContent = file.name;
+                file1Dropdown.appendChild(option1);
+                file2Dropdown.appendChild(option2);
+            }); 
+        }
+    }
+
+    // Add an event listener to the second dropdown
+    file2Dropdown.addEventListener('change', () => {
+        const selectedFile1 = file1Dropdown.value;
+        const selectedFile2 = file2Dropdown.value;
+
+        if (selectedFile1 && selectedFile2) {
+            // Both files are selected, trigger the compare function
+            compare();
+        }
+    });
+
+    file1Dropdown.addEventListener('change', () => {
+        const selectedFile1 = file1Dropdown.value;
+        const selectedFile2 = file2Dropdown.value;
+
+        if (selectedFile1 && selectedFile2) {
+            // Both files are selected, trigger the compare function
+            compare();
+        }
+        populateFile1();
+    });
+
+    // function compare() {
+    //     const selectedFile1 = file1Dropdown.value;
+    //     const selectedFile2 = file2Dropdown.value;
+    
+    //      // Find the corresponding content for the selected files
+    //      const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+    //      const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+ 
+    //      // Compute the diff using jsdiff
+    //      const diff = Diff.diffLines(content1, content2);
+    //      console.log(diff)
+
+ 
+    //      // Display the diff in the container
+    //      diffContainer.innerHTML = '';
+    //      diff.forEach(part => {
+    //         const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+    //         const span = document.createElement('span');
+    //         span.style.color = color;
+    //         span.textContent = part.value;
+    //         diffContainer.appendChild(span);
+    //      });
+    // }
+    const renderer = new marked.Renderer();
+
+    // Override the default heading rendering
+    renderer.heading = function(text, level) {
+        // Adjust heading level as needed (e.g., convert level 1 to h3 and level 2 to h4)
+        if (level === 1) {
+            return `<h3>${text}</h3><br>`;
+        } else if (level === 2) {
+            return `<h4>${text}</h4>`;
+        } else {
+            return `<h${level}>${text}</h${level}>`;
+        }
+    };
+
+    // Set the custom renderer in the marked options
+    marked.setOptions({
+        renderer: renderer
+    });
+
+
+    function compare() {
+        const selectedFile1 = file1Dropdown.value;
+        const selectedFile2 = file2Dropdown.value;
+    
+        // Find the corresponding content for the selected files
+        const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+        const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+    
+        // Convert Markdown to HTML
+        const markedContent1 = marked.parse(content1);
+        const markedContent2 = marked.parse(content2);
+    
+        // Compute the diff using jsdiff
+        const diff = Diff.diffLines(markedContent1, markedContent2);
+    
+        // Clear existing content and start building the HTML
+        diffContainer.innerHTML = '';
+    
+        diff.forEach(part => {
+
+            // const span = document.createElement('span');
+            // span.textContent = part.value;
+            htmlBit = part.value;
+            console.log(htmlBit)
+
+            if (part.added) {
+                htmlBit = `<span class="added">${htmlBit}</span>`;
+            } else if (part.removed) {
+                htmlBit = `<span class="removed">${htmlBit}</span>`;
+            } else {
+                htmlBit = `<span class="unchanged">${htmlBit}</span>`;
+            }
+
+            diffContainer.innerHTML += htmlBit;
+    
+            // diffContainer.appendChild(span);
+        });
+    }
+
+    function populateFile1() {
+        const selectedFile1 = file1Dropdown.value;
+        const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+        console.log(content1)
+        originalContainer.innerHTML = '';
+        originalContainer.innerHTML = marked.parse(content1);
+    }
+    
+    // Event listener for the Compare button
+    // compareButton.addEventListener('click', () => {
+    //     const selectedFile1 = file1Dropdown.value;
+    //     const selectedFile2 = file2Dropdown.value;
+
+        // // Find the corresponding content for the selected files
+        // const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+        // const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+
+        // // Compute the diff using jsdiff
+        // const diff = Diff.diffLines(content1, content2);
+
+        // // Display the diff in the container
+        // container.innerHTML = '';
+        // diff.forEach(part => {
+        //     const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+        //     const span = document.createElement('span');
+        //     span.style.color = color;
+        //     span.textContent = part.value;
+        //     container.appendChild(span);
+        // });
+    // });
+
+    
+
+    
 });
