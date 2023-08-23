@@ -518,44 +518,90 @@ document.addEventListener('DOMContentLoaded', () => {
         return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
     }
 
+    // document.getElementById('import-from-github').addEventListener('click', async () => {
+    //     const githubRepositoryUrl = document.getElementById('github-folder-url').value;
+    //     const apiEndpoint = 'http://localhost:3000/github-proxy'; 
+    //     const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
+    //     console.log(apiUrl);
+    
+    //     try {
+    //         fetch(apiUrl)
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 // Process the data here
+    //                 console.log(data);
+    //                 // Filter out files from the folderContents (you might need to adapt this based on your needs)
+    //                 const markdownFiles = data.filter(file => file.name.endsWith('.md'));
+            
+    //                 // Loop through the markdownFiles and process them similarly to local file imports
+    //                 for (const file of markdownFiles) {
+    //                     try {
+    //                         const contentResponse = await fetch(file.download_url);
+    //                         const content = await contentResponse.text();
+    //                         console.log(content);
+    //                     } catch (error) {
+    //                         console.error('Error fetching markdown content:', error);
+    //                     }
+    //                     // Process the content as needed (similar to your existing code)
+    //                     // ...
+    //                 }
+            
+    //                 // Update the UI or do any other necessary actions
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching GitHub API:', error);
+    //             }); 
+    //     } catch (error) {
+    //         console.error('Error importing from GitHub:', error);
+    //     }
+    // });
+    
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
         const apiEndpoint = 'http://localhost:3000/github-proxy'; 
         const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
-        console.log(apiUrl);
     
         try {
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    // Process the data here
-                    console.log(data);
-                    // Filter out files from the folderContents (you might need to adapt this based on your needs)
-                    const markdownFiles = data.filter(file => file.name.endsWith('.md'));
-            
-                    // Loop through the markdownFiles and process them similarly to local file imports
-                    for (const file of markdownFiles) {
-                        try {
-                            const contentResponse = await fetch(file.download_url);
-                            const content = await contentResponse.text();
-                            console.log(content);
-                        } catch (error) {
-                            console.error('Error fetching markdown content:', error);
-                        }
-                        // Process the content as needed (similar to your existing code)
-                        // ...
-                    }
-            
-                    // Update the UI or do any other necessary actions
-                })
-                .catch(error => {
-                    console.error('Error fetching GitHub API:', error);
-                }); 
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+    
+            const markdownFiles = data.filter(file => file.name.endsWith('.md'));
+    
+            for (const file of markdownFiles) {
+                try {
+                    const contentResponse = await fetch(file.download_url);
+                    const content = await contentResponse.text();
+                    
+                    // Process the content similar to your existing code
+                    const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
+                    importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+    
+                } catch (error) {
+                    console.error('Error fetching markdown content:', error);
+                }
+            }
+    
+            if (markdownFiles.length > 0) {
+                const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
+                    const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*)\.md/)[1]);
+                    const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*)\.md/)[1]);
+                    return currentDateTime > latestDateTime ? currentFile : latestFile;
+                });
+    
+                const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
+                const markdownContent = await markdownContentResponse.text();
+    
+                // Process the markdown content as needed
+                parseMarkdown(markdownContent);
+                populateDropdowns();
+                populateLastEdit();
+            } else {
+                console.error('No reward report markdown files found.');
+            }
         } catch (error) {
-            console.error('Error importing from GitHub:', error);
+            console.error('Error fetching GitHub API:', error);
         }
     });
-    
     
     cancelButton.addEventListener('click', () => {
         // Show a confirmation dialog before proceeding
