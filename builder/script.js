@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let importedMarkdownFiles = [];
     let currentEditSection;
     let contextInfo = {};
+    let currentContextInfo = {};
     let currentScrollSection = document.getElementById('system-details');
 
 //     const diffString = `diff --git a/sample.js b/sample.js
@@ -73,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('build');
         }
         learnMoreSection.style.display = 'block';
+        leftScanItems[0].classList.add('active-section');
+        subsections[0].classList.add('active-sub')
         // populateLastEdit()
     });
 
@@ -84,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('build');
         }
         learnMoreSection.style.display = 'block';
+        leftScanItems[0].classList.add('active-section');
+        subsections[0].classList.add('active-sub')
         // populateLastEdit()
     });
 
@@ -248,11 +253,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmPublish = confirm('Publishing will publish all pages under drafts.');
         if (currentEditSection) {
             // Save content to contextInfo
-            contextInfo[currentEditSection.id] = {
-                editorInput: editorInput.value,
-                descriptionInput: descriptionInput.value
+            currentContextInfo[currentEditSection.id] = {
+                author: editorInput.value,
+                description: descriptionInput.value
             };
-            // console.log(contextInfo);
+            console.log(currentContextInfo);
+            contextInfo=currentContextInfo;
         }
         if (confirmPublish) {
             const sections = document.querySelectorAll('.section');
@@ -267,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // markdownContent += `## Context Info\n\n`;
                     // markdownContent += `Editor Input:\n\n${contextInfoSection.editorInput}\n\n`;
                     // markdownContent += `Description Input:\n\n${contextInfoSection.descriptionInput}\n\n`;
-                    markdownContent += `<!-- Author: ${contextInfoSection.editorInput} --> `;
-                    markdownContent += `<!-- Description: ${contextInfoSection.descriptionInput} -->\n\n`;
+                    markdownContent += `<!-- Author: ${contextInfoSection.author} --> `;
+                    markdownContent += `<!-- Description: ${contextInfoSection.description} -->\n\n`;
                 } else {
                     markdownContent += '\n\n'
                 }
@@ -333,7 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             // console.log('Markdown content:', importedMarkdownFiles);
             populateDropdowns();
-            populateLastEdit()
+            populateLastEdit();
+            currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
             
@@ -355,8 +362,8 @@ document.addEventListener('DOMContentLoaded', () => {
             indicators.forEach(indicator => {
                 indicator.classList.add('hidden');
             });
-            currentEditSection = undefined;
             descriptionInput.value = '';
+            console.log(contextInfo)
         }
     });
 
@@ -499,6 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         closeImportModal();
+        console.log(contextInfo)
     });
     
     
@@ -535,11 +543,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentEditSection) {
             // Save content to contextInfo
-            contextInfo[currentEditSection.id] = {
-                editorInput: editorInput.value,
-                descriptionInput: descriptionInput.value
+            currentContextInfo[currentEditSection.id] = {
+                author: editorInput.value,
+                description: descriptionInput.value
             };
-            // console.log(contextInfo);
+            // console.log(currentContextInfo);
         }
 
             
@@ -625,12 +633,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const minutes = parseInt(parts[4]);
             const seconds = parseInt(parts[5]);
 
-            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            console.log(sortedFiles[0].name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '))
+            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
             dateElement.textContent = formattedDate;
 
             if(contextInfo[descriptionSection]){
                 descriptionElement.textContent = contextInfo[descriptionSection]['description'];
+                console.log(descriptionSection)
                 console.log(contextInfo[descriptionSection]['description'])
             } else {
                 descriptionElement.textContent = "";
@@ -669,9 +677,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateButtonStatus();
     
     tabs[0].click();
-    leftScanItems[0].classList.add('active-section');
-    subsections[0].classList.add('active-sub')
-
     
 
     
@@ -691,24 +696,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sectionHeaders = changesNav.querySelectorAll('.sections li');
     const subsectionHeaders = changesNav.querySelectorAll('.sections ul');
-    console.log(sectionHeaders)
-
 
 
     sectionHeaders.forEach(sectionHeader => {
         sectionHeader.addEventListener('click', () =>{
-            console.log('clicked!')
+            console.log(sectionHeader)
             sectionHeaders.forEach(li => li.classList.remove('active-section'));
             sectionHeader.classList.add('active-section');
-            
-            subsectionHeaders.forEach((sub) => {
-                sub.classList.remove('active-sub');
-                if (sub.parentElement.classList.contains('active-section')) {
-                    sub.classList.add('active-sub');
-                } 
-            });
+            console.log(sectionHeader.getAttribute('data-target'))
+            // filterSectionsByClass(sectionHeader.getAttribute('data-target'))
+            activateSub()
+            filterActiveSection()
+            // filterActiveSectionDiffs()
         });
     });
+
+    function activateSub(){
+        subsectionHeaders.forEach((sub) => {
+            sub.classList.remove('active-sub');
+            if (sub.parentElement.classList.contains('active-section')) {
+                sub.classList.add('active-sub');
+            } 
+        });
+    }
 
 
     // Function to populate the dropdowns
@@ -724,12 +734,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
             });        
             sortedFiles.forEach(file => {
+                const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
+                const parts = filename.split(/[- :]/);
+                const year = parseInt(parts[0]);
+                const month = parseInt(parts[1]) - 1; // Months in JavaScript are 0-indexed
+                const day = parseInt(parts[2]);
+                const hours = parseInt(parts[3]);
+                const minutes = parseInt(parts[4]);
+                const seconds = parseInt(parts[5]);
+
+                const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+
                 const option1 = document.createElement('option');
                 const option2 = document.createElement('option');
                 option1.value = file.name;
-                option1.textContent = file.name;
+                option1.textContent = formattedDate;
                 option2.value = file.name;
-                option2.textContent = file.name;
+                option2.textContent = formattedDate;
                 file1Dropdown.appendChild(option1);
                 file2Dropdown.appendChild(option2);
             });       
@@ -756,6 +777,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Both files are selected, trigger the compare function
             compare();
         }
+        sectionHeaders.forEach(li => li.classList.remove('active-section'));
+        activateSub()
+        sectionHeaders[0].click();
     });
 
     file1Dropdown.addEventListener('change', () => {
@@ -767,40 +791,22 @@ document.addEventListener('DOMContentLoaded', () => {
             compare();
         }
         populateFile1();
+        sectionHeaders.forEach(li => li.classList.remove('active-section'));
+        activateSub()
+        sectionHeaders[0].click();
     });
 
-    // function compare() {
-    //     const selectedFile1 = file1Dropdown.value;
-    //     const selectedFile2 = file2Dropdown.value;
-    
-    //      // Find the corresponding content for the selected files
-    //      const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
-    //      const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
- 
-    //      // Compute the diff using jsdiff
-    //      const diff = Diff.diffLines(content1, content2);
-    //      console.log(diff)
-
- 
-    //      // Display the diff in the container
-    //      diffContainer.innerHTML = '';
-    //      diff.forEach(part => {
-    //         const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
-    //         const span = document.createElement('span');
-    //         span.style.color = color;
-    //         span.textContent = part.value;
-    //         diffContainer.appendChild(span);
-    //      });
-    // }
     const renderer = new marked.Renderer();
 
     // Override the default heading rendering
     renderer.heading = function(text, level) {
         // Adjust heading level as needed (e.g., convert level 1 to h3 and level 2 to h4)
+        const label = text.toLowerCase().replace(' ', '-').replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+        text = text.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
         if (level === 1) {
-            return `<h3>${text}</h3><br>`;
+            return `<h3 class="${label}">${text}</h3>`;
         } else if (level === 2) {
-            return `<h4>${text}</h4>`;
+            return `<h4 class="${label}">${text}</h4>`;
         } else {
             return `<h${level}>${text}</h${level}>`;
         }
@@ -811,6 +817,103 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer: renderer
     });
 
+    // function filterSectionsByClass(className) {
+    //     const container = document.getElementById('original-container');
+    //     const sections = container.querySelectorAll('h3');
+    
+    //     sections.forEach(section => {
+    //         if (section.classList.contains(className)) {
+    //             const siblingElements = [section];
+    
+    //             let nextElement = section.nextElementSibling;
+    //             while (nextElement && nextElement.tagName !== 'H3') {
+    //                 siblingElements.push(nextElement);
+    //                 nextElement = nextElement.nextElementSibling;
+    //             }
+    
+    //             container.innerHTML = '';
+    //             siblingElements.forEach(element => {
+    //                 container.appendChild(element);
+    //             });
+    //         }
+    //     });
+    // }
+
+    function filterActiveSection() {
+        const activeSection = changesNav.querySelector('.active-section');
+        if (activeSection) {
+            const className = activeSection.getAttribute('data-target'); 
+            const container = document.getElementById('original-container');
+            const sections = container.querySelectorAll('h3');
+            const container2 = document.getElementById('diff-container');
+            const sections2 = container2.querySelectorAll('section');
+
+    
+            sections.forEach(section => {
+                const siblingElements = [section];
+                console.log(section)
+    
+                let nextElement = section.nextElementSibling;
+                while (nextElement && nextElement.tagName !== 'H3') {
+                    siblingElements.push(nextElement);
+                    nextElement = nextElement.nextElementSibling;
+                }
+
+
+                if (section.textContent == kebabToTitleCase(className)) {
+                    siblingElements.forEach(element => {
+                        element.style.display = 'block';
+                    });
+                } else {
+                    siblingElements.forEach(element => {
+                        element.style.display = 'none';
+                    });
+                }  
+            });
+
+            sections2.forEach(section => {
+               
+                if (section.classList.contains(className)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }  
+            });
+        }
+    }
+
+    // function filterActiveSectionDiffs() {
+    //     const activeSection = changesNav.querySelector('.active-section');
+    //     if (activeSection) {
+    //         const className = activeSection.getAttribute('data-target');
+        
+    //         const container = document.getElementById('diff-container');
+    //         const sections = container.querySelectorAll('h3');
+        
+    //         sections.forEach(section => {
+    //             const siblingElements = [section];
+    
+    //             let nextElement = section.nextElementSibling;
+    //             while (nextElement && nextElement.tagName !== 'H3') {
+    //                 siblingElements.push(nextElement);
+    //                 nextElement = nextElement.nextElementSibling;
+    //             }
+
+
+    //             if (section.classList.contains(className)) {
+    //                 siblingElements.forEach(element => {
+    //                     element.style.display = 'block';
+    //                 });
+    //             } else {
+    //                 siblingElements.forEach(element => {
+    //                     element.style.display = 'none';
+    //                 });
+    //             }  
+    //         });
+    //     }
+    // }
+    
+    
 
     function compare() {
         const selectedFile1 = file1Dropdown.value;
@@ -819,42 +922,100 @@ document.addEventListener('DOMContentLoaded', () => {
         // Find the corresponding content for the selected files
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
         const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
-    
-        // Convert Markdown to HTML
-        const markedContent1 = marked.parse(content1);
-        const markedContent2 = marked.parse(content2);
-    
-        // Compute the diff using jsdiff
-        const diff = Diff.diffLines(markedContent1, markedContent2);
-    
-        // Clear existing content and start building the HTML
+
+        const content1Sections = content1.split(/^(?=# [^#])/gm);    
+        const content2Sections = content2.split(/^(?=# [^#])/gm);    
+       
+
+        if (content1Sections.length !== content2Sections.length) {
+            throw new Error("Input arrays must have the same length");
+        }
+
         diffContainer.innerHTML = '';
-    
-        diff.forEach(part => {
 
-            // const span = document.createElement('span');
-            // span.textContent = part.value;
-            htmlBit = part.value;
-            console.log(htmlBit)
 
-            if (part.added) {
-                htmlBit = `<span class="added">${htmlBit}</span>`;
-            } else if (part.removed) {
-                htmlBit = `<span class="removed">${htmlBit}</span>`;
-            } else {
-                htmlBit = `<span class="unchanged">${htmlBit}</span>`;
-            }
+        for (let i = 0; i < content1Sections.length; i++) {
+            const section1 = content1Sections[i];
+            const section2 = content2Sections[i];
+            const section1noCont = section1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+            const section2noCont = section2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+            const sectionTitleLine = section1noCont.split('\n')[0];
+            const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
+            const markedContent1 = section1noCont;
+            const markedContent2 = section2noCont;
+            let htmlContent = "";
+        
+            // Compute the diff using jsdiff
+            const diff = Diff.diffWordsWithSpace(markedContent1, markedContent2);
+        
+            // Clear existing content and start building the HTML
+            htmlContent += `<section class="${sectionTitle.toLowerCase().replace(/\s/g, '-')}">`;
+        
+            diff.forEach(part => {
+                // const span = document.createElement('span');
+                // span.textContent = part.value;
+                htmlBit = marked.parse(part.value);
+                // console.log(htmlBit)
+                if (part.added) {
+                    htmlBit = `<span class="added">${htmlBit}</span>`;
+                } else if (part.removed) {
+                    htmlBit = `<span class="removed">${htmlBit}</span>`;
+                } else {
+                    htmlBit = `<span class="unchanged">${htmlBit}</span>`;
+                }
 
-            diffContainer.innerHTML += htmlBit;
-    
-            // diffContainer.appendChild(span);
-        });
+                htmlContent += htmlBit;
+            });
+            htmlContent += "</section>"
+
+            diffContainer.innerHTML += htmlContent
+            console.log(diffContainer.innerHTML)
+        }
     }
+
+    // function compare() {
+    //     const selectedFile1 = file1Dropdown.value;
+    //     const selectedFile2 = file2Dropdown.value;
+    
+    //     // Find the corresponding content for the selected files
+    //     const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+    //     const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+    
+    //     // Convert Markdown to HTML
+    //     const markedContent1 = content1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+    //     const markedContent2 = content2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+    
+    //     console.log(markedContent1)
+    //     console.log(markedContent2)
+
+    //     // Compute the diff using jsdiff
+    //     const diff = Diff.diffWords(markedContent1, markedContent2);
+    
+    //     // Clear existing content and start building the HTML
+    //     diffContainer.innerHTML = '';
+    
+    //     diff.forEach(part => {
+
+    //         // const span = document.createElement('span');
+    //         // span.textContent = part.value;
+    //         htmlBit = marked.parse(part.value);
+    //         console.log(htmlBit)
+    //         if (part.added) {
+    //             htmlBit = `<span class="added">${htmlBit}</span>`;
+    //         } else if (part.removed) {
+    //             htmlBit = `<span class="removed">${htmlBit}</span>`;
+    //         } else {
+    //             htmlBit = `<span class="unchanged">${htmlBit}</span>`;
+    //         }
+
+    //         diffContainer.innerHTML += htmlBit;
+    
+    //     });
+    // }
 
     function populateFile1() {
         const selectedFile1 = file1Dropdown.value;
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
-        console.log(content1)
         originalContainer.innerHTML = '';
         originalContainer.innerHTML = marked.parse(content1);
     }
@@ -881,8 +1042,4 @@ document.addEventListener('DOMContentLoaded', () => {
         //     container.appendChild(span);
         // });
     // });
-
-    
-
-    
 });

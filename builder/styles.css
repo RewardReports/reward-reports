@@ -14,14 +14,14 @@ select{
     border-radius: 3px;
 }
 
+
+
 h3{
     margin-bottom: 10px;
-    display: inline-block;
     margin-right: 5px;
 }
 
 h4{
-    display: inline-block;
     margin-bottom: 0;
     margin-top: 30px;
     margin-right: 5px;
@@ -72,6 +72,7 @@ textarea, input {
     color: #0092B2;
     border: 1px solid #0092B2;
 }
+
 
 
   
@@ -203,6 +204,11 @@ nav {
     margin-bottom: 50px;
     padding: 20px;
     background-color: #fff;
+}
+
+.section h3, 
+.section h4{
+    display: inline-block;
 }
 .subsections{
     height: 0;
@@ -443,6 +449,12 @@ a:hover {
     height: auto;
 }
 
+.row-large h3, 
+.row-large h4{
+    display: block;
+}
+
+
 .added {
     color: green;
     background-color: #c8f7c8; /* Light green background for added parts */
@@ -452,3 +464,4 @@ a:hover {
     color: red;
     background-color: #f8cbcb; /* Light red background for removed parts */
 }
+
