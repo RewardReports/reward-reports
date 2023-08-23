@@ -508,6 +508,44 @@ document.addEventListener('DOMContentLoaded', () => {
         closeImportModal();
         console.log(contextInfo)
     });
+
+    document.getElementById('import-from-github').addEventListener('click', async () => {
+        const githubRepositoryUrl = document.getElementById('github-folder-url').value;
+    
+        try {
+            fetch(githubRepositoryUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Process the data here
+                    console.log(data);
+                    // ... rest of your code ...
+                })
+                .catch(error => {
+                    console.error('Error fetching GitHub API:', error);
+                });
+            // // Fetch the contents of the GitHub folder using the GitHub API
+            // const response = await fetch(`https://api.github.com/repos/${githubFolderUrl}/contents`);
+            // const folderContents = await response.json();
+    
+            // // Filter out files from the folderContents (you might need to adapt this based on your needs)
+            // const markdownFiles = folderContents.filter(file => file.name.endsWith('.md'));
+    
+            // // Loop through the markdownFiles and process them similarly to local file imports
+            // for (const file of markdownFiles) {
+            //     const contentResponse = await fetch(file.download_url);
+            //     const content = await contentResponse.text();
+            //     console.log(content);
+    
+            //     // Process the content as needed (similar to your existing code)
+            //     // ...
+            // }
+    
+            // // Update the UI or do any other necessary actions
+            // ...
+        } catch (error) {
+            console.error('Error importing from GitHub:', error);
+        }
+    });
     
     
     cancelButton.addEventListener('click', () => {
