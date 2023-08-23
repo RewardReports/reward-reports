@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const parts = repoUrl.split('/');
         const username = parts[3];
         const repoName = parts[4];
-        const path = parts.slice(6).join('/');
+        const path = parts.slice(7).join('/');
         
         return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
     }
@@ -558,7 +558,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
-        const apiEndpoint = 'http://localhost:3000/github-proxy'; 
         const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
     
         try {
@@ -601,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching GitHub API:', error);
         }
+        console.log(importedMarkdownFiles)
     });
     
     cancelButton.addEventListener('click', () => {
