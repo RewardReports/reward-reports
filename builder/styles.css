@@ -420,7 +420,7 @@ a:hover {
 .changes-page-container {
     display: grid;
     grid-template-columns: 18% 1fr 1fr; /* Three equal columns */
-    width: auto;
+    width: 100%;
     height: max-content;
 }
   
@@ -452,8 +452,22 @@ a:hover {
 .row-large h3, 
 .row-large h4{
     display: block;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-right: 5px;
 }
 
+
+/* .row-large p,  */
+.row-large p{
+    display: inline;
+    line-height: 120%;
+}
+
+.changes-column span {
+    display: inline;
+    white-space: normal;
+}
 
 .added {
     color: green;
@@ -464,4 +478,3 @@ a:hover {
     color: red;
     background-color: #f8cbcb; /* Light red background for removed parts */
 }
-
