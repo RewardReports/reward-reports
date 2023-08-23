@@ -478,3 +478,23 @@ a:hover {
     color: red;
     background-color: #f8cbcb; /* Light red background for removed parts */
 }
+
+#message-container {
+    background-color: #fff;
+    display: none;
+}
+
+.webonly{
+    width: 70vw;
+    margin: auto;
+    height: fit-content;
+}
+
+.webonly svg{
+    display: inline-block;
+}
+
+#webonly-content{
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
