@@ -509,12 +509,24 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(contextInfo)
     });
 
+    function convertToGitHubAPIUrl(repoUrl) {
+        const parts = repoUrl.split('/');
+        const username = parts[3];
+        const repoName = parts[4];
+        const path = parts.slice(6).join('/');
+        
+        return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
+    }
+
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
+        const apiEndpoint = 'http://localhost:3000/github-proxy'; 
+        const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
+        console.log(apiUrl);
     
         try {
-            fetch(githubRepositoryUrl)
-                .then(response => response.json())
+            fetch(apiUrl)
+                // .then(response => response.json())
                 .then(data => {
                     // Process the data here
                     console.log(data);
