@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastEditedSection = document.getElementById('last-edit');
     const learnMoreSection = document.getElementById('learn-more');
     const versionHistoryLink = document.getElementById('version-history-link');
+    const restartButton = document.getElementById('restart-button');
+
 
 
     let importedMarkdownFiles = [];
@@ -379,6 +381,29 @@ document.addEventListener('DOMContentLoaded', () => {
             descriptionInput.value = '';
             console.log(contextInfo)
         }
+    });
+
+    restartButton.addEventListener('click', () => {
+        if (buildMainContent.classList.contains('active-mode')) {
+            buildMainContent.classList.remove('active-mode');
+            preBuildMainContent.classList.add('active-mode');
+        }
+        learnMoreSection.style.display = 'none';
+        lastEditedSection.style.display = 'none';
+        leftScanItems.forEach(item => {
+            item.classList.remove('active-section');
+          });
+        subsections.forEach(item => {
+            item.classList.remove('active-sub');
+          });
+        importedMarkdownFiles = [];
+        currentEditSection = undefined;
+        contextInfo = {};
+        currentContextInfo = {};
+        populateDropdowns();
+        populateLastEdit();
+        populateVersionTable();
+        populateCheckboxes();
     });
 
     // Function to open the modal
@@ -1166,8 +1191,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const markdownTable = document.getElementById('version-table');
 
     function populateVersionTable() {
+        // Clear the content of the <tbody>
+        const tbody = markdownTable.querySelector('tbody');
+
+        tbody.innerHTML = '';
         // Loop through importedMarkdownFiles and populate the table
-        importedMarkdownFiles.forEach(file => {
+        const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+            const dateA = a.name.match(/reward_report_(.*).md/)[1];
+            const dateB = b.name.match(/reward_report_(.*).md/)[1];
+            return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+        });        
+        sortedFiles.forEach(file => {
             const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
             const parts = filename.split(/[- :]/);
             const year = parseInt(parts[0]);
@@ -1220,17 +1254,27 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(metric3);
             row.appendChild(metric4);
             row.appendChild(metric5);
-            markdownTable.appendChild(row);
+            tbody.appendChild(row);
         });
     }
     
     const checkboxForm = document.getElementById('checkbox-form');
+    const checkboxForm2 = document.getElementById('checkbox-form-perf');
     const submitButton = document.getElementById('compare-flagged-button');
 
     // Function to populate checkboxes from importedMarkdownFiles
     function populateCheckboxes() {
         const checkboxContainer = checkboxForm.querySelector('#checkbox-container');
-        importedMarkdownFiles.forEach(function(file, index) {
+        const checkboxContainer2 = checkboxForm2.querySelector('#checkbox-container-perf');
+        checkboxContainer.innerHTML="";
+        checkboxContainer2.innerHTML="";
+
+        const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+            const dateA = a.name.match(/reward_report_(.*).md/)[1];
+            const dateB = b.name.match(/reward_report_(.*).md/)[1];
+            return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+        });        
+        sortedFiles.forEach(function(file, index) {
             const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
             const parts = filename.split(/[- :]/);
             const year = parseInt(parts[0]);
@@ -1242,8 +1286,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
             const checkboxLabel = document.createElement('label');
+            const checkboxLabel2 = document.createElement('label');
             checkboxLabel.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
+            checkboxLabel2.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
             checkboxContainer.appendChild(checkboxLabel);
+            checkboxContainer2.appendChild(checkboxLabel2);
         });
     }
 

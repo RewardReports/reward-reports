@@ -25,6 +25,7 @@ h4{
     margin-top: 30px;
     margin-right: 5px;
 }
+
 p{
     margin: 10px 0;
     line-height: 120%;
@@ -46,6 +47,7 @@ button:disabled {
     background-color: #0091b284;
     cursor: not-allowed;
 }
+
 .form-content textarea, 
 .form-content input {
     font-family: inherit;
@@ -72,9 +74,6 @@ button:disabled {
     border: 1px solid #0092B2;
 }
 
-
-
-  
   /* Hover effect */
 button:hover {
     background-color: #115c6d; /* Darker shade of blue for hover effect */
@@ -316,10 +315,11 @@ nav {
     text-align: center;
 }
 
-/* #export-button{
-    margin: 10px auto;
-    display: block; 
-} */
+.export-container button {
+    width: 70%;
+    margin-top:20px;
+}
+
 
 .hidden-info {
     position: absolute;
@@ -554,13 +554,21 @@ a:hover {
     justify-content: space-between;
 }
 
+.performance-page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 20% ; /* Three equal columns */
+    width: 100%;
+}
+  
 .version-page-container {
     display: grid;
     grid-template-columns: 80% 20% ; /* Three equal columns */
     width: 100%;
 }
+
   
-.versions-column {
+.versions-column,
+.performance-column  {
     /* display: flex;
     flex-direction: column; */
     min-height: calc(100vh - 60px);
@@ -581,24 +589,34 @@ a:hover {
     margin: 0 5px;
 }
 
-#checkbox-container{
+#checkbox-container,
+#checkbox-container-perf {
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
-#checkbox-container input {
+#checkbox-container input,
+#checkbox-container-perf input  {
     margin: 10px 0;
 }
 
-.performance-page-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 20% ; /* Three equal columns */
-    width: 100%;
+
+
+#main-left-content,
+#main-right-content {
+    padding: 0 20px;
+    width: auto;
 }
-  
-.performance-column {
-    /* display: flex;
-    flex-direction: column; */
-    min-height: calc(100vh - 60px);
-    border-right: 1px solid #ccc;
+
+
+.centered-div {
+    display: flex;
+    align-items: center; 
+    /* Add other styles as needed */
+}
+
+#compare-flagged-button{
+    margin: 0 auto;
+    width: 70%;
+    display: block;
 }
