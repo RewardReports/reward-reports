@@ -699,27 +699,41 @@
                     <div class="row row-small">
                         <label for="file1">Original Reward Report</label>
                         <select id="file1">
-                            <option value="" disabled selected>Select a file</option>
+                            <option value="" disabled selected>Select a date</option>
                             <!-- Populate options from importedMarkdownFiles -->
                             <option disabled>Publish or import report(s) first</option>
                         </select>
                     </div>
                     <div class="row row-large">
-                        <div id="original-container"></div>
+                        <div id="original-container">
+                            <div class="compare-inplace">
+                                <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"/>
+                                </svg>
+                                <p>Select a date first to get started and compare two different versions.</p>  
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="changes-column">
                     <div class="row row-small">
                         <label for="file2">Compared Reward Report</label>
                         <select id="file2">
-                            <option value="" disabled selected>Select a file</option>
+                            <option value="" disabled selected>Select a date</option>
                             <!-- Populate options from importedMarkdownFiles -->
                             <option disabled>Publish or import report(s) first</option>
                         </select>
                         <!-- <button id="compareButton">Compare</button> -->
                     </div>
                 <div class="row row-large">
-                    <div id="diff-container"></div>
+                    <div id="diff-container">
+                        <div class="compare-inplace">
+                            <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"/>
+                            </svg>
+                            <p>Select a date first to get started and compare two different versions.</p>  
+                        </div>
+                    </div>
                 </div>
                 </div>
             </div>            

@@ -97,6 +97,7 @@ nav {
     top: 0;
     height: 60px;
     z-index: 2;
+    box-shadow: 0 -1px 8px -1px rgba(0, 0, 0, 0.2);
 }
 
 .site-name {
@@ -136,12 +137,12 @@ nav {
 
 .active {
     color: #0092B2;
-    border-bottom:  solid #0092B2;
+    border-bottom:  3px solid #0092B2;
 }
 
 .active-section {
     color: #0092B2;
-    border-left:  solid #0092B2;
+    border-left: 2px solid #0092B2;
     font-weight: bold;
     width: 100%;
     height: 100%;
@@ -619,4 +620,17 @@ a:hover {
     margin: 0 auto;
     width: 70%;
     display: block;
+}
+
+.compare-inplace {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center align */
+    justify-content: center; /* Vertically center align */
+    text-align: center; /* Center-align text */
+    height: 60vh;
+}
+
+.compare-inplace p {
+    margin-top: 30px;
 }
