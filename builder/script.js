@@ -67,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
             contentSections.forEach(section => {
                 if (section.id === targetSectionId) {
                     section.classList.add('active-tab');
+                    if (targetSectionId==="version-history"){
+                        checkExpendButtonNeed();
+                    }
                 } else {
                     section.classList.remove('active-tab');
                 }
@@ -154,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             } 
         });
-        populateLastEdit()
     });  
 
     editButtons.forEach(button => {
@@ -281,17 +283,13 @@ document.addEventListener('DOMContentLoaded', () => {
        
 
         if (confirmPublish) {
-            console.log(editorInput.value)
-            console.log(descriptionInput.value)
     
             currentContextInfo = {
                 author: editorInput.value,
-                description: descriptionInput.value
+                description: descriptionInput.value.replace(/\s+/g, ' ')
             };
     
-            console.log(currentContextInfo);
             contextInfo = currentContextInfo;
-            console.log(contextInfo)    
             
             const sections = document.querySelectorAll('.section');
             let markdownContent = '';
@@ -363,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('Markdown content:', importedMarkdownFiles);
             populateDropdowns();
             populateLastEdit();
+            checkExpendButtonNeed2();
             populateVersionTable();
             populateCheckboxes();
             // currentContextInfo = {};
@@ -414,8 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentEditSection = undefined;
         contextInfo = {};
         currentContextInfo = {};
-        // populateDropdowns();
         populateLastEdit();
+        checkExpendButtonNeed2();
         populateVersionTable();
         populateCheckboxes();
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
@@ -566,14 +565,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit();
+                checkExpendButtonNeed2()
                 populateVersionTable();
                 populateCheckboxes();
 
             } else if (markdownFiles.length > 1) {
                 // console.log('Multiple Markdown files found:', markdownFiles);
                 const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
-                    const latestDateTime = new Date(latestFile.match(/reward_report_(.*)\.md/)[1]);
-                    const currentDateTime = new Date(currentFile.match(/reward_report_(.*)\.md/)[1]);
+                    const latestDateString = latestFile.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const currentDateString = currentFile.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const parts = latestDateString.split(/[- :]/);
+                    const year = parseInt(parts[0]);
+                    const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
+                    const day = parseInt(parts[2]);
+                    const hours = parseInt(parts[3]);
+                    const minutes = parseInt(parts[4]);
+                    const seconds = parseInt(parts[5]);
+
+                    const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
+
+                    const parts2 = currentDateString.split(/[- :]/);
+                    const year2 = parseInt(parts2[0]);
+                    const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
+                    const day2 = parseInt(parts2[2]);
+                    const hours2 = parseInt(parts2[3]);
+                    const minutes2 = parseInt(parts2[4]);
+                    const seconds2 = parseInt(parts2[5]);
+
+                    const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
+                    console.log(latestFile.match(/reward_report_(.*).md/)[1])
+                    console.log(latestDateTime)
+
                     return currentDateTime > latestDateTime ? currentFile : latestFile;
                 });
     
@@ -584,6 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit();
+                checkExpendButtonNeed2()
                 populateVersionTable();
                 populateCheckboxes();
                 // console.log("parsed and replaced?");
@@ -634,10 +657,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
     
                 const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
-                    const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*)\.md/)[1]);
-                    const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*)\.md/)[1]);
+                    const latestDateString = latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const currentDateString = currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const parts = latestDateString.split(/[- :]/);
+                    const year = parseInt(parts[0]);
+                    const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
+                    const day = parseInt(parts[2]);
+                    const hours = parseInt(parts[3]);
+                    const minutes = parseInt(parts[4]);
+                    const seconds = parseInt(parts[5]);
+
+                    const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
+
+                    const parts2 = currentDateString.split(/[- :]/);
+                    const year2 = parseInt(parts2[0]);
+                    const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
+                    const day2 = parseInt(parts2[2]);
+                    const hours2 = parseInt(parts2[3]);
+                    const minutes2 = parseInt(parts2[4]);
+                    const seconds2 = parseInt(parts2[5]);
+
+                    const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
+                    console.log(latestFile.name.match(/reward_report_(.*).md/)[1])
+                    console.log(latestDateTime)
+
                     return currentDateTime > latestDateTime ? currentFile : latestFile;
                 });
+
+
+                console.log(latestMarkdownFile.name)
     
                 const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
                 const markdownContent = await markdownContentResponse.text();
@@ -646,6 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit();
+                checkExpendButtonNeed2()
                 populateVersionTable();
                 populateCheckboxes();
                 
@@ -743,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentContextInfo = {
             author: editorInput.value,
-            description: descriptionInput.value
+            description: descriptionInput.value.replace(/\s+/g, ' ')
         };
             
         subsections.forEach(subsection => {
@@ -863,6 +912,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.classList.remove('active-tab');
             }
         });
+        console.log('check')
+        checkExpendButtonNeed();
     });
 
 
@@ -1272,7 +1323,13 @@ document.addEventListener('DOMContentLoaded', () => {
             descriptionCell.classList.add('description-cell');
             const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
             const contextInfoMatch = file.content.match(contextInfoPattern);
-            descriptionCell.textContent = contextInfoMatch[2] + " -- " + contextInfoMatch[1];
+            console.log(contextInfoMatch)
+            if (contextInfoMatch) {
+                descriptionCell.textContent = contextInfoMatch[2] + " -- " + contextInfoMatch[1];
+            }
+
+            contentCell.appendChild(descriptionCell);
+            
 
             const expandButton = document.createElement('span');
             expandButton.classList.add('expand-button');
@@ -1285,8 +1342,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     expandButton.textContent = 'Read more...';
                 }
             });
-
-            contentCell.appendChild(descriptionCell);
+            
             contentCell.appendChild(expandButton);
             row.appendChild(contentCell);
 
@@ -1306,6 +1362,40 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(metric4);
             row.appendChild(metric5);
             tbody.appendChild(row);
+        });
+    }
+
+    function checkExpendButtonNeed(){
+        const descriptionCells = document.querySelectorAll('.description-cell');
+        descriptionCells.forEach((descriptionCell)=> {
+            const expandButton = descriptionCell.parentElement.querySelector('.expand-button')
+            console.log(descriptionCell.scrollHeight)
+            console.log(descriptionCell.clientHeight)
+            if(descriptionCell.scrollHeight > descriptionCell.clientHeight) {
+                expandButton.style.display = "block";
+            } else {
+                expandButton.style.display = "none";
+            }
+        });
+    }
+
+    function checkExpendButtonNeed2(){
+        const descriptionElement = document.getElementById('last-edit-description');
+        const expandButton = descriptionElement.parentElement.querySelector('.expand-button')
+        console.log(descriptionElement.scrollHeight)
+        console.log(descriptionElement.clientHeight)
+        if(descriptionElement.scrollHeight > descriptionElement.clientHeight) {
+            expandButton.style.display = "block";
+        } else {
+            expandButton.style.display = "none";
+        }
+        expandButton.addEventListener('click', () => {
+            descriptionElement.classList.toggle('expanded');
+            if (descriptionElement.classList.contains('expanded')) {
+                expandButton.textContent = 'Hide text';
+            } else {
+                expandButton.textContent = 'Read more...';
+            }
         });
     }
     

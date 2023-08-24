@@ -501,8 +501,13 @@ a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.table-container {
+    overflow-x: auto; /* Add horizontal scrolling if necessary */
+}
+
 #version-table {
     width: 100%;
+    table-layout: fixed; /* Fix the table layout to evenly distribute the available space */
     /* margin: 20px auto; */
     font-size: small;
     font-weight: normal;
@@ -526,18 +531,20 @@ a:hover {
     max-height: 100px;
     overflow: hidden;
     position: relative;
+    /* max-width: 300px;  */
 }
 
 .description-cell.expanded {
     max-height: none;
 }
 
-#version-table .expand-button {
+.expand-button {
     display: block;
     text-align: right;
     cursor: pointer;
     color: #0092B2;
     margin-top: 5px;
+    font-size: x-small;
 }
 
 .github{
@@ -635,4 +642,13 @@ a:hover {
 
 .compare-inplace p {
     margin-top: 30px;
+}
+
+#last-edit-description{
+    max-height: 200px;
+    overflow: hidden;
+}
+
+#last-edit-description.expanded {
+    max-height: none;
 }
