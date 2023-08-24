@@ -499,9 +499,9 @@ a:hover {
 }
 
 #version-table {
-    width: 80%;
-    margin: 20px auto;
-    font-size: inherit;
+    width: 100%;
+    /* margin: 20px auto; */
+    font-size: small;
     font-weight: normal;
     border-collapse: collapse;
 }
@@ -519,6 +519,24 @@ a:hover {
     font-weight: normal;
 }
 
+.description-cell {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.description-cell.expanded {
+    max-height: none;
+}
+
+#version-table .expand-button {
+    display: block;
+    text-align: right;
+    cursor: pointer;
+    color: #0092B2;
+    margin-top: 5px;
+}
+
 .github{
     margin-top: 30px;
     margin-bottom: 15px;
@@ -534,4 +552,53 @@ a:hover {
 .buttonBox{
     display: flex;
     justify-content: space-between;
+}
+
+.version-page-container {
+    display: grid;
+    grid-template-columns: 80% 20% ; /* Three equal columns */
+    width: 100%;
+}
+  
+.versions-column {
+    /* display: flex;
+    flex-direction: column; */
+    min-height: calc(100vh - 60px);
+    border-right: 1px solid #ccc;
+}
+
+#main-versions-content{
+    padding: 20px 40px;
+    width: auto;
+}
+
+.flagged-content{
+    margin: 30px 15px 10px 15px;
+    font-size: 0.9rem;
+}
+
+.flagged-content-sub{
+    margin: 0 5px;
+}
+
+#checkbox-container{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#checkbox-container input {
+    margin: 10px 0;
+}
+
+.performance-page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 20% ; /* Three equal columns */
+    width: 100%;
+}
+  
+.performance-column {
+    /* display: flex;
+    flex-direction: column; */
+    min-height: calc(100vh - 60px);
+    border-right: 1px solid #ccc;
 }

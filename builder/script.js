@@ -352,7 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('Markdown content:', importedMarkdownFiles);
             populateDropdowns();
             populateLastEdit();
-            populateVersionTable()
+            populateVersionTable();
+            populateCheckboxes();
             currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
@@ -495,8 +496,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Parse markdown sections
                 parseMarkdown(markdownContent);
                 populateDropdowns();
-                populateLastEdit()
-                populateVersionTable()
+                populateLastEdit();
+                populateVersionTable();
+                populateCheckboxes();
 
             } else if (markdownFiles.length > 1) {
                 // console.log('Multiple Markdown files found:', markdownFiles);
@@ -512,8 +514,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 parseMarkdown(markdownContent);
                 populateDropdowns();
-                populateLastEdit()
-                populateVersionTable()
+                populateLastEdit();
+                populateVersionTable();
+                populateCheckboxes();
                 // console.log("parsed and replaced?");
 
             } else {
@@ -612,7 +615,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit();
-                populateVersionTable()
+                populateVersionTable();
+                populateCheckboxes();
             } else {
                 console.error('No reward report markdown files found.');
             }
@@ -1164,17 +1168,42 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateVersionTable() {
         // Loop through importedMarkdownFiles and populate the table
         importedMarkdownFiles.forEach(file => {
+            const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
+            const parts = filename.split(/[- :]/);
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; // Months in JavaScript are 0-indexed
+            const day = parseInt(parts[2]);
+            const hours = parseInt(parts[3]);
+            const minutes = parseInt(parts[4]);
+            const seconds = parseInt(parts[5]);
+            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+
             const row = document.createElement('tr');
             
             const nameCell = document.createElement('td');
-            nameCell.textContent = file.name;
+            nameCell.textContent = formattedDate;
             row.appendChild(nameCell);
             console.log(nameCell);
             
             const contentCell = document.createElement('td');
-            contentCell.textContent = file.content;
+            const descriptionCell = document.createElement('div');
+            descriptionCell.classList.add('description-cell');
+            descriptionCell.textContent = file.content;
+            const expandButton = document.createElement('span');
+            expandButton.classList.add('expand-button');
+            expandButton.textContent = 'Read more...';
+            expandButton.addEventListener('click', () => {
+                descriptionCell.classList.toggle('expanded');
+                if (descriptionCell.classList.contains('expanded')) {
+                    expandButton.textContent = 'Hide text';
+                } else {
+                    expandButton.textContent = 'Read more...';
+                }
+            });
+
+            contentCell.appendChild(descriptionCell);
+            contentCell.appendChild(expandButton);
             row.appendChild(contentCell);
-            console.log(contentCell);
 
             const metric1 = document.createElement('td');
             metric1.textContent = "1";
@@ -1191,10 +1220,40 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(metric3);
             row.appendChild(metric4);
             row.appendChild(metric5);
-
-
-            
             markdownTable.appendChild(row);
         });
     }
+    
+    const checkboxForm = document.getElementById('checkbox-form');
+    const submitButton = document.getElementById('compare-flagged-button');
+
+    // Function to populate checkboxes from importedMarkdownFiles
+    function populateCheckboxes() {
+        const checkboxContainer = checkboxForm.querySelector('#checkbox-container');
+        importedMarkdownFiles.forEach(function(file, index) {
+            const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
+            const parts = filename.split(/[- :]/);
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; // Months in JavaScript are 0-indexed
+            const day = parseInt(parts[2]);
+            const hours = parseInt(parts[3]);
+            const minutes = parseInt(parts[4]);
+            const seconds = parseInt(parts[5]);
+
+            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+            const checkboxLabel = document.createElement('label');
+            checkboxLabel.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
+            checkboxContainer.appendChild(checkboxLabel);
+        });
+    }
+
+    // Add a click event listener to the submit button
+    submitButton.addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        selectedCheckboxes.forEach(function(checkbox) {
+            const selectedIndex = parseInt(checkbox.value);
+            const selectedFile = importedMarkdownFiles[selectedIndex];
+            console.log('Selected File:', selectedFile);
+        });
+    });
 });

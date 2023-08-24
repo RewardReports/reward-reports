@@ -528,40 +528,78 @@
         </section>
         <section id="version-history" class="content-section">
             <!-- Content of Version History tab -->
-            <h2>Version History</h2>
-            <p>This is the content of the Version History tab.</p>
-            <div class="table-container">
-                <table id="version-table">
-                    <colgroup>
-                        <col style="width:15%">
-                        <col style="width:45%">
-                        <col style="width:8%">
-                        <col style="width:8%">
-                        <col style="width:8%">
-                        <col style="width:8%">
-                        <col style="width:8%">
-                      </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Metric 1</th>
-                            <th>Metric 2</th>
-                            <th>Metric 3</th>
-                            <th>Metric 4</th>
-                            <th>Metric 5</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Populated rows will be added here -->
-                    </tbody>
-                </table>
-            </div>   
+            <div class="version-page-container">
+                <div id="main-versions-content" class="versions-column">
+                    <h1>Version History</h1>
+                    <div class="table-container">
+                        <table id="version-table">
+                            <colgroup>
+                                <col style="width:15%">
+                                <col style="width:45%">
+                                <col style="width:8%">
+                                <col style="width:8%">
+                                <col style="width:8%">
+                                <col style="width:8%">
+                                <col style="width:8%">
+                              </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Metric 1</th>
+                                    <th>Metric 2</th>
+                                    <th>Metric 3</th>
+                                    <th>Metric 4</th>
+                                    <th>Metric 5</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated rows will be added here -->
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+                <div id="right-versions-content" class="versions-column">
+                    <div id="flagged-dates" class="flagged-content">
+                        <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2V16.5L6 13L0 16.5V2C0 1.1875 0.65625 0.5 1.5 0.5H10.5C11.3125 0.5 12 1.1875 12 2Z" fill="#464B53"/>
+                            </svg>
+                            <b style="margin-left: 10px;">Flagged Dates</b>
+                        <div class="flagged-content-sub">
+                            <form id="checkbox-form">
+                                <!-- Checkbox items will be dynamically added here -->
+                                <div id="checkbox-container"></div>
+                                <button type="button" id="compare-flagged-button">Compare two reports</button>
+                            </form>
+                        </div>                                                   
+                    </div>  
+                </div>
+            </div> 
         </section>
         <section id="performance" class="content-section">
             <!-- Content of Performance tab -->
-            <h2>Performance</h2>
-            <p>This is the content of the Performance tab.</p>
+            <div class="performance-page-container">
+                <div id="main-left-content" class="performance-column">
+                    <h1>Performance</h1>
+                </div>
+                <div id="main-right-content" class="performance-column">  
+                </div>
+                <div id="right-sub-content" class="performance-column">
+                    <div id="flagged-dates" class="flagged-content">
+                        <svg width="12" height="17" viewBox="0 0 12 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2V16.5L6 13L0 16.5V2C0 1.1875 0.65625 0.5 1.5 0.5H10.5C11.3125 0.5 12 1.1875 12 2Z" fill="#464B53"/>
+                            </svg>
+                            <b style="margin-left: 10px;">Flagged Dates</b>
+                        <div class="flagged-content-sub">
+                            <form id="checkbox-form">
+                                <!-- Checkbox items will be dynamically added here -->
+                                <div id="checkbox-container"></div>
+                                <button type="button" id="compare-flagged-button">Compare two reports</button>
+                            </form>
+                        </div>                                                   
+                    </div>  
+                </div>
+            </div> 
         </section>
         <section id="view-changes" class="content-section">
             <!-- Content of View Changes tab -->
