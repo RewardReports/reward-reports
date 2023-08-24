@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restartButton.addEventListener('click', () => {
         const indicators = document.querySelectorAll('.indicator');
-        
+
         indicators.forEach(indicator => {
             indicator.classList.add('hidden');
         });
@@ -1270,7 +1270,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const contentCell = document.createElement('td');
             const descriptionCell = document.createElement('div');
             descriptionCell.classList.add('description-cell');
-            descriptionCell.textContent = file.content;
+            const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
+            const contextInfoMatch = file.content.match(contextInfoPattern);
+            descriptionCell.textContent = contextInfoMatch[2] + " -- " + contextInfoMatch[1];
+
             const expandButton = document.createElement('span');
             expandButton.classList.add('expand-button');
             expandButton.textContent = 'Read more...';
