@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // CODE FOR NON DESKTOP
     const isMobile = /Mobile|webOS|iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
     console.log(isMobile)
     // Get the message container element
     const messageContainer = document.getElementById('message-container')
-
-
     // Display the message if user is using a mobile device
     if (isMobile) {
         messageContainer.style.display = 'block';
     }
+
+
 
     // Code for Builder Tab
 
@@ -352,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('Markdown content:', importedMarkdownFiles);
             populateDropdowns();
             populateLastEdit();
+            populateVersionTable()
             currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
@@ -400,6 +401,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener for cancel button in the modal
     document.getElementById('cancel-import').addEventListener('click', () => {
+        closeImportModal();
+    });
+    document.getElementById('cancel-import-git').addEventListener('click', () => {
         closeImportModal();
     });
 
@@ -492,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit()
+                populateVersionTable()
 
             } else if (markdownFiles.length > 1) {
                 // console.log('Multiple Markdown files found:', markdownFiles);
@@ -508,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit()
+                populateVersionTable()
                 // console.log("parsed and replaced?");
 
             } else {
@@ -576,7 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(apiUrl);
             const data = await response.json();
     
-            const markdownFiles = data.filter(file => file.name.endsWith('.md'));
+            const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
     
             for (const file of markdownFiles) {
                 try {
@@ -606,6 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parseMarkdown(markdownContent);
                 populateDropdowns();
                 populateLastEdit();
+                populateVersionTable()
             } else {
                 console.error('No reward report markdown files found.');
             }
@@ -613,6 +620,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching GitHub API:', error);
         }
         console.log(importedMarkdownFiles)
+        closeImportModal();
+
     });
     
     cancelButton.addEventListener('click', () => {
@@ -1147,4 +1156,45 @@ document.addEventListener('DOMContentLoaded', () => {
         //     container.appendChild(span);
         // });
     // });
+
+    //CODE FOR VERSION HISTORY
+
+    const markdownTable = document.getElementById('version-table');
+
+    function populateVersionTable() {
+        // Loop through importedMarkdownFiles and populate the table
+        importedMarkdownFiles.forEach(file => {
+            const row = document.createElement('tr');
+            
+            const nameCell = document.createElement('td');
+            nameCell.textContent = file.name;
+            row.appendChild(nameCell);
+            console.log(nameCell);
+            
+            const contentCell = document.createElement('td');
+            contentCell.textContent = file.content;
+            row.appendChild(contentCell);
+            console.log(contentCell);
+
+            const metric1 = document.createElement('td');
+            metric1.textContent = "1";
+            const metric2 = document.createElement('td');
+            metric2.textContent = "2";
+            const metric3 = document.createElement('td');
+            metric3.textContent = "3";
+            const metric4 = document.createElement('td');
+            metric4.textContent = "4";
+            const metric5 = document.createElement('td');
+            metric5.textContent = "5";
+            row.appendChild(metric1);
+            row.appendChild(metric2);
+            row.appendChild(metric3);
+            row.appendChild(metric4);
+            row.appendChild(metric5);
+
+
+            
+            markdownTable.appendChild(row);
+        });
+    }
 });

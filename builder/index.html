@@ -114,8 +114,6 @@
                     <div class="export-container">
                         <button id="export-button" style="display: none;">Export as Markdown</button>
                         <button class="import-button">Import Markdown</button>
-                        <input type="text" id="github-folder-url" placeholder="Enter GitHub folder URL">
-                        <button id="import-from-github">Import from GitHub</button>
                     </div>
                 </div>
                 <div class="main-content-container">
@@ -532,6 +530,33 @@
             <!-- Content of Version History tab -->
             <h2>Version History</h2>
             <p>This is the content of the Version History tab.</p>
+            <div class="table-container">
+                <table id="version-table">
+                    <colgroup>
+                        <col style="width:15%">
+                        <col style="width:45%">
+                        <col style="width:8%">
+                        <col style="width:8%">
+                        <col style="width:8%">
+                        <col style="width:8%">
+                        <col style="width:8%">
+                      </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Metric 1</th>
+                            <th>Metric 2</th>
+                            <th>Metric 3</th>
+                            <th>Metric 4</th>
+                            <th>Metric 5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated rows will be added here -->
+                    </tbody>
+                </table>
+            </div>   
         </section>
         <section id="performance" class="content-section">
             <!-- Content of Performance tab -->
@@ -649,11 +674,29 @@
         </section>
         <div id="import-modal" class="modal">
             <div class="modal-content">
-                <h2>Upload Reward Report</h2>
-                <p style="margin-bottom: 30px;">Select a .zip file containing the reward report folder to import.</p>
-                <input type="file" id="import-file" accept=".zip">
-                <button id="confirm-import">Import</button>
-                <button id="cancel-import">Cancel</button>
+                <div class="upload">
+                    <h2>Upload from your local device</h2>
+                    <p style="margin-bottom: 30px;">Select a .zip file containing the reward report folder to import.</p>
+                    <div class="buttonBox">
+                        <input type="file" id="import-file" accept=".zip">
+                        <div>
+                            <button id="confirm-import">Import</button>
+                            <button id="cancel-import">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="github">
+                    <h2>Import from GitHub</h2>
+                    <p>Input the link to your repositry's Reward Report folder.</p>
+                    <p style="margin-bottom: 30px; font-size: small;"><i>e.g. https://github.com/username/repository-name/path-to-reward-reports-folder</i></p>
+                    <div class="buttonBox">
+                        <input type="text" id="github-folder-url" placeholder="Enter GitHub folder URL">
+                        <div>
+                            <button id="import-from-github">Import</button>
+                            <button id="cancel-import-git">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="message-container" class="modal">
