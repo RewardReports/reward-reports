@@ -277,33 +277,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show a confirmation dialog before proceeding
         const editSubsections = document.querySelectorAll('.subsection p');
         const confirmPublish = confirm('Publishing will publish all pages under drafts.');
-        if (currentEditSection) {
-            // Save content to contextInfo
-            currentContextInfo[currentEditSection.id] = {
+
+       
+
+        if (confirmPublish) {
+            console.log(editorInput.value)
+            console.log(descriptionInput.value)
+    
+            currentContextInfo = {
                 author: editorInput.value,
                 description: descriptionInput.value
             };
+    
             console.log(currentContextInfo);
-            contextInfo=currentContextInfo;
-        }
-        if (confirmPublish) {
+            contextInfo = currentContextInfo;
+            console.log(contextInfo)    
+            
             const sections = document.querySelectorAll('.section');
             let markdownContent = '';
 
+            markdownContent += `<!-- Author: ${contextInfo.author} --> `;
+            markdownContent += `<!-- Description: ${contextInfo.description} -->\n\n`;
         
             sections.forEach(section => {
-                markdownContent += `# ${section.querySelector('h3').textContent}`;
-
-                const contextInfoSection = contextInfo[section.id]; // Get context info for this section
-                if (contextInfoSection) {
-                    // markdownContent += `## Context Info\n\n`;
-                    // markdownContent += `Editor Input:\n\n${contextInfoSection.editorInput}\n\n`;
-                    // markdownContent += `Description Input:\n\n${contextInfoSection.descriptionInput}\n\n`;
-                    markdownContent += `<!-- Author: ${contextInfoSection.author} --> `;
-                    markdownContent += `<!-- Description: ${contextInfoSection.description} -->\n\n`;
-                } else {
-                    markdownContent += '\n\n'
-                }
+                markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
 
                 const subsections = section.querySelectorAll('.subsection');
         
@@ -368,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             populateLastEdit();
             populateVersionTable();
             populateCheckboxes();
-            currentContextInfo = {};
+            // currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
             
@@ -391,11 +388,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 indicator.classList.add('hidden');
             });
             descriptionInput.value = '';
-            console.log(contextInfo)
         }
     });
 
     restartButton.addEventListener('click', () => {
+        const indicators = document.querySelectorAll('.indicator');
+        
+        indicators.forEach(indicator => {
+            indicator.classList.add('hidden');
+        });
+
         if (buildMainContent.classList.contains('active-mode')) {
             buildMainContent.classList.remove('active-mode');
             preBuildMainContent.classList.add('active-mode');
@@ -442,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         restartButton.style.display="none";
-        
     });
 
     // Function to open the modal
@@ -474,29 +475,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function parseMarkdown(markdownContent) {
         contextInfo = {}; // Clear contextInfo
-        const sections = markdownContent.split(/^(?=# [^#])/gm);    
-        sections.forEach(section => {
-            const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
-            const contextInfoMatch = section.match(contextInfoPattern);
-            let author = '';
-            let description = '';
+        const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
+        const contextInfoMatch = markdownContent.match(contextInfoPattern);
+        let authorinfo = '';
+        let descriptioninfo = '';
+        const WithoutContext = markdownContent.replace(contextInfoPattern, '').trim();
+        if (contextInfoMatch) {
+            authorinfo = contextInfoMatch[1];
+            descriptioninfo = contextInfoMatch[2];
+            contextInfo = {
+                author: authorinfo,
+                description: descriptioninfo
+            };
+        }
 
-            const sectionWithoutContext = section.replace(contextInfoPattern, '').trim();
-            const sectionTitleLine = sectionWithoutContext.split('\n')[0];
+        
+        const sections = WithoutContext.split(/^(?=# [^#])/gm);    
+        sections.forEach(section => {
+            
+            const sectionTitleLine = section.split('\n')[0];
             const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
             const sectionEl = document.querySelector(`[data-target="${sectionTitle.toLowerCase().replace(/\s/g, '-')}"]`);
-
-            if (contextInfoMatch) {
-                author = contextInfoMatch[1];
-                description = contextInfoMatch[2];
-                contextInfo[sectionTitle.toLowerCase().replace(/\s/g, '-')] = { author, description };
-            }
 
             if (!sectionEl) {
                 return; // Skip if section element not found
             }
     
-            const subsections = sectionWithoutContext.split('## ');
+            const subsections = section.split('## ');
             subsections.shift();
             // console.log(sectionEl)
             // console.log(sectionTitle)
@@ -651,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching GitHub API:', error);
         }
-        console.log(importedMarkdownFiles);
+        // console.log(importedMarkdownFiles);
     });
     
     // document.getElementById('import-from-github').addEventListener('click', async () => {
@@ -736,15 +741,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const indicator = targetNav.querySelector('.indicator');
         // console.log(indicator)
 
-        if (currentEditSection) {
-            // Save content to contextInfo
-            currentContextInfo[currentEditSection.id] = {
-                author: editorInput.value,
-                description: descriptionInput.value
-            };
-            // console.log(currentContextInfo);
-        }
-
+        currentContextInfo = {
+            author: editorInput.value,
+            description: descriptionInput.value
+        };
             
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
@@ -766,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.remove('editing-button');
         });  
         currentEditSection = undefined;
-        descriptionInput.value = '';
+        // descriptionInput.value = '';
     });
 
     infoIcons.forEach((icon) => {
@@ -831,10 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
             dateElement.textContent = formattedDate;
 
-            if(contextInfo[descriptionSection]){
-                descriptionElement.textContent = contextInfo[descriptionSection]['description'];
-                console.log(descriptionSection)
-                console.log(contextInfo[descriptionSection]['description'])
+            if(contextInfo){
+                descriptionElement.textContent = contextInfo['description'];
             } else {
                 descriptionElement.textContent = "";
             }
@@ -895,10 +893,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sectionHeaders.forEach(sectionHeader => {
         sectionHeader.addEventListener('click', () =>{
-            console.log(sectionHeader)
             sectionHeaders.forEach(li => li.classList.remove('active-section'));
             sectionHeader.classList.add('active-section');
-            console.log(sectionHeader.getAttribute('data-target'))
             // filterSectionsByClass(sectionHeader.getAttribute('data-target'))
             activateSub()
             filterActiveSection()
@@ -997,8 +993,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Override the default heading rendering
     renderer.heading = function(text, level) {
         // Adjust heading level as needed (e.g., convert level 1 to h3 and level 2 to h4)
-        const label = text.toLowerCase().replace(' ', '-').replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
-        text = text.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+        const label = text.toLowerCase().replace(' ', '-');
+        text = text;
         if (level === 1) {
             return `<h3 class="${label}">${text}</h3>`;
         } else if (level === 2) {
@@ -1047,7 +1043,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
             sections.forEach(section => {
                 const siblingElements = [section];
-                console.log(section)
     
                 let nextElement = section.nextElementSibling;
                 while (nextElement && nextElement.tagName !== 'H3') {
@@ -1119,8 +1114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
         const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
 
-        const content1Sections = content1.split(/^(?=# [^#])/gm);    
-        const content2Sections = content2.split(/^(?=# [^#])/gm);    
+        const content1noCont = content1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+        const content2noCont = content2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
+
+        const content1Sections = content1noCont.split(/^(?=# [^#])/gm);    
+        const content2Sections = content2noCont.split(/^(?=# [^#])/gm);    
        
 
         if (content1Sections.length !== content2Sections.length) {
@@ -1133,12 +1131,10 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < content1Sections.length; i++) {
             const section1 = content1Sections[i];
             const section2 = content2Sections[i];
-            const section1noCont = section1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
-            const section2noCont = section2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
-            const sectionTitleLine = section1noCont.split('\n')[0];
+            const sectionTitleLine = section1.split('\n')[0];
             const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
-            const markedContent1 = section1noCont;
-            const markedContent2 = section2noCont;
+            const markedContent1 = section1;
+            const markedContent2 = section2;
             let htmlContent = "";
         
             // Compute the diff using jsdiff
@@ -1165,7 +1161,6 @@ document.addEventListener('DOMContentLoaded', () => {
             htmlContent += "</section>"
 
             diffContainer.innerHTML += htmlContent
-            console.log(diffContainer.innerHTML)
         }
     }
 
@@ -1271,7 +1266,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameCell = document.createElement('td');
             nameCell.textContent = formattedDate;
             row.appendChild(nameCell);
-            console.log(nameCell);
             
             const contentCell = document.createElement('td');
             const descriptionCell = document.createElement('div');
