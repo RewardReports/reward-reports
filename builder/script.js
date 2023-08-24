@@ -420,6 +420,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>Select a date first to get started and compare two different versions.</p>
             </div>
         `;  
+        tbody.innerHTML =`
+            <tr>
+                <td colspan="7" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
+                </td>
+            </tr>
+        `;
+        
     });
 
     // Function to open the modal
@@ -1205,10 +1212,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //CODE FOR VERSION HISTORY
 
     const markdownTable = document.getElementById('version-table');
+    const tbody = markdownTable.querySelector('tbody');
+
 
     function populateVersionTable() {
         // Clear the content of the <tbody>
-        const tbody = markdownTable.querySelector('tbody');
 
         tbody.innerHTML = '';
         // Loop through importedMarkdownFiles and populate the table
