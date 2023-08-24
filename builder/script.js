@@ -87,10 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
             buildMainContent.classList.add('active-mode');
             // console.log('build');
         }
+        // const subsections = document.querySelectorAll('.subsection p');
+        // subsections.forEach(subsection => {
+        //     subsection.contentEditable = true;
+        //     subsection.innerHTML= "";
+        // });
+
+        // editButtons.forEach(button => {
+        //     button.style.display = "none";
+        // });
+
+        // authorForm.style.display = 'block';
+
         learnMoreSection.style.display = 'block';
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
-        // populateLastEdit()
+        restartButton.style.display = "block";
     });
 
     uploadReportButton.addEventListener('click', () => {
@@ -103,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         learnMoreSection.style.display = 'block';
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
-        // populateLastEdit()
+        restartButton.style.display = "block";
     });
 
     leftScanItemsAll.forEach((item) => {
@@ -166,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = 'Editing';
             button.classList.add('editing-button');
             button.removeEventListener('click', () => {});
-
+            
             authorForm.style.display = 'block';
         });
     });
@@ -400,10 +412,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentEditSection = undefined;
         contextInfo = {};
         currentContextInfo = {};
-        populateDropdowns();
+        // populateDropdowns();
         populateLastEdit();
         populateVersionTable();
         populateCheckboxes();
+        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
+        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
         diffContainer.innerHTML = `
             <div class="compare-inplace">
                 <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -426,6 +440,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             </tr>
         `;
+
+        restartButton.style.display="none";
         
     });
 
@@ -587,44 +603,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
     }
 
-    // document.getElementById('import-from-github').addEventListener('click', async () => {
-    //     const githubRepositoryUrl = document.getElementById('github-folder-url').value;
-    //     const apiEndpoint = 'http://localhost:3000/github-proxy'; 
-    //     const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
-    //     console.log(apiUrl);
-    
-    //     try {
-    //         fetch(apiUrl)
-    //             .then(response => response.json())
-    //             .then(data => {
-    //                 // Process the data here
-    //                 console.log(data);
-    //                 // Filter out files from the folderContents (you might need to adapt this based on your needs)
-    //                 const markdownFiles = data.filter(file => file.name.endsWith('.md'));
-            
-    //                 // Loop through the markdownFiles and process them similarly to local file imports
-    //                 for (const file of markdownFiles) {
-    //                     try {
-    //                         const contentResponse = await fetch(file.download_url);
-    //                         const content = await contentResponse.text();
-    //                         console.log(content);
-    //                     } catch (error) {
-    //                         console.error('Error fetching markdown content:', error);
-    //                     }
-    //                     // Process the content as needed (similar to your existing code)
-    //                     // ...
-    //                 }
-            
-    //                 // Update the UI or do any other necessary actions
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching GitHub API:', error);
-    //             }); 
-    //     } catch (error) {
-    //         console.error('Error importing from GitHub:', error);
-    //     }
-    // });
-    
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
         const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
@@ -635,21 +613,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
     
-            for (const file of markdownFiles) {
-                try {
-                    const contentResponse = await fetch(file.download_url);
-                    const content = await contentResponse.text();
-                    
-                    // Process the content similar to your existing code
-                    const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
-                    importedMarkdownFiles.push({ name: trimmedFileName, content: content });
-    
-                } catch (error) {
-                    console.error('Error fetching markdown content:', error);
-                }
-            }
-    
             if (markdownFiles.length > 0) {
+                for (const file of markdownFiles) {
+                    try {
+                        const contentResponse = await fetch(file.download_url);
+                        const content = await contentResponse.text();
+                        
+                        // Process the content similar to your existing code
+                        const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
+                        importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+    
+                    } catch (error) {
+                        console.error('Error fetching markdown content:', error);
+                    }
+                }
+    
                 const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
                     const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*)\.md/)[1]);
                     const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*)\.md/)[1]);
@@ -665,16 +643,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateLastEdit();
                 populateVersionTable();
                 populateCheckboxes();
+                
+                closeImportModal();
             } else {
                 console.error('No reward report markdown files found.');
             }
         } catch (error) {
             console.error('Error fetching GitHub API:', error);
         }
-        console.log(importedMarkdownFiles)
-        closeImportModal();
-
+        console.log(importedMarkdownFiles);
     });
+    
+    // document.getElementById('import-from-github').addEventListener('click', async () => {
+    //     const githubRepositoryUrl = document.getElementById('github-folder-url').value;
+    //     const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
+    
+    //     try {
+    //         const response = await fetch(apiUrl);
+    //         const data = await response.json();
+    
+    //         const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
+    
+    //         for (const file of markdownFiles) {
+    //             try {
+    //                 const contentResponse = await fetch(file.download_url);
+    //                 const content = await contentResponse.text();
+                    
+    //                 // Process the content similar to your existing code
+    //                 const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
+    //                 importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+    
+    //             } catch (error) {
+    //                 console.error('Error fetching markdown content:', error);
+    //             }
+    //         }
+    
+    //         if (markdownFiles.length > 0) {
+    //             const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
+    //                 const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*)\.md/)[1]);
+    //                 const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*)\.md/)[1]);
+    //                 return currentDateTime > latestDateTime ? currentFile : latestFile;
+    //             });
+    
+    //             const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
+    //             const markdownContent = await markdownContentResponse.text();
+    
+    //             // Process the markdown content as needed
+    //             parseMarkdown(markdownContent);
+    //             populateDropdowns();
+    //             populateLastEdit();
+    //             populateVersionTable();
+    //             populateCheckboxes();
+    //         } else {
+    //             console.error('No reward report markdown files found.');
+    //         }
+    //         closeImportModal();
+
+    //     } catch (error) {
+    //         console.error('Error fetching GitHub API:', error);
+    //     }
+    //     console.log(importedMarkdownFiles)
+    // });
     
     cancelButton.addEventListener('click', () => {
         // Show a confirmation dialog before proceeding
@@ -889,8 +918,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to populate the dropdowns
     function populateDropdowns() {
-        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
-        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a file</option>';
+        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
+        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
+        
 
         // Sort importedMarkdownFiles from newest to oldest
         if (importedMarkdownFiles.length > 0) {
@@ -1284,7 +1314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const checkboxForm = document.getElementById('checkbox-form');
     const checkboxForm2 = document.getElementById('checkbox-form-perf');
-    const submitButton = document.getElementById('compare-flagged-button');
+    const submitButtons = document.querySelectorAll('compare-flagged-button');
 
     // Function to populate checkboxes from importedMarkdownFiles
     function populateCheckboxes() {
@@ -1319,12 +1349,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add a click event listener to the submit button
-    submitButton.addEventListener('click', function() {
-        const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        selectedCheckboxes.forEach(function(checkbox) {
-            const selectedIndex = parseInt(checkbox.value);
-            const selectedFile = importedMarkdownFiles[selectedIndex];
-            console.log('Selected File:', selectedFile);
+    submitButtons.forEach((submitButton) =>  {
+        submitButton.addEventListener('click', function() {
+            const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            selectedCheckboxes.forEach(function(checkbox) {
+                const selectedIndex = parseInt(checkbox.value);
+                const selectedFile = importedMarkdownFiles[selectedIndex];
+                console.log('Selected File:', selectedFile);
+            });
         });
     });
+    
 });
