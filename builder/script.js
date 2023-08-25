@@ -1424,7 +1424,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const checkboxForm = document.getElementById('checkbox-form');
     const checkboxForm2 = document.getElementById('checkbox-form-perf');
-    const submitButtons = document.querySelectorAll('compare-flagged-button');
+    const compareButtons = document.querySelectorAll('.compare-flagged-button');
 
     // Function to populate checkboxes from importedMarkdownFiles
     function populateCheckboxes() {
@@ -1458,21 +1458,63 @@ document.addEventListener('DOMContentLoaded', () => {
     
                 const checkboxLabel = document.createElement('label');
                 const checkboxLabel2 = document.createElement('label');
-                checkboxLabel.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
-                checkboxLabel2.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
+                checkboxLabel.innerHTML = `<input type="checkbox" class="compare-checkbox" value="${index}"> ${formattedDate}<br>`;
+                checkboxLabel2.innerHTML = `<input type="checkbox" class="compare-checkbox" value="${index}"> ${formattedDate}<br>`;
                 checkboxContainer.appendChild(checkboxLabel);
                 checkboxContainer2.appendChild(checkboxLabel2);
             }
         });
+        const compareCheckboxes = checkboxForm.querySelectorAll('.compare-checkbox');
+        const compareCheckboxes2 = checkboxForm2.querySelectorAll('.compare-checkbox');
+
+        const maxSelected = 2;
+
+        let selectedCount1 = 0;
+        let selectedCount2 = 0;
+
+        compareCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    selectedCount1++;
+                if (selectedCount1 > maxSelected) {
+                    checkbox.checked = false;
+                    selectedCount1--;
+                }
+                } else {
+                    selectedCount1--;
+                }
+            });
+        });
+
+        compareCheckboxes2.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                selectedCount2++;
+                if (selectedCount2 > maxSelected) {
+                    checkbox.checked = false;
+                    selectedCount2--;
+                }
+                } else {
+                selectedCount2--;
+                }
+            });
+        });
     }
 
+
     // Add a click event listener to the submit button
-    submitButtons.forEach((submitButton) =>  {
-        submitButton.addEventListener('click', function() {
-            const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    compareButtons.forEach((button) =>  {
+        button.addEventListener('click', function() {
+            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+                const dateA = a.name.match(/reward_report_(.*).md/)[1];
+                const dateB = b.name.match(/reward_report_(.*).md/)[1];
+                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+            }); 
+            const selectedCheckboxes = button.parentElement.querySelectorAll('input[type="checkbox"]:checked');
+            console.log(selectedCheckboxes)
             selectedCheckboxes.forEach(function(checkbox) {
                 const selectedIndex = parseInt(checkbox.value);
-                const selectedFile = importedMarkdownFiles[selectedIndex];
+                const selectedFile = sortedFiles[selectedIndex];
                 console.log('Selected File:', selectedFile);
             });
         });
