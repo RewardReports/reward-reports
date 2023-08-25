@@ -429,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentEditSection = undefined;
         contextInfo = {};
         currentContextInfo = {};
+        authorForm.style.display = 'none';
         populateLastEdit();
         checkExpendButtonNeed2();
         populateVersionTable();
