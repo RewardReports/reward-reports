@@ -1301,7 +1301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dateB = b.name.match(/reward_report_(.*).md/)[1];
             return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
         });        
-        sortedFiles.forEach(file => {
+        sortedFiles.forEach((file, index) => {
             const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
             const parts = filename.split(/[- :]/);
             const year = parseInt(parts[0]);
@@ -1313,9 +1313,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
 
             const row = document.createElement('tr');
-            
             const nameCell = document.createElement('td');
-            nameCell.textContent = formattedDate;
+            // Create the bookmark checkbox
+            const bookmarkCheckbox = document.createElement('input');
+            bookmarkCheckbox.type = 'checkbox';
+            bookmarkCheckbox.classList.add('bookmark-checkbox');
+            
+            // Set the custom attribute to store the index
+            bookmarkCheckbox.setAttribute('data-file-index', index);
+            
+            nameCell.appendChild(bookmarkCheckbox);
+
+            // Create the formatted date
+            const formattedDateElement = document.createElement('span');
+            formattedDateElement.textContent = formattedDate;
+            nameCell.appendChild(formattedDateElement);
+
             row.appendChild(nameCell);
             
             const contentCell = document.createElement('td');
@@ -1363,6 +1376,16 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(metric5);
             tbody.appendChild(row);
         });
+        const bookmarkCheckboxes = document.querySelectorAll('.bookmark-checkbox');
+
+        // Add event listeners to each bookmark checkbox
+        bookmarkCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                console.log("update")
+                populateCheckboxes();
+            });
+        });
+
     }
 
     function checkExpendButtonNeed(){
@@ -1416,22 +1439,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
         });        
         sortedFiles.forEach(function(file, index) {
-            const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
-            const parts = filename.split(/[- :]/);
-            const year = parseInt(parts[0]);
-            const month = parseInt(parts[1]) - 1; // Months in JavaScript are 0-indexed
-            const day = parseInt(parts[2]);
-            const hours = parseInt(parts[3]);
-            const minutes = parseInt(parts[4]);
-            const seconds = parseInt(parts[5]);
 
-            const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
-            const checkboxLabel = document.createElement('label');
-            const checkboxLabel2 = document.createElement('label');
-            checkboxLabel.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
-            checkboxLabel2.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
-            checkboxContainer.appendChild(checkboxLabel);
-            checkboxContainer2.appendChild(checkboxLabel2);
+            const bookmarkCheckbox = document.querySelector(`.bookmark-checkbox[data-file-index="${index}"]`);
+            console.log(bookmarkCheckbox)
+            if (bookmarkCheckbox && bookmarkCheckbox.checked) {
+                const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                const parts = filename.split(/[- :]/);
+                const year = parseInt(parts[0]);
+                const month = parseInt(parts[1]) - 1;
+                const day = parseInt(parts[2]);
+                const hours = parseInt(parts[3]);
+                const minutes = parseInt(parts[4]);
+                const seconds = parseInt(parts[5]);
+    
+                const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+    
+                const checkboxLabel = document.createElement('label');
+                const checkboxLabel2 = document.createElement('label');
+                checkboxLabel.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
+                checkboxLabel2.innerHTML = `<input type="checkbox" name="item" value="${index}"> ${formattedDate}<br>`;
+                checkboxContainer.appendChild(checkboxLabel);
+                checkboxContainer2.appendChild(checkboxLabel2);
+            }
         });
     }
 

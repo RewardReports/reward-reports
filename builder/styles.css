@@ -529,6 +529,7 @@ a:hover {
 
 .description-cell {
     max-height: 100px;
+    min-height: 50px;
     overflow: hidden;
     position: relative;
     /* max-width: 300px;  */
@@ -603,6 +604,7 @@ a:hover {
 #checkbox-container-perf {
     margin-top: 10px;
     margin-bottom: 20px;
+    margin-right: 5px;
 }
 
 #checkbox-container input,
@@ -651,4 +653,10 @@ a:hover {
 
 #last-edit-description.expanded {
     max-height: none;
+}
+
+.bookmark-checkbox{
+    margin: auto 8px;
+    display: inline-block;
+
 }
