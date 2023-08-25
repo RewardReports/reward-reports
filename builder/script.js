@@ -1510,13 +1510,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dateB = b.name.match(/reward_report_(.*).md/)[1];
                 return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
             }); 
+            const selectedMarkdownFiles = ['file1.md', 'file2.md']; // Replace with actual file names
             const selectedCheckboxes = button.parentElement.querySelectorAll('input[type="checkbox"]:checked');
             console.log(selectedCheckboxes)
-            selectedCheckboxes.forEach(function(checkbox) {
+            selectedCheckboxes.forEach(function(checkbox, index) {
                 const selectedIndex = parseInt(checkbox.value);
                 const selectedFile = sortedFiles[selectedIndex];
-                console.log('Selected File:', selectedFile);
+                selectedMarkdownFiles[index] = selectedFile;
+                console.log(selectedMarkdownFiles);
             });
+
+
+            // Select the first item from selectedMarkdownFiles in file1Dropdown
+            if (selectedMarkdownFiles[0]) {
+                for (let i = 0; i < file1Dropdown.options.length; i++) {
+                    console.log(file1Dropdown.options[i].value)
+                    console.log(selectedMarkdownFiles[0].name)
+
+                    if (file1Dropdown.options[i].value === selectedMarkdownFiles[0].name) {
+                        file1Dropdown.options[i].selected = true;
+                        break;
+                    }
+                }
+            }
+            
+            // Select the second item from selectedMarkdownFiles in file2Dropdown
+            if (selectedMarkdownFiles[1]) {
+                for (let i = 0; i < file2Dropdown.options.length; i++) {
+                    if (file2Dropdown.options[i].value === selectedMarkdownFiles[1].name) {
+                        file2Dropdown.options[i].selected = true;
+                        break;
+                    }
+                }
+            }
+
+            // Trigger the change event on the dropdowns to update their selected options
+            const changeEvent = new Event('change', { bubbles: true });
+            file1Dropdown.dispatchEvent(changeEvent);
+            file2Dropdown.dispatchEvent(changeEvent);
+
+            // Now navigate to the "View Changes" tab
+            tabs[3].click();
+
         });
     });
     
