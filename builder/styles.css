@@ -660,3 +660,7 @@ a:hover {
     display: inline-block;
 
 }
+
+.left-scan button {
+    width: 80%;
+}

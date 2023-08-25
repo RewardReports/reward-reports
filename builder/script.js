@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const learnMoreSection = document.getElementById('learn-more');
     const versionHistoryLink = document.getElementById('version-history-link');
     const restartButton = document.getElementById('restart-button');
+    const activeDraftButton = document.getElementById('active-draft-button');
 
 
 
@@ -183,6 +184,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             authorForm.style.display = 'block';
         });
+    });
+
+    activeDraftButton.addEventListener('click', () => {
+        const activeDrafts = [];
+        for (const sectionHead of leftScanItems) {
+          const indicator = sectionHead.querySelector('.indicator');
+    
+          if (indicator && !indicator.classList.contains('hidden')) {
+            const dataTarget = sectionHead.getAttribute('data-target');
+            activeDrafts.push(dataTarget); // Add data-target to the array
+          }
+        }
+        console.log('Active Drafts:', activeDrafts);
     });
 
     
@@ -387,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 indicator.classList.add('hidden');
             });
             descriptionInput.value = '';
+            activeDraftButton.style.display = "none";
         }
     });
 
@@ -396,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
         indicators.forEach(indicator => {
             indicator.classList.add('hidden');
         });
+        activeDraftButton.style.display = "none";
 
         if (buildMainContent.classList.contains('active-mode')) {
             buildMainContent.classList.remove('active-mode');
@@ -798,10 +814,18 @@ document.addEventListener('DOMContentLoaded', () => {
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
         });
-        
 
-        if (indicator) {
-            indicator.classList.remove('hidden');
+        const paragraphs = currentEditSection.querySelectorAll('p[data-original-content]');
+        let hasUnsavedChanges = false;
+        paragraphs.forEach(paragraph => {
+            if (paragraph.textContent !== paragraph.dataset.originalContent) {
+                hasUnsavedChanges = true;
+            }
+        });
+
+        if (hasUnsavedChanges) {
+        indicator.classList.remove('hidden');
+        activeDraftButton.style.display = "block";
         }
 
         sections.forEach(section => {
@@ -1555,4 +1579,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+});
+
+// Add a function to display a warning message
+function displayUnloadWarning(event) {
+    event.returnValue = 'If you leave this page without publishing, you will lose your progress on your Reward Report. Are you sure you want to leave?';
+}
+  
+  // Attach the event listener to the window
+window.addEventListener('beforeunload', displayUnloadWarning);
+  
+  // Remove the event listener when the form is submitted
+submitButton.addEventListener('click', () => {
+    window.removeEventListener('beforeunload', displayUnloadWarning);
 });
