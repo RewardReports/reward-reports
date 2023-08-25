@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             populateLastEdit();
             checkExpendButtonNeed2();
             populateVersionTable();
-            populateCheckboxes();
+            // populateCheckboxes();
             // currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateLastEdit();
         checkExpendButtonNeed2();
         populateVersionTable();
-        populateCheckboxes();
+        // populateCheckboxes();
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
         file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
         diffContainer.innerHTML = `
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateLastEdit();
                 checkExpendButtonNeed2()
                 populateVersionTable();
-                populateCheckboxes();
+                // populateCheckboxes();
 
             } else if (markdownFiles.length > 1) {
                 // console.log('Multiple Markdown files found:', markdownFiles);
@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateLastEdit();
                 checkExpendButtonNeed2()
                 populateVersionTable();
-                populateCheckboxes();
+                // populateCheckboxes();
                 // console.log("parsed and replaced?");
 
             } else {
@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateLastEdit();
                 checkExpendButtonNeed2()
                 populateVersionTable();
-                populateCheckboxes();
+                // populateCheckboxes();
                 
                 closeImportModal();
             } else {
@@ -1432,6 +1432,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkboxContainer2 = checkboxForm2.querySelector('#checkbox-container-perf');
         checkboxContainer.innerHTML="";
         checkboxContainer2.innerHTML="";
+
+        
 
         const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
             const dateA = a.name.match(/reward_report_(.*).md/)[1];
