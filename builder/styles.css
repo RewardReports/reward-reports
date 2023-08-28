@@ -372,7 +372,8 @@ nav {
     padding: 5px 30px 15px 30px;
 }
 
-.indicator {
+.indicator,
+.changed-indicator {
     width: 8px;
     height: 8px;
     border-radius: 50%;

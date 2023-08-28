@@ -1265,6 +1265,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     function compare() {
+
+        const indicators = document.querySelectorAll('.changed-indicator');
+        indicators.forEach(indicator => {
+            indicator.classList.add('hidden');
+        });
         const selectedFile1 = file1Dropdown.value;
         const selectedFile2 = file2Dropdown.value;
     
@@ -1317,9 +1322,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 htmlContent += htmlBit;
             });
             htmlContent += "</section>"
+            diffContainer.innerHTML += htmlContent;
 
-            diffContainer.innerHTML += htmlContent
+            const spans = diffContainer.querySelectorAll('span');
+            // Iterate over each span
+            spans.forEach(span => {
+                // Check if the span has no content (i.e., empty or only whitespace)
+                if (!span.textContent.trim()) {
+                    // Remove the span from its parent
+                    span.parentNode.removeChild(span);
+                }
+            });
         }
+        const sections = diffContainer.querySelectorAll('section');
+        
+        sections.forEach(section => {
+            const removedSpans = section.querySelectorAll('span.removed');
+            const filteredRemovedSpans = Array.from(removedSpans).filter(span => {
+                return span.textContent.trim() !== '';
+            });
+            
+            const addedSpans = section.querySelectorAll('span.added');
+            const filteredAddedSpans = Array.from(addedSpans).filter(span => {
+                return span.textContent.trim() !== '';
+            });
+            
+
+
+            console.log(section.classList[0] + ": " + filteredRemovedSpans.length + ", " + filteredAddedSpans.length)
+            
+            // Check if there are any removed or added spans in the section
+            if (filteredRemovedSpans.length > 0 || filteredAddedSpans.length > 0) {
+                const targetNav = document.querySelector(`#changeNav [data-target="${section.classList[0]}"] .changed-indicator`);
+                targetNav.classList.remove('hidden');
+            }
+        });
     }
 
     // function compare() {
@@ -1606,58 +1643,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        checkboxForm.addEventListener('change', function() {
+            const selectedCheckboxes = checkboxForm.querySelectorAll('input[type="checkbox"]:checked');
+            const compareButton = checkboxForm.querySelector('button');
+            compareButton.disabled = (selectedCheckboxes.length !== 2);
+        });
+
+        checkboxForm2.addEventListener('change', function() {
+            const selectedCheckboxes = checkboxForm2.querySelectorAll('input[type="checkbox"]:checked');
+            const compareButton = checkboxForm2.querySelector('button');
+            compareButton.disabled = (selectedCheckboxes.length !== 2);
+        });
     }
 
 
     // Add a click event listener to the submit button
     compareButtons.forEach((button) =>  {
+        button.disabled = true; // Initially disable the button
         button.addEventListener('click', function() {
-            const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
-                const dateA = a.name.match(/reward_report_(.*).md/)[1];
-                const dateB = b.name.match(/reward_report_(.*).md/)[1];
-                return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-            }); 
-            const selectedMarkdownFiles = ['file1.md', 'file2.md']; // Replace with actual file names
             const selectedCheckboxes = button.parentElement.querySelectorAll('input[type="checkbox"]:checked');
-            console.log(selectedCheckboxes)
-            selectedCheckboxes.forEach(function(checkbox, index) {
-                const selectedIndex = parseInt(checkbox.value);
-                const selectedFile = sortedFiles[selectedIndex];
-                selectedMarkdownFiles[index] = selectedFile;
-                console.log(selectedMarkdownFiles);
-            });
-
-
-            // Select the first item from selectedMarkdownFiles in file1Dropdown
-            if (selectedMarkdownFiles[0]) {
-                for (let i = 0; i < file1Dropdown.options.length; i++) {
-                    console.log(file1Dropdown.options[i].value)
-                    console.log(selectedMarkdownFiles[0].name)
-
-                    if (file1Dropdown.options[i].value === selectedMarkdownFiles[0].name) {
-                        file1Dropdown.options[i].selected = true;
-                        break;
+            if (selectedCheckboxes.length === 2){
+                const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
+                    const dateA = a.name.match(/reward_report_(.*).md/)[1];
+                    const dateB = b.name.match(/reward_report_(.*).md/)[1];
+                    return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
+                }); 
+                const selectedMarkdownFiles = ['file1.md', 'file2.md']; // Replace with actual file names
+                console.log(selectedCheckboxes)
+                selectedCheckboxes.forEach(function(checkbox, index) {
+                    const selectedIndex = parseInt(checkbox.value);
+                    const selectedFile = sortedFiles[selectedIndex];
+                    selectedMarkdownFiles[index] = selectedFile;
+                    console.log(selectedMarkdownFiles);
+                });
+    
+    
+                // Select the first item from selectedMarkdownFiles in file1Dropdown
+                if (selectedMarkdownFiles[0]) {
+                    for (let i = 0; i < file1Dropdown.options.length; i++) {
+                        console.log(file1Dropdown.options[i].value)
+                        console.log(selectedMarkdownFiles[0].name)
+    
+                        if (file1Dropdown.options[i].value === selectedMarkdownFiles[0].name) {
+                            file1Dropdown.options[i].selected = true;
+                            break;
+                        }
                     }
                 }
-            }
-            
-            // Select the second item from selectedMarkdownFiles in file2Dropdown
-            if (selectedMarkdownFiles[1]) {
-                for (let i = 0; i < file2Dropdown.options.length; i++) {
-                    if (file2Dropdown.options[i].value === selectedMarkdownFiles[1].name) {
-                        file2Dropdown.options[i].selected = true;
-                        break;
+                
+                // Select the second item from selectedMarkdownFiles in file2Dropdown
+                if (selectedMarkdownFiles[1]) {
+                    for (let i = 0; i < file2Dropdown.options.length; i++) {
+                        if (file2Dropdown.options[i].value === selectedMarkdownFiles[1].name) {
+                            file2Dropdown.options[i].selected = true;
+                            break;
+                        }
                     }
                 }
+    
+                // Trigger the change event on the dropdowns to update their selected options
+                const changeEvent = new Event('change', { bubbles: true });
+                file1Dropdown.dispatchEvent(changeEvent);
+                file2Dropdown.dispatchEvent(changeEvent);
+    
+                // Now navigate to the "View Changes" tab
+                tabs[3].click();
             }
-
-            // Trigger the change event on the dropdowns to update their selected options
-            const changeEvent = new Event('change', { bubbles: true });
-            file1Dropdown.dispatchEvent(changeEvent);
-            file2Dropdown.dispatchEvent(changeEvent);
-
-            // Now navigate to the "View Changes" tab
-            tabs[3].click();
 
         });
     });
