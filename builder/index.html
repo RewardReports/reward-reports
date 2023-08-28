@@ -43,6 +43,14 @@
                             <span style="margin-left: 8px;">Active Draft Overview</span>
                         </div>
                     </button>
+                    <button id="close-draft-button" style="margin: 20px auto; display: none;">
+                        <div class="centered-div">
+                            <svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 14.5C6.71875 14.5 6.46875 14.4062 6.28125 14.2188L1.28125 9.21875C0.875 8.84375 0.875 8.1875 1.28125 7.8125L6.28125 2.8125C6.65625 2.40625 7.3125 2.40625 7.6875 2.8125C8.09375 3.1875 8.09375 3.84375 7.6875 4.21875L3.40625 8.5L7.6875 12.8125C8.09375 13.1875 8.09375 13.8438 7.6875 14.2188C7.5 14.4062 7.25 14.5 7 14.5Z" fill="white"/>
+                            </svg>                                
+                            <span style="margin-left: 8px;">Back to View All</span>
+                        </div>
+                    </button>
                     <ul class="sections">
                         <li data-target="system-details" class="sections-head">
                             <div class="section-header">
@@ -130,8 +138,9 @@
                         <h1>About Reward Reports</h1>
                         <p>This is a tool to generates and visualizes Reward Reports.</p>
                         <p>It aims to provide a simple interface to build from scratch a new Reward Report or to edit an existing one.</p>
+                        <p>You can upload existing report(s) from your device or directly import them from your GitHub repositry.</p>
                         <p>This is also the place to visualize how your reports for a single model has changed overtime.</p>
-                        <p>The generated reward reports can be downloaded or directly pushed to your model hosted on the Hub.</p>
+                        <!-- <p>The generated reward reports with then be downloaded or directly pushed to your model hosted on the Hub.</p> -->
                         <button id="build" class="main">Build New Reward Report</button>
                         <button id="upload" class="main">Upload Existing Reward Reports</button>
                     </div>
@@ -498,6 +507,13 @@
     
                         <div id="spacer" class="spacer"></div>
                     </div>
+                    <div class="main-content drafts">
+                        <h1>Active Draft Overview</h1>
+                        <div>
+                            <h4>Pages in Drafts</h4>
+                            <div id="draft-pages-container" class="centered-div"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="author-form">
                     <div class="form-content">
@@ -603,7 +619,7 @@
                                 <div id="checkbox-container">
                                     <p style="color: #8D8F93;"><i>Nothing bookmarked yet! <br>You can add to flagged dates via the Version History table.</i></p>
                                 </div>
-                                <button type="button" class="compare-flagged-button">Compare two reports</button>
+                                <button type="button" class="compare-flagged-button">Compare Two Reports</button>
                             </form>
                         </div>                                                   
                     </div>  
@@ -633,7 +649,7 @@
                                 <div id="checkbox-container-perf">
                                     <p style="color: #8D8F93;"><i>Nothing bookmarked yet! <br>You can add to flagged dates via the Version History table.</i></p>
                                 </div>
-                                <button type="button" class="compare-flagged-button">Compare two reports</button>
+                                <button type="button" class="compare-flagged-button">Compare Two Reports</button>
                             </form>
                         </div>                                                   
                     </div>  

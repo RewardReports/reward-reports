@@ -627,9 +627,9 @@ a:hover {
     /* Add other styles as needed */
 }
 
-#compare-flagged-button{
+.compare-flagged-button{
     margin: 0 auto;
-    width: 70%;
+    width: 80%;
     display: block;
 }
 
@@ -663,4 +663,20 @@ a:hover {
 
 .left-scan button {
     width: 80%;
+}
+
+button div{
+    justify-content: center; /* Vertically center align */
+    text-align: center; /* Center-align text */
+}
+
+#draft-pages-container{
+    width: 100%;
+    display: block;
+}
+.draft-item{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
 }

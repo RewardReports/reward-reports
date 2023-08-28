@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadReportButton = document.getElementById('upload');
     const preBuildMainContent = document.querySelector('.main-content.pre-build');
     const buildMainContent = document.querySelector('.main-content.build');
+    const draftMainContent = document.querySelector('.main-content.drafts');
     const editButtons = document.querySelectorAll('.edit-button');
     const authorForm = document.querySelector('.author-form');
     const cancelButton = document.getElementById('cancel-button');
@@ -39,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const versionHistoryLink = document.getElementById('version-history-link');
     const restartButton = document.getElementById('restart-button');
     const activeDraftButton = document.getElementById('active-draft-button');
+    const closeDraftButton = document.getElementById('close-draft-button');
+
 
 
 
@@ -186,8 +189,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    closeDraftButton.addEventListener('click', () => {
+        closeDraftButton.style.display = "none";
+        activeDraftButton.style.display = 'block';
+        buildMainContent.classList.add('active-mode');
+        draftMainContent.classList.remove('active-mode');
+        authorForm.style.display = "none"
+        learnMoreSection.style.display = 'block';
+        leftScanItems[0].classList.add('active-section');
+        subsections[0].classList.add('active-sub');
+    });
+
     activeDraftButton.addEventListener('click', () => {
+        closeDraftButton.style.display = "block";
+        activeDraftButton.style.display = 'none';
         const activeDrafts = [];
+        const draftPagesContainer = document.getElementById('draft-pages-container')
         for (const sectionHead of leftScanItems) {
           const indicator = sectionHead.querySelector('.indicator');
     
@@ -197,6 +214,71 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
         console.log('Active Drafts:', activeDrafts);
+
+        draftPagesContainer.innerHTML = ''; // Clear the container
+
+        activeDrafts.forEach(draft => {
+            const draftDiv = document.createElement('div');
+            draftDiv.classList.add('draft-item');
+            draftDiv.classList.add('centered-div');
+        
+
+            const draftTitle = document.createElement('span');
+            draftTitle.textContent = kebabToTitleCase(draft);
+            draftDiv.appendChild(draftTitle);
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.addEventListener('click', () => {
+                // Handle the edit button click here, e.g., open an editor for the draft
+                console.log(`Edit button clicked for draft ${draft}`);
+                closeDraftButton.style.display = "none";
+                activeDraftButton.style.display = 'block';
+                buildMainContent.classList.add('active-mode');
+                draftMainContent.classList.remove('active-mode');
+                const section = document.getElementById(draft);
+                currentEditSection = section;
+                const subsections = section.querySelectorAll('.subsection p');
+
+                // Hide all other sections
+                sections.forEach(otherSection => {
+                    if (otherSection !== section) {
+                        otherSection.style.display = 'none';
+                    }
+                });
+                
+                subsections.forEach(subsection => {
+                    subsection.contentEditable = true;
+                    subsection.dataset.originalContent = subsection.textContent;
+                });
+
+                mainButton = section.querySelector('.edit-button')
+
+                mainButton.textContent = 'Editing';
+                mainButton.classList.add('editing-button');
+                mainButton.removeEventListener('click', () => {});
+            });
+            draftDiv.appendChild(editButton);
+
+            draftPagesContainer.appendChild(draftDiv);
+        });
+
+
+
+
+
+        buildMainContent.classList.remove('active-mode');
+        draftMainContent.classList.add('active-mode');
+        authorForm.style.display = "block"
+        learnMoreSection.style.display = 'none';
+
+        leftScanItems.forEach(item =>{
+            item.classList.remove('active-section');
+        });
+        subsections.forEach(item =>{
+            item.classList.remove('active-sub');
+        });
+
     });
 
     
