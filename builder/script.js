@@ -1085,8 +1085,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateDropdowns() {
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
         file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
-        
+        const allDates1 = document.createElement('optgroup');
+        allDates1.label = "All Dates"
+        const allDates2 = document.createElement('optgroup');
+        allDates2.label = "All Dates"
 
+        
         // Sort importedMarkdownFiles from newest to oldest
         if (importedMarkdownFiles.length > 0) {
             const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
@@ -1112,8 +1116,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 option1.textContent = formattedDate;
                 option2.value = file.name;
                 option2.textContent = formattedDate;
-                file1Dropdown.appendChild(option1);
-                file2Dropdown.appendChild(option2);
+                allDates1.appendChild(option1);
+                allDates2.appendChild(option2);
             });       
         } else {
             importedMarkdownFiles.forEach(file => {
@@ -1123,10 +1127,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 option1.textContent = file.name;
                 option2.value = file.name;
                 option2.textContent = file.name;
-                file1Dropdown.appendChild(option1);
-                file2Dropdown.appendChild(option2);
+                allDates1.appendChild(option1);
+                allDates2.appendChild(option2);
             }); 
         }
+        file1Dropdown.appendChild(allDates1);
+        file2Dropdown.appendChild(allDates2);
     }
 
     // Add an event listener to the second dropdown
@@ -1638,6 +1644,24 @@ document.addEventListener('DOMContentLoaded', () => {
         checkboxContainer.innerHTML="";
         checkboxContainer2.innerHTML="";
 
+
+        let flaggedDates = document.querySelectorAll('optgroup[label="Flagged Dates"]');
+        let flaggedDates1, flaggedDates2;
+
+        if (flaggedDates.length === 0) {
+            flaggedDates1 = document.createElement('optgroup');
+            flaggedDates1.label = "Flagged Dates";
+            flaggedDates2 = document.createElement('optgroup');
+            flaggedDates2.label = "Flagged Dates";
+        } else {
+            flaggedDates1 = flaggedDates[0];
+            flaggedDates2 = flaggedDates[1];
+            flaggedDates1.innerHTML = ""
+            flaggedDates2.innerHTML = ""
+        }
+
+
+
         
 
         const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
@@ -1646,7 +1670,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
         });        
         sortedFiles.forEach(function(file, index) {
-
             const bookmarkCheckbox = document.querySelector(`.bookmark-checkbox[data-file-index="${index}"]`);
             console.log(bookmarkCheckbox)
             if (bookmarkCheckbox && bookmarkCheckbox.checked) {
@@ -1667,8 +1690,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkboxLabel2.innerHTML = `<input type="checkbox" class="compare-checkbox" value="${index}"> ${formattedDate}<br>`;
                 checkboxContainer.appendChild(checkboxLabel);
                 checkboxContainer2.appendChild(checkboxLabel2);
+
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = file.name;
+                option1.textContent = formattedDate;
+                option2.value = file.name;
+                option2.textContent = formattedDate;
+                flaggedDates1.appendChild(option1);
+                flaggedDates2.appendChild(option2);
+                console.log(flaggedDates1);
             }
         });
+
+        file1Dropdown.appendChild(flaggedDates1);
+        file2Dropdown.appendChild(flaggedDates2);
+
         const compareCheckboxes = checkboxForm.querySelectorAll('.compare-checkbox');
         const compareCheckboxes2 = checkboxForm2.querySelectorAll('.compare-checkbox');
 
