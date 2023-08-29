@@ -214,13 +214,14 @@ nav {
     width: 0;
     overflow: hidden;
     font-size: 0.8rem;
-    color:#808080
+    color:#808080;
 }
 .subsections.active-sub {
     height: auto;
     width: auto;
     list-style: none;
     padding: 0;
+    font-weight: normal;
 }
 
 .subsections li {

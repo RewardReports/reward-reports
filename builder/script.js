@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Code for Builder Tab
-
     const tabs = document.querySelectorAll('.tabs li');
     const sections = document.querySelectorAll('.section');
     const buildTab = document.getElementById('build-report');
@@ -43,24 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeDraftButton = document.getElementById('close-draft-button');
 
 
-
-
     let importedMarkdownFiles = [];
     let currentEditSection;
     let contextInfo = {};
     let currentContextInfo = {};
     let currentScrollSection = document.getElementById('system-details');
 
-//     const diffString = `diff --git a/sample.js b/sample.js
-// index 0000001..0ddf2ba
-// --- a/sample.js
-// +++ b/sample.js
-// @@ -1 +1 @@
-// -// console.log("Hello World!")
-// +// console.log("Hello from Diff2Html!")`;
 
 
     const offset = 100;
+    var learnMoreText = {
+        "system-details": "System Details section provides essential information about the automated decision system.",
+        "optimization-intent": "Optimization Intent section addresses the reward function's goal and optimization strategy. Designers document the intent of the solution, translating quantitative objectives into qualitative descriptions. Later, they reflect on how implementation details impact the broader goal. Stakeholders and users can use this section to understand if the system's intent aligns with observed effects.",
+        "institutional-interface": "Institutional Interface section documents the intended and observed relationships between the system and its broader context. Explicit documentation allows designers to reflect on system assumptions over time. Reflections may involve novel interests or agencies, helping organize stakeholders' and users' emerging interests.",
+        "implementation": "Implementation section details specific reinforcement learning system implementation decisions. Even minor changes can cause significant behavior shifts downstream, challenging tracking at scale. Documenting design decisions helps prevent failures and aids technical progress.",
+        "evaluation": "Evaluation section assesses feedback system behavior and anticipates future performance and risks. Designers record evaluations before deployment and upon revisiting reward reports. Stakeholders and users can hold designers accountable for system performance. Evaluation type (offline/online) and procedure (static/dynamic) are important to distinguish.",
+        "system-maintenance": "System Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
+    };
+        
 
     tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
@@ -161,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             } 
         });
+        populateLastEdit()
     });  
 
     editButtons.forEach(button => {
@@ -978,8 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const descriptionElement = document.getElementById('last-edit-description');
         const learnElement = document.getElementById('learn-more-section');
         const descriptionSection = currentScrollSection.id;
-        learnElement.textContent = kebabToTitleCase(descriptionSection);
-
+        learnElement.textContent = learnMoreText[descriptionSection];
 
         if (importedMarkdownFiles.length > 0) {
             const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
@@ -1787,6 +1786,6 @@ function displayUnloadWarning(event) {
 window.addEventListener('beforeunload', displayUnloadWarning);
   
   // Remove the event listener when the form is submitted
-submitButton.addEventListener('click', () => {
-    window.removeEventListener('beforeunload', displayUnloadWarning);
-});
+// submitButton.addEventListener('click', () => {
+//     window.removeEventListener('beforeunload', displayUnloadWarning);
+// });
