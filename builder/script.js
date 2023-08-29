@@ -1470,20 +1470,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const row = document.createElement('tr');
             const nameCell = document.createElement('td');
+
+            // // Create the bookmark checkbox
+            // const bookmarkCheckbox = document.createElement('input');
+            // bookmarkCheckbox.type = 'checkbox';
+            // bookmarkCheckbox.classList.add('bookmark-checkbox');
+            
+            // // Set the custom attribute to store the index
+            // bookmarkCheckbox.setAttribute('data-file-index', index);
+            
+            // nameCell.appendChild(bookmarkCheckbox);
+
+            // Create the container for the checkbox and SVG
+            const nameContainer = document.createElement('div');
+            nameContainer.classList.add('centered-div')
+            const checkboxContainer = document.createElement('label');
+            checkboxContainer.classList.add('checkbox-container');
+
             // Create the bookmark checkbox
             const bookmarkCheckbox = document.createElement('input');
             bookmarkCheckbox.type = 'checkbox';
             bookmarkCheckbox.classList.add('bookmark-checkbox');
-            
-            // Set the custom attribute to store the index
             bookmarkCheckbox.setAttribute('data-file-index', index);
-            
-            nameCell.appendChild(bookmarkCheckbox);
+
+            // Create the SVG for the checkbox when it's checked
+            const checkedSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            checkedSvg.setAttribute('width', '12');
+            checkedSvg.setAttribute('height', '17');
+            checkedSvg.setAttribute('viewBox', '0 0 12 17');
+            checkedSvg.innerHTML = '<path d="M12 2V16.5L6 13L0 16.5V2C0 1.1875 0.65625 0.5 1.5 0.5H10.5C11.3125 0.5 12 1.1875 12 2Z" fill="#8D8F93"/>';
+
+            // Create the SVG for the checkbox when it's unchecked
+            const uncheckedSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            uncheckedSvg.setAttribute('width', '12');
+            uncheckedSvg.setAttribute('height', '17');
+            uncheckedSvg.setAttribute('viewBox', '0 0 12 17');
+            uncheckedSvg.innerHTML = '<path d="M10.5 0.5C11.3125 0.5 12 1.1875 12 2V15.5C12 16.2812 11.1562 16.75 10.4688 16.375L6 13.75L1.5 16.375C0.8125 16.75 0 16.2812 0 15.5V2C0 1.1875 0.65625 0.5 1.5 0.5H10.5ZM10.5 14.625V2.1875C10.5 2.09375 10.4062 2 10.2812 2H1.65625C1.5625 2 1.5 2.09375 1.5 2.1875V14.625L6 12L10.5 14.625Z" fill="#8D8F93"/>';
+
+            // Append the checkbox and SVGs to the container
+            checkboxContainer.appendChild(bookmarkCheckbox);
+            checkboxContainer.appendChild(checkedSvg);
+            checkboxContainer.appendChild(uncheckedSvg);
+            checkedSvg.style.display = 'none';
+            uncheckedSvg.style.display = 'block';
+
+            // Toggle visibility of SVGs based on checkbox state
+            bookmarkCheckbox.addEventListener('change', function () {
+                if (bookmarkCheckbox.checked) {
+                    checkedSvg.style.display = 'block';
+                    uncheckedSvg.style.display = 'none';
+                } else {
+                    checkedSvg.style.display = 'none';
+                    uncheckedSvg.style.display = 'block';
+                }
+            });
+
+            nameContainer.appendChild(checkboxContainer);
 
             // Create the formatted date
             const formattedDateElement = document.createElement('span');
             formattedDateElement.textContent = formattedDate;
-            nameCell.appendChild(formattedDateElement);
+            nameContainer.appendChild(formattedDateElement);
+            nameCell.appendChild(nameContainer);
+
+
 
             row.appendChild(nameCell);
             
@@ -1532,6 +1582,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.appendChild(metric5);
             tbody.appendChild(row);
         });
+
         const bookmarkCheckboxes = document.querySelectorAll('.bookmark-checkbox');
 
         // Add event listeners to each bookmark checkbox
@@ -1540,8 +1591,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("update")
                 populateCheckboxes();
             });
-        });
-
+        }); 
     }
 
     function checkExpendButtonNeed(){

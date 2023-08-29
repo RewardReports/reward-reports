@@ -681,3 +681,29 @@ button div{
     justify-content: space-between;
     margin: 20px 0;
 }
+
+.checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-left: 5px;
+
+  }
+  
+  /* Hide the checkbox input */
+.checkbox-container input[type="checkbox"] {
+    display: none;
+}
+  
+/* .checkbox-container svg {
+    fill: none;
+    stroke: #464B53;
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s;
+}
+  
+.checkbox-container input[type="checkbox"]:checked + svg {
+    fill: #464B53;
+    stroke: none;
+} */
