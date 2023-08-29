@@ -544,6 +544,18 @@ document.addEventListener('DOMContentLoaded', () => {
         restartButton.style.display="none";
     });
 
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const displayStyle = window.getComputedStyle(authorForm).display;
+                restartButton.disabled = displayStyle !== 'none';
+            }
+        }
+    });
+    
+    // Start observing changes to the 'style' attribute of authorForm
+    observer.observe(authorForm, { attributes: true });
+    
     // Function to open the modal
     function openImportModal() {
         const modal = document.getElementById('import-modal');
