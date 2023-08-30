@@ -567,11 +567,6 @@ a:hover {
     justify-content: space-between;
 }
 
-.performance-page-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 20% ; /* Three equal columns */
-    width: 100%;
-}
   
 .version-page-container {
     display: grid;
@@ -582,10 +577,90 @@ a:hover {
   
 .versions-column,
 .performance-column  {
-    /* display: flex;
-    flex-direction: column; */
     min-height: calc(100vh - 60px);
     border-right: 1px solid #ccc;
+}
+
+#bottom-container{
+    background-color: rgb(246, 246, 246);
+}
+
+.performance-page-container {
+    display: grid;
+    grid-template-columns: 1fr 20% ; /* Three equal columns */
+    width: 100%;
+}
+
+#main-top{
+    height: 200px;
+    /* border-bottom: 1px solid #ccc; */
+    /* padding: 0 20px; */
+    width: auto;
+    display: grid;
+    grid-template-columns: 40% 1fr 1fr; /* Three equal columns */
+}
+
+.top-column{
+    padding: 20px;
+    margin: 10px 10px 10px 0;
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: white;
+}
+
+#info-date{
+    margin: 10px;
+}
+
+#info-date select{
+    width: 65%;
+}
+#info-date div{
+    display: block;
+    margin-top:8px;
+}
+
+#main-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr ; /* Three equal columns */
+    width: 100%;
+    min-height: calc(100vh - 260px);
+}
+
+.graph-container {
+    padding: 0 20px;
+    width: auto;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding-bottom: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+
+#main-right-content {
+    margin-left: 5px;
+    margin-right: 10px;
+
+}
+
+#main-left-content {
+    margin-left: 10px;
+    margin-right: 5px;
+
+}
+
+.no-graph {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally center align */
+    justify-content: center; /* Vertically center align */
+    text-align: center; /* Center-align text */
+    height: 60vh;
+}
+
+.graph {
+    display: none;
 }
 
 #main-versions-content{
@@ -615,14 +690,6 @@ a:hover {
 }
 
 
-
-#main-left-content,
-#main-right-content {
-    padding: 0 20px;
-    width: auto;
-}
-
-
 .centered-div {
     display: flex;
     align-items: center; 
@@ -643,6 +710,7 @@ a:hover {
     text-align: center; /* Center-align text */
     height: 60vh;
 }
+
 
 .compare-inplace p {
     margin-top: 30px;

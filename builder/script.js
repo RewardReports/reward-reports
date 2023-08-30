@@ -1052,6 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalContainer = document.getElementById('original-container');
     const file1Dropdown = document.getElementById('file1');
     const file2Dropdown = document.getElementById('file2');
+    const graphDropdown = document.getElementById('metric-date');
     // const compareButton = document.getElementById('compareButton');
     const changesNav = document.getElementById('changeNav');
     
@@ -1085,10 +1086,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateDropdowns() {
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
         file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
+        graphDropdown.innerHTML = '<option value="" disabled selected>Select a date</option>';
         const allDates1 = document.createElement('optgroup');
         allDates1.label = "All Dates"
         const allDates2 = document.createElement('optgroup');
         allDates2.label = "All Dates"
+        const allDates3 = document.createElement('optgroup');
+        allDates3.label = "All Dates"
 
         
         // Sort importedMarkdownFiles from newest to oldest
@@ -1112,27 +1116,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const option1 = document.createElement('option');
                 const option2 = document.createElement('option');
+                const option3 = document.createElement('option');
                 option1.value = file.name;
                 option1.textContent = formattedDate;
                 option2.value = file.name;
                 option2.textContent = formattedDate;
+                option3.value = file.name;
+                option3.textContent = formattedDate;
                 allDates1.appendChild(option1);
                 allDates2.appendChild(option2);
+                allDates3.appendChild(option3);
             });       
         } else {
             importedMarkdownFiles.forEach(file => {
                 const option1 = document.createElement('option');
                 const option2 = document.createElement('option');
+                const option3 = document.createElement('option');
                 option1.value = file.name;
                 option1.textContent = file.name;
                 option2.value = file.name;
                 option2.textContent = file.name;
+                option3.value = file.name;
+                option3.textContent = file.name;
                 allDates1.appendChild(option1);
                 allDates2.appendChild(option2);
+                allDates3.appendChild(option3);
             }); 
         }
         file1Dropdown.appendChild(allDates1);
         file2Dropdown.appendChild(allDates2);
+        graphDropdown.appendChild(allDates3);
     }
 
     // Add an event listener to the second dropdown
@@ -1162,6 +1175,28 @@ document.addEventListener('DOMContentLoaded', () => {
         activateSub()
         sectionHeaders[0].click();
     });
+
+    graphDropdown.addEventListener('change', () => {
+        const selectedFile = graphDropdown.value;
+        const graphs = document.querySelectorAll(".graph") 
+        const nonGraphs = document.querySelectorAll(".no-graph") 
+        if (selectedFile) {
+            graphs.forEach(graph =>{
+                graph.style.display = "block"
+            });
+            nonGraphs.forEach(graph =>{
+                graph.style.display = "none"
+            });
+        } else {
+            graphs.forEach(graph =>{
+                graph.style.display = "none"
+            });
+            nonGraphs.forEach(graph =>{
+                graph.style.display = "graph"
+            });
+        }
+    });
+
 
     const renderer = new marked.Renderer();
 
@@ -1646,20 +1681,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         let flaggedDates = document.querySelectorAll('optgroup[label="Flagged Dates"]');
-        let flaggedDates1, flaggedDates2;
+        let flaggedDates1, flaggedDates2, flaggedDates3;
 
         if (flaggedDates.length === 0) {
             flaggedDates1 = document.createElement('optgroup');
             flaggedDates1.label = "Flagged Dates";
             flaggedDates2 = document.createElement('optgroup');
             flaggedDates2.label = "Flagged Dates";
+            flaggedDates3 = document.createElement('optgroup');
+            flaggedDates3.label = "Flagged Dates";
         } else {
             flaggedDates1 = flaggedDates[0];
             flaggedDates2 = flaggedDates[1];
+            flaggedDates3 = flaggedDates[2];
+
             flaggedDates1.innerHTML = ""
             flaggedDates2.innerHTML = ""
+            flaggedDates3.innerHTML = ""
         }
-
 
 
         
@@ -1693,18 +1732,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const option1 = document.createElement('option');
                 const option2 = document.createElement('option');
+                const option3 = document.createElement('option');
                 option1.value = file.name;
                 option1.textContent = formattedDate;
                 option2.value = file.name;
                 option2.textContent = formattedDate;
+                option3.value = file.name;
+                option3.textContent = formattedDate;
                 flaggedDates1.appendChild(option1);
                 flaggedDates2.appendChild(option2);
+                flaggedDates3.appendChild(option3);
                 console.log(flaggedDates1);
             }
         });
 
         file1Dropdown.appendChild(flaggedDates1);
         file2Dropdown.appendChild(flaggedDates2);
+        graphDropdown.appendChild(flaggedDates3);
+
 
         const compareCheckboxes = checkboxForm.querySelectorAll('.compare-checkbox');
         const compareCheckboxes2 = checkboxForm2.querySelectorAll('.compare-checkbox');
