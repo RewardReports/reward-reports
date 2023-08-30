@@ -592,7 +592,9 @@ a:hover {
 }
 
 #main-top{
-    height: 200px;
+    min-height: 200px;
+    height: fit-content;
+    /* overflow: scroll; */
     /* border-bottom: 1px solid #ccc; */
     /* padding: 0 20px; */
     width: auto;
@@ -606,18 +608,32 @@ a:hover {
     border-radius: 5px;
     border: 1px solid white;
     background-color: white;
+    position: relative;
 }
+
+.top-column button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    /* Other styles for the button */
+    padding: 8px 12px;
+    font-size: 10px;
+    margin: auto 0;
+  }
 
 #info-date{
     margin: 10px;
+    border: 1px solid black;
+}
+
+#graph-report-info {
+    font-size: 0.8rem; 
+    /* color:#808080;  */
+    display: inline;
 }
 
 #info-date select{
     width: 65%;
-}
-#info-date div{
-    display: block;
-    margin-top:8px;
 }
 
 #main-bottom {
@@ -723,6 +739,15 @@ a:hover {
 
 #last-edit-description.expanded {
     max-height: none;
+}
+
+#graph-description{
+    max-height: 70px; 
+    overflow: hidden;
+}
+
+#graph-description.expanded {
+    max-height: none; 
 }
 
 .bookmark-checkbox{

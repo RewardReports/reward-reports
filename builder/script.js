@@ -489,10 +489,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restartButton.addEventListener('click', () => {
         const indicators = document.querySelectorAll('.indicator');
+        
 
         indicators.forEach(indicator => {
             indicator.classList.add('hidden');
         });
+
+        const graphs = document.querySelectorAll(".graph") 
+        const nonGraphs = document.querySelectorAll(".no-graph") 
+        const reportElement = document.getElementById('graph-report-info');
+        const noReportElement = document.getElementById('no-graph-report-info');
+        const editorElement = document.getElementById('graph-editor');
+        const descriptionElement = document.getElementById('graph-description');
+
+        graphs.forEach(graph =>{
+            graph.style.display = "none";
+        });
+        nonGraphs.forEach(graph =>{
+            graph.style.display = "block";
+        });
+        reportElement.style.display = "none";
+        noReportElement.style.display = "block";
+        editorElement.textContent=""
+        descriptionElement.textContent=""
+
         activeDraftButton.style.display = "none";
 
         if (buildMainContent.classList.contains('active-mode')) {
@@ -512,8 +532,10 @@ document.addEventListener('DOMContentLoaded', () => {
         contextInfo = {};
         currentContextInfo = {};
         authorForm.style.display = 'none';
+
         populateLastEdit();
         checkExpendButtonNeed2();
+        checkExpendButtonNeed3();
         populateVersionTable();
         // populateCheckboxes();
         file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
@@ -1180,6 +1202,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedFile = graphDropdown.value;
         const graphs = document.querySelectorAll(".graph") 
         const nonGraphs = document.querySelectorAll(".no-graph") 
+        const reportElement = document.getElementById('graph-report-info');
+        const noReportElement = document.getElementById('no-graph-report-info');
+        const editorElement = document.getElementById('graph-editor');
+        const descriptionElement = document.getElementById('graph-description');
+
         if (selectedFile) {
             graphs.forEach(graph =>{
                 graph.style.display = "block"
@@ -1187,6 +1214,20 @@ document.addEventListener('DOMContentLoaded', () => {
             nonGraphs.forEach(graph =>{
                 graph.style.display = "none"
             });
+
+            noReportElement.style.display="none";
+            reportElement.style.display="block";
+
+            const report = importedMarkdownFiles.find(file => file.name === selectedFile)?.content || '';
+            console.log(report)
+            const contextInfoPattern = /<!-- Author: (.+) --> <!-- Description: (.+) -->/;
+            const contextInfoMatch = report.match(contextInfoPattern);
+            console.log(contextInfoMatch)
+            if (contextInfoMatch) {
+                descriptionElement.textContent = contextInfoMatch[2];
+                editorElement.textContent = contextInfoMatch[1];
+            }
+
         } else {
             graphs.forEach(graph =>{
                 graph.style.display = "none"
@@ -1194,7 +1235,10 @@ document.addEventListener('DOMContentLoaded', () => {
             nonGraphs.forEach(graph =>{
                 graph.style.display = "graph"
             });
+            reportElement.style.display="none";
+            noReportElement.style.display="block";
         }
+        checkExpendButtonNeed3()
     });
 
 
@@ -1650,6 +1694,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkExpendButtonNeed2(){
         const descriptionElement = document.getElementById('last-edit-description');
+        const expandButton = descriptionElement.parentElement.querySelector('.expand-button')
+        console.log(descriptionElement.scrollHeight)
+        console.log(descriptionElement.clientHeight)
+        if(descriptionElement.scrollHeight > descriptionElement.clientHeight) {
+            expandButton.style.display = "block";
+        } else {
+            expandButton.style.display = "none";
+        }
+        expandButton.addEventListener('click', () => {
+            descriptionElement.classList.toggle('expanded');
+            if (descriptionElement.classList.contains('expanded')) {
+                expandButton.textContent = 'Hide text';
+            } else {
+                expandButton.textContent = 'Read more...';
+            }
+        });
+    }
+
+    function checkExpendButtonNeed3(){
+        const descriptionElement = document.getElementById('graph-description');
         const expandButton = descriptionElement.parentElement.querySelector('.expand-button')
         console.log(descriptionElement.scrollHeight)
         console.log(descriptionElement.clientHeight)
