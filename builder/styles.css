@@ -48,6 +48,9 @@ button:disabled {
     cursor: not-allowed;
 }
 
+
+
+
 .form-content textarea, 
 .form-content input {
     font-family: inherit;
@@ -372,7 +375,19 @@ nav {
     width: 70%;
     margin:auto;
     margin-top:20px;
-    display: none;
+    /* display: none; */
+}
+
+#restart-button:disabled {
+    background-color: white;
+    cursor: not-allowed;
+}
+
+#restart-button {
+    position: absolute;
+    bottom: 90px;
+    width: 80%;
+    margin: 0 10%;
 }
 
 

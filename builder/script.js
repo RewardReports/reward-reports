@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenInfoDivs = document.querySelectorAll('.hidden-info');
     const lastEditedSection = document.getElementById('last-edit');
     const learnMoreSection = document.getElementById('learn-more');
+    const userTypeBlock = document.getElementById('user-type');
     const versionHistoryLink = document.getElementById('version-history-link');
     const restartButton = document.getElementById('restart-button');
     const activeDraftButton = document.getElementById('active-draft-button');
@@ -47,11 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const userDiv = document.querySelector('.user');
     const startBuild = document.querySelector('.start-building');
     const backUser = document.getElementById('back-user');
-
-    
-
-
-
+    const userTypeDescrip = document.getElementById('user-type-description');
+    const userReccomendation = document.getElementById('user-recommendation');
 
 
 
@@ -73,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         "evaluation": "Evaluation section assesses feedback system behavior and anticipates future performance and risks. Designers record evaluations before deployment and upon revisiting reward reports. Stakeholders and users can hold designers accountable for system performance. Evaluation type (offline/online) and procedure (static/dynamic) are important to distinguish.",
         "system-maintenance": "System Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
     };
+    var userTypeText = {
+        "technical": "Welcome, Technical Experts! Your expertise is crucial for successful model evaluation. Please keep in mind that the Optimization Intent and Implementation sections are particularly pertinent to your domain. These sections will allow you to dive deep into the technical nuances and intricacies of your model's behavior. Of course, you're not limited to these areas – the whole report is at your disposal. ",
+        "non-technical": "Hello, Non-Technical Experts!  Your expertise is crucial in understanding the broader implications and impacts of the model. Please keep in mind that the Institutional Interface and Evaluation sections are particularly pertinent to your domain. While these sections are your primary arena, feel free to explore the entire report. We're here to support you in your journey of responsible AI evaluation."
+    };
 
 
     userIcons.forEach(userIcon => {
@@ -83,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add 'selected' class to the clicked user icon
             userIcon.classList.add('selected');
             userType = userIcon.id;
+            userTypeDescrip.textContent = kebabToTitleCase(userType) + " Expert";
+            userReccomendation.textContent = userTypeText[userType];
             // Enable the button
             nextButton.disabled = false;
         });
@@ -164,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // authorForm.style.display = 'block';
 
         learnMoreSection.style.display = 'block';
+        userTypeBlock.style.display = 'block';
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
         restartButton.style.display = "block";
@@ -177,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log('build');
         }
         learnMoreSection.style.display = 'block';
+        userTypeBlock.style.display = 'block';
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
         restartButton.style.display = "block";
@@ -254,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draftMainContent.classList.remove('active-mode');
         authorForm.style.display = "none"
         learnMoreSection.style.display = 'block';
+        userTypeBlock.style.display = 'block';
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub');
     });
@@ -329,6 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
         draftMainContent.classList.add('active-mode');
         authorForm.style.display = "block"
         learnMoreSection.style.display = 'none';
+        userTypeBlock.style.display = 'none';
+
 
         leftScanItems.forEach(item =>{
             item.classList.remove('active-section');
@@ -546,82 +555,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     restartButton.addEventListener('click', () => {
-        const indicators = document.querySelectorAll('.indicator');
+        const confirmRestart = confirm('Are you sure you want to create a new Reward Report? Any unpublished changes will be lost.');
         
+        if (confirmRestart) {
+            const indicators = document.querySelectorAll('.indicator');
+            
 
-        indicators.forEach(indicator => {
-            indicator.classList.add('hidden');
-        });
+            indicators.forEach(indicator => {
+                indicator.classList.add('hidden');
+            });
 
-        const graphs = document.querySelectorAll(".graph") 
-        const nonGraphs = document.querySelectorAll(".no-graph") 
-        const reportElement = document.getElementById('graph-report-info');
-        const noReportElement = document.getElementById('no-graph-report-info');
-        const editorElement = document.getElementById('graph-editor');
-        const descriptionElement = document.getElementById('graph-description');
+            const graphs = document.querySelectorAll(".graph") 
+            const nonGraphs = document.querySelectorAll(".no-graph") 
+            const reportElement = document.getElementById('graph-report-info');
+            const noReportElement = document.getElementById('no-graph-report-info');
+            const editorElement = document.getElementById('graph-editor');
+            const descriptionElement = document.getElementById('graph-description');
 
-        graphs.forEach(graph =>{
-            graph.style.display = "none";
-        });
-        nonGraphs.forEach(graph =>{
-            graph.style.display = "flex";
-        });
-        reportElement.style.display = "none";
-        noReportElement.style.display = "block";
-        editorElement.textContent=""
-        descriptionElement.textContent=""
+            graphs.forEach(graph =>{
+                graph.style.display = "none";
+            });
+            nonGraphs.forEach(graph =>{
+                graph.style.display = "flex";
+            });
+            reportElement.style.display = "none";
+            noReportElement.style.display = "block";
+            editorElement.textContent=""
+            descriptionElement.textContent=""
 
-        activeDraftButton.style.display = "none";
+            activeDraftButton.style.display = "none";
 
-        if (buildMainContent.classList.contains('active-mode')) {
-            buildMainContent.classList.remove('active-mode');
-            preBuildMainContent.classList.add('active-mode');
+            if (buildMainContent.classList.contains('active-mode')) {
+                buildMainContent.classList.remove('active-mode');
+                preBuildMainContent.classList.add('active-mode');
+            }
+            learnMoreSection.style.display = 'none';
+            userTypeBlock.style.display = 'none';
+            lastEditedSection.style.display = 'none';
+            leftScanItems.forEach(item => {
+                item.classList.remove('active-section');
+            });
+            subsections.forEach(item => {
+                item.classList.remove('active-sub');
+            });
+            importedMarkdownFiles = [];
+            currentEditSection = undefined;
+            contextInfo = {};
+            currentContextInfo = {};
+            authorForm.style.display = 'none';
+
+            populateLastEdit();
+            checkExpendButtonNeed2();
+            checkExpendButtonNeed3();
+            populateVersionTable();
+            // populateCheckboxes();
+            file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
+            file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
+            diffContainer.innerHTML = `
+                <div class="compare-inplace">
+                    <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"></path>
+                    </svg>
+                    <p>Select a date first to get started and compare two different versions.</p>
+                </div>
+            `;        
+            originalContainer.innerHTML = `
+                <div class="compare-inplace">
+                    <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"></path>
+                    </svg>
+                    <p>Select a date first to get started and compare two different versions.</p>
+                </div>
+            `;  
+            tbody.innerHTML =`
+                <tr>
+                    <td colspan="7" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
+                    </td>
+                </tr>
+            `;
+
+            restartButton.style.display="none";
         }
-        learnMoreSection.style.display = 'none';
-        lastEditedSection.style.display = 'none';
-        leftScanItems.forEach(item => {
-            item.classList.remove('active-section');
-          });
-        subsections.forEach(item => {
-            item.classList.remove('active-sub');
-          });
-        importedMarkdownFiles = [];
-        currentEditSection = undefined;
-        contextInfo = {};
-        currentContextInfo = {};
-        authorForm.style.display = 'none';
-
-        populateLastEdit();
-        checkExpendButtonNeed2();
-        checkExpendButtonNeed3();
-        populateVersionTable();
-        // populateCheckboxes();
-        file1Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
-        file2Dropdown.innerHTML = '<option value="" disabled selected>Select a date</option><option disabled="">Publish or import report(s) first</option>';
-        diffContainer.innerHTML = `
-            <div class="compare-inplace">
-                <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"></path>
-                </svg>
-                <p>Select a date first to get started and compare two different versions.</p>
-            </div>
-        `;        
-        originalContainer.innerHTML = `
-            <div class="compare-inplace">
-                <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M34.4531 37.5C28.8281 37.5 23.6719 40.7812 21.0938 45.9375L0 88.3594V11.25C0 5.15625 4.92188 0 11.25 0H48.75L63.75 15H101.25C107.344 15 112.5 20.1562 112.5 26.25V37.5H34.4531ZM127.266 45C132.891 45 136.641 50.8594 133.828 56.0156L111.328 101.016C110.156 103.594 107.578 105 104.766 105H0L27.8906 49.2188C29.0625 46.6406 31.6406 45 34.4531 45H127.266Z" fill="#8D8F93"></path>
-                </svg>
-                <p>Select a date first to get started and compare two different versions.</p>
-            </div>
-        `;  
-        tbody.innerHTML =`
-            <tr>
-                <td colspan="7" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
-                </td>
-            </tr>
-        `;
-
-        restartButton.style.display="none";
     });
 
     const observer = new MutationObserver((mutationsList) => {
