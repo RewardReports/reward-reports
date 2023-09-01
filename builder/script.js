@@ -40,6 +40,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.getElementById('restart-button');
     const activeDraftButton = document.getElementById('active-draft-button');
     const closeDraftButton = document.getElementById('close-draft-button');
+    const userIcons = document.querySelectorAll('.user-icon');
+    const nextButton = document.getElementById('user-selected');
+    const steps = document.querySelectorAll('.steps');
+    const startButton = document.getElementById('start');
+    const userDiv = document.querySelector('.user');
+    const startBuild = document.querySelector('.start-building');
+    const backUser = document.getElementById('back-user');
+
+    
+
+
+
+
 
 
     let importedMarkdownFiles = [];
@@ -47,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let contextInfo = {};
     let currentContextInfo = {};
     let currentScrollSection = document.getElementById('system-details');
+    let userType;
 
 
 
@@ -59,6 +73,50 @@ document.addEventListener('DOMContentLoaded', () => {
         "evaluation": "Evaluation section assesses feedback system behavior and anticipates future performance and risks. Designers record evaluations before deployment and upon revisiting reward reports. Stakeholders and users can hold designers accountable for system performance. Evaluation type (offline/online) and procedure (static/dynamic) are important to distinguish.",
         "system-maintenance": "System Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
     };
+
+
+    userIcons.forEach(userIcon => {
+    userIcon.addEventListener('click', () => {
+        // Remove 'selected' class from all user icons
+        userIcons.forEach(icon => icon.classList.remove('selected'));
+            
+            // Add 'selected' class to the clicked user icon
+            userIcon.classList.add('selected');
+            userType = userIcon.id;
+            // Enable the button
+            nextButton.disabled = false;
+        });
+    });
+
+    startButton.addEventListener('click', () => {
+        // Hide all the steps by adding the 'hidden' class
+        steps.forEach((step) => {
+          step.classList.add('hidden');
+        });
+      
+        // Show the user div by removing the 'hidden' class
+        userDiv.classList.remove('hidden');
+    });
+
+    backUser.addEventListener('click', () => {
+        // Hide all the steps by adding the 'hidden' class
+        steps.forEach((step) => {
+          step.classList.add('hidden');
+        });
+      
+        // Show the user div by removing the 'hidden' class
+        userDiv.classList.remove('hidden');
+    });
+
+    nextButton.addEventListener('click', () => {
+        // Hide all the steps by adding the 'hidden' class
+        steps.forEach((step) => {
+          step.classList.add('hidden');
+        });
+      
+        // Show the user div by removing the 'hidden' class
+        startBuild.classList.remove('hidden');
+    });
         
 
     tabs.forEach((tab) => {
@@ -506,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
             graph.style.display = "none";
         });
         nonGraphs.forEach(graph =>{
-            graph.style.display = "block";
+            graph.style.display = "flex";
         });
         reportElement.style.display = "none";
         noReportElement.style.display = "block";
@@ -1209,7 +1267,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (selectedFile) {
             graphs.forEach(graph =>{
-                graph.style.display = "block"
+                graph.style.display = "flex"
             });
             nonGraphs.forEach(graph =>{
                 graph.style.display = "none"
@@ -1230,10 +1288,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             graphs.forEach(graph =>{
-                graph.style.display = "none"
+                graph.style.display = "none";
             });
             nonGraphs.forEach(graph =>{
-                graph.style.display = "graph"
+                graph.style.display = "flex";
             });
             reportElement.style.display="none";
             noReportElement.style.display="block";

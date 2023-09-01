@@ -143,14 +143,70 @@
                 </div>
                 <div class="main-content-container">
                     <div class="main-content pre-build active-mode">
-                        <h1>About Reward Reports</h1>
-                        <p>This is a tool to generates and visualizes Reward Reports.</p>
-                        <p>It aims to provide a simple interface to build from scratch a new Reward Report or to edit an existing one.</p>
-                        <p>You can upload existing report(s) from your device or directly import them from your GitHub repositry.</p>
-                        <p>This is also the place to visualize how your reports for a single model has changed overtime.</p>
-                        <!-- <p>The generated reward reports with then be downloaded or directly pushed to your model hosted on the Hub.</p> -->
-                        <button id="build" class="main">Build New Reward Report</button>
-                        <button id="upload" class="main">Upload Existing Reward Reports</button>
+                        <div class="intro steps">
+                            <h1>About Reward Reports</h1>
+                            <p>This is a tool to generates and visualizes Reward Reports.</p>
+                            <p>It aims to provide a simple interface to build from scratch a new Reward Report or to edit an existing one.</p>
+                            <p>You can upload existing report(s) from your device or directly import them from your GitHub repositry.</p>
+                            <p>This is also the place to visualize how your reports for a single model has changed overtime.</p>
+                            <!-- <p>The generated reward reports with then be downloaded or directly pushed to your model hosted on the Hub.</p> -->
+                            <br>
+                            <button id="start">Lets get started!</button>
+                        </div> 
+                        <div class="user steps hidden">
+                            <h1>Please select a user type</h1>
+                            <div class="user-type-container">
+                                <div  class="user-column">
+                                    <div id="technical" class="user-icon">
+                                        <svg width="120" height="120" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M233.333 266.667L100 389.743L233.333 533.333M566.667 266.667L700 389.743L566.667 533.333M466.667 133.333L333.333 666.667" stroke="black" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>    
+                                    </div>                                                                     
+                                    <h4>Technical Expert</h4>
+                                    <p style="font-size: 0.8rem; color:#808080;">e.g. Deveopers, Model Designers, ML Researchers, etc...</p>
+                                </div>
+                                <div class="user-column">
+                                    <div id="non-technical" class="user-icon">
+                                        <svg width="100" height="90" viewBox="0 0 475 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M337.496 87.4189L408.203 158.13M275 474.903H475M25 474.915L26.1875 466.61C30.3828 437.228 32.4844 422.532 37.2578 408.817C41.4922 396.646 47.2812 385.071 54.4765 374.38C62.5859 362.329 73.0781 351.833 94.0703 330.845L385.266 39.6455C404.797 20.1182 436.453 20.1182 455.98 39.6455C475.504 59.1728 475.504 90.8291 455.98 110.356L159.437 406.899C140.395 425.942 130.875 435.462 120.031 443.032C110.406 449.755 100.023 455.321 89.0977 459.622C76.793 464.462 63.5937 467.126 37.1992 472.454L25 474.915Z" stroke="black" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                    </div> 
+                                    <h4>Non-technical Expert</h4>
+                                    <p style="font-size: 0.8rem; color:#808080;">e.g. Managers, Auditors, Interdisciplinary Researchers, etc...</p>
+                                </div>
+                            </div>
+                            <button id="user-selected" disabled>Next Step</button>
+                        </div>
+                        <div class="start-building steps hidden">
+                            <button id="back-user" class="editing-button" style="margin: 20px auto;">
+                                <div class="centered-div">
+                                    <svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7 14.5C6.71875 14.5 6.46875 14.4062 6.28125 14.2188L1.28125 9.21875C0.875 8.84375 0.875 8.1875 1.28125 7.8125L6.28125 2.8125C6.65625 2.40625 7.3125 2.40625 7.6875 2.8125C8.09375 3.1875 8.09375 3.84375 7.6875 4.21875L3.40625 8.5L7.6875 12.8125C8.09375 13.1875 8.09375 13.8438 7.6875 14.2188C7.5 14.4062 7.25 14.5 7 14.5Z" fill="#0092B2"/>
+                                    </svg>                                
+                                    <span style="margin-left: 8px;">Back to Select User Type</span>
+                                </div>
+                            </button>
+                            <div style="margin-bottom: 50px;">
+                                <h1>Start Building Reward Reports</h1>
+                                <p>
+                                    Whether you're crafting your first Reward Report or building upon existing versions, we've got you covered. 
+                                </p>
+                                <p>
+                                    If you have a model with no existing Reward Reports, create your very first report by selecting <i>"Build New Reward Report"</i> to lay the foundation for robust future evaluations. 
+                                </p>
+                                <p>
+                                    If previously generated Reward Reports for the model you're evaluating is available, select <i>"Upload Exisitn Reward Reports"</i> to edit the report and leverage our analysis tools to discover valuable insights between report versions. 
+                                </p>
+                                <p>   
+                                    You have the flexibility to either upload files from your local machine or import directly from GitHub. It's all about setting up for future success and streamlining your evaluation process.
+                                </p>
+                                <p style="font-size: 0.8rem; color:#808080;">
+                                    If you're a non-technical expert or looking to tailor your evaluation, you're more likely to start with existing versions. 
+                                </p>
+                            </div>
+                            <button id="build" class="main">Build New Reward Report</button>
+                            <button id="upload" class="main">Upload Existing Reward Reports</button>
+                        </div>
                     </div>
                     <div class="main-content build">
                         <div id="system-details" class="section">
