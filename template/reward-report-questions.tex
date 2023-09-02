@@ -1,0 +1,230 @@
+
+
+\newcommand{\descr}{\small \emph}
+\newcommand{\eg}{\textit{e.g.}}             % For example
+\newcommand{\etc}{\textit{etc}.}           % So on...
+\newcommand{\ie}{\textit{i.e.}}             % literally
+
+
+\newcommand{\SystemDetails}[4]{
+\section{System Details}
+\subsection{System Owner}
+\descr{This may be the designer deploying the system, a larger agency or body, or some combination of the two. The entity completing the report should also be indicated.}
+
+#1
+% % % % % 
+\subsection{Dates}
+\descr{The
+known or intended timespan over which this reward function \& optimization is active. }
+
+#2
+% % % % % 
+\subsection{Feedback \& Communication}
+\descr{Contact information for the designer, team, or larger agency responsible for system deployment.}
+
+#3
+% % % % % 
+\subsection{Other Resources}
+\descr{Where can users or stakeholders find more information about this system? Is this system based on one or more research
+papers?}
+
+#4
+}
+
+% % % % % % % % % % 
+\newcommand{\OptIntent}[4]{
+\section{Optimization Intent}
+\subsection{Goal of Reinforcement}
+\descr{A statement of system scope and purpose, including the planning horizon and justification of
+a data-driven approach to policy design (\eg{} the use of reinforcement learning or repeated retraining). This justification
+should contrast with alternative approaches, like static models and hand-designed policies. What is there to gain with
+the chosen approach?}
+
+#1
+% % % % % 
+\subsection{Defined Performance Metrics}
+\descr{A list of “performance metrics” included explicitly in the reward
+signal, the criteria for why these metrics were chosen, and from where these criteria were drawn (\eg{} government
+agencies, domain precedent, GitHub repositories, toy environments). Performance metrics that are used by the designer
+to tune the system, but not explicitly included in the reward signal should also be reported here.}
+
+#2
+% % % % % 
+\subsection{Oversight Metrics}
+\descr{Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g.
+performance differences across demographic groups)? Why aren’t they part of the reward signal, and why must they
+be monitored? }
+
+#3
+% % % % % 
+\subsection{Known Failure Modes}
+\descr{A description of any prior known instances of “reward hacking” or model
+misalignment in the domain at stake, and description of how the current system avoids this.}
+
+
+#4
+}
+
+% % % % % % % % % % 
+\newcommand{\Interfaces}[4]{
+\section{Institutional Interface}
+\subsection{Deployment Agency}
+\descr{ What other agency or controlling entity roles, if any, are intended to be subsumed by the
+system? How may these roles change following system deployment?}
+
+#1
+% % % % % 
+\subsection{Stakeholders}
+\descr{What other interests are implicated in the design specification or system deployment, beyond the designer? What role will these interests play in
+subsequent report documentation? What other entities, if any, does the deployed system interface with whose interests
+are not intended to be in scope? }
+
+#2
+% % % % % 
+\subsection{Explainability \& Transparency}
+\descr{Does the system offer explanations of its decisions
+or actions? What is the purpose of these explanations? To what extent is the policy transparent, \ie{} can decisions or
+actions be understood in terms of meaningful intermediate quantities? }
+
+#3
+% % % % % 
+\subsection{Recourse}
+\descr{Can stakeholders or users contest
+the decisions or actions of the system? What processes, technical or otherwise, are in place to handle this?}
+
+#4
+}
+
+% % % % % % % % % % 
+\newcommand{\Implementation}[7]{
+\section{Implementation}
+\subsection{Reward Details}
+\descr{How was the reward function engineered? Is it
+based on a well-defined metric? Is it tuned to represent a specific behavior? Are multiple terms scaled to make one
+central loss, and how was the scaling decided?}
+
+#1
+% % % % % 
+\subsection{Environment Details}
+\descr{Description of states, observations, and actions
+with reference to planning horizon and hypothesized dynamics/impact. What dynamics are brought into the scope of
+the optimization via feedback? Which dynamics are left external to the system, as drift? Have there been any observed
+gaps between conceptualization and resultant dynamics?}
+
+
+
+#2
+% % % % % 
+\subsection{Measurement Details}
+\descr{How are the components of the
+reward and observations measured? Are measurement techniques consistent across time and data sources? Under what
+conditions are measurements valid and correct? What biases might arise during the measurement process? }
+
+#3
+% % % % % 
+\subsection{Algorithmic Details}
+\descr{The key points on the specific algorithm(s) used for learning and planning. This includes the form of the
+policy (\eg{} neural network, optimization problem), the class of learning algorithm (\eg{} model-based RL, off-policy RL,
+repeated retraining), the form of any intermediate model (\eg{} of the value function, dynamics function, reward function),
+technical infrastructure, and any other considerations necessary for implementing the system. Is the algorithm publicly
+documented and is code publicly available? Have different algorithms been used or tried to accomplish the same goal?}
+
+#4
+% % % % % 
+\subsection{Data Flow}
+\descr{How is data collected, stored, and used for (re)training? How frequently are various components of the
+system retrained, and why was this frequency chosen? Could the data exhibit sampling bias, and is this accounted for in
+the learning algorithm? Is data reweighted, filtered, or discarded? Have data sources changed over time?}
+
+#5
+% % % % % 
+\subsection{Limitations}
+\descr{Discussion and justification of modeling choices arising from computational, statistical, and measurement limitations.
+How might (or how have) improvements in computational power and data collection change(d) these considerations
+and impact(ed) system behavior?}
+
+#6
+% % % % % 
+\subsection{Engineering Tricks}
+\descr{RL systems are known to be sensitive to implementation tricks
+that are key to performance. Are there any design elements that have a surprisingly strong impact on performance? For example,
+state-action normalization, hard-coded curricula, model-initialization, loss bounds, or more?}
+
+#7
+}
+
+% % % % % % % % % % 
+\newcommand{\Evaluation}[4]{
+\section{Evaluation}
+\subsection{Evaluation Environment}
+\descr{ How is the system evaluated (and if applicable, trained) prior to deployment (\eg{} using
+simulation, static datasets, \etc{})? Exhaustive details of the offline evaluation environment should be provided. For simulation, details should
+include description or external reference to the underlying model, ranges of parameters, etc. 
+For evaluation on static datasets, considering referring to associated documentation (\eg{} \emph{Datasheets}~\cite{gebru2021datasheets}).
+}
+
+#1
+% % % % % 
+\subsection{Offline Evaluations}
+\descr{Present and discuss the results of offline
+evaluation. 
+For static evaluation, consider referring to associated documentation (\eg{} \emph{Model Cards}~\cite{mitchell2019model}).
+If applicable, compare the behaviors arising from counterfactual specifications
+(e.g. of states, observations, actions). }
+
+#2
+% % % % % 
+\subsection{Evaluation Validity}
+\descr{ To what extent is it reasonable to draw conclusions about
+the behavior of the deployed system based on presented offline evaluations? What is the current state of understanding
+of the online performance of the system? If the system has been deployed, were any unexpected behaviors observed?}
+
+#3
+% % % % % 
+\subsection{Performance standards}
+\descr{What standards of performance and safety is the system required to meet? Where do these
+standards come from? How is the system verified to meet these standards?}
+
+#4
+
+% \descr{Evaluation of simulated behaviors as well as exhaustive details on simulation parameters. This can include the timestep used in simulation, underlying world model, computational software used, external references,
+% and any more relevant information. Was the model developed in a closed simulation? Are there plans for transferring
+% from sim to real? Is the deployed environment exactly the same as the training environment?}
+
+
+% \descr{Is the implementation centered around finding a solution or recreating a known solution to
+% a problem? Has the environment been modified to make the task easier? Is there an existence of a predetermined
+% "optimal" behavior?}
+
+% \descr{The state of understanding the quantified performance of the initial agent used by the system.
+% Were the observed behaviors expected?}
+}
+
+% % % % % % % % % % 
+\newcommand{\Maintenance}[3]{
+\section{System Maintenance}
+\subsection{Reporting Cadence}
+\descr{The intended
+timeframe for revisiting the reward report. How was this decision reached and motivated? }
+
+#1
+% % % % % 
+\subsection{Update Triggers}
+\descr{Specific
+events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above.
+Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either
+of performance or oversight) that falls outside a defined threshold of critical safety.}
+
+#2
+% % % % % 
+\subsection{Changelog}
+\descr{Descriptions of updates
+and lessons learned from observing and maintaining the deployed system. This includes when the updates were made
+and what motivated them in light of previous reports. The changelog comprises the central difference between reward
+reports and other forms of machine learning documentation, as it directly reflects their intrinsically dynamic nature.}
+
+
+#3
+
+
+}
