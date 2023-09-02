@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
             const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
-            const folderName = `reward_reports_${formattedDate}`;
+            const folderName = `reward_reports`;
             const markdownFileName = `reward_report_${formattedDate}.md`;
         
             const zip = new JSZip();
