@@ -48,7 +48,11 @@ button:disabled {
     cursor: not-allowed;
 }
 
-
+.site-name a{
+    color: inherit;
+    font-style: inherit;
+    text-decoration:none;
+}
 
 
 .form-content textarea, 
