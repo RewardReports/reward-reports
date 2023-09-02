@@ -300,7 +300,7 @@ nav {
     position: fixed;
     right: 0; /* Align the right scan column to the right */
     height: 100vh; /* Set the height to full viewport height */
-    overflow-y: auto; /* Enable scrolling for the right scan column */
+    overflow-y: scroll; /* Enable scrolling for the right scan column */
     z-index: 0;
     font-size: 0.9rem !important;
 }
@@ -370,13 +370,12 @@ nav {
     margin: 10px auto;
     text-align: center;
 }
-
+/* 
 .export-container button {
     width: 70%;
     margin:auto;
     margin-top:20px;
-    /* display: none; */
-}
+} */
 
 #restart-button:disabled {
     background-color: white;
@@ -384,6 +383,7 @@ nav {
 }
 
 #restart-button {
+    display: none;
     position: absolute;
     bottom: 90px;
     width: 80%;

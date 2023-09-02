@@ -383,60 +383,60 @@ document.addEventListener('DOMContentLoaded', () => {
     //     }
     // });
 
-    document.getElementById('export-button').addEventListener('click', () => {
-        const sections = document.querySelectorAll('.section');
-        let markdownContent = '';
+    // document.getElementById('export-button').addEventListener('click', () => {
+    //     const sections = document.querySelectorAll('.section');
+    //     let markdownContent = '';
 
     
-        sections.forEach(section => {
-            markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
+    //     sections.forEach(section => {
+    //         markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
     
-            const subsections = section.querySelectorAll('.subsection');
+    //         const subsections = section.querySelectorAll('.subsection');
     
-            subsections.forEach(subsection => {
-                const title = subsection.querySelector('h4').textContent;
-                const content = subsection.querySelector('p').textContent;
+    //         subsections.forEach(subsection => {
+    //             const title = subsection.querySelector('h4').textContent;
+    //             const content = subsection.querySelector('p').textContent;
     
-                markdownContent += `## ${title}\n\n${content}\n\n`;
-            });
+    //             markdownContent += `## ${title}\n\n${content}\n\n`;
+    //         });
     
-            markdownContent += '\n';
-        });
+    //         markdownContent += '\n';
+    //     });
     
-        const now = new Date();
-        const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
-        const folderName = `reward_reports_${formattedDate}`;
-        const markdownFileName = `reward_report_${formattedDate}.md`;
+    //     const now = new Date();
+    //     const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
+    //     const folderName = `reward_reports_${formattedDate}`;
+    //     const markdownFileName = `reward_report_${formattedDate}.md`;
     
-        const zip = new JSZip();
-        const folder = zip.folder(folderName);
-        folder.file(markdownFileName, markdownContent);
-        // console.log(importedMarkdownFiles)
+    //     const zip = new JSZip();
+    //     const folder = zip.folder(folderName);
+    //     folder.file(markdownFileName, markdownContent);
+    //     // console.log(importedMarkdownFiles)
 
-        // Export imported markdown files as separate markdown files
-        if (importedMarkdownFiles.length > 0) {
-            importedMarkdownFiles.forEach(importedFile => {
-                folder.file(importedFile.name, importedFile.content);
-            });
-        }
+    //     // Export imported markdown files as separate markdown files
+    //     if (importedMarkdownFiles.length > 0) {
+    //         importedMarkdownFiles.forEach(importedFile => {
+    //             folder.file(importedFile.name, importedFile.content);
+    //         });
+    //     }
     
-        zip.generateAsync({ type: 'blob' }).then(function (content) {
-            const filename = `${folderName}.zip`;
+    //     zip.generateAsync({ type: 'blob' }).then(function (content) {
+    //         const filename = `${folderName}.zip`;
     
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(content, filename);
-            } else {
-                const url = URL.createObjectURL(content);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = filename;
-                link.click();
-                URL.revokeObjectURL(url);
-            }
-        }).catch(function (error) {
-            console.error('Error generating ZIP:', error);
-        });
-    });
+    //         if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //             window.navigator.msSaveOrOpenBlob(content, filename);
+    //         } else {
+    //             const url = URL.createObjectURL(content);
+    //             const link = document.createElement('a');
+    //             link.href = url;
+    //             link.download = filename;
+    //             link.click();
+    //             URL.revokeObjectURL(url);
+    //         }
+    //     }).catch(function (error) {
+    //         console.error('Error generating ZIP:', error);
+    //     });
+    // });
 
     publishButton.addEventListener('click', async () => {
         // Show a confirmation dialog before proceeding
