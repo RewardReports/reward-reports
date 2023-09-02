@@ -253,6 +253,18 @@ nav {
     display: block;
 }
 
+.user-buttons button {
+    margin: 10px;
+}
+
+.user-buttons {
+    justify-content: center;
+}
+
+#back-intro{
+    margin: 0;
+}
+
 .section {
     margin-bottom: 50px;
     padding: 20px;

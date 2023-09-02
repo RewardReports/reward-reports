@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const backUser = document.getElementById('back-user');
     const userTypeDescrip = document.getElementById('user-type-description');
     const userReccomendation = document.getElementById('user-recommendation');
+    const backIntro = document.getElementById('back-intro');
+    const introDiv = document.querySelector('.intro');
+
 
 
 
@@ -111,6 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the user div by removing the 'hidden' class
         userDiv.classList.remove('hidden');
     });
+
+    backIntro.addEventListener('click', () => {
+        // Hide all the steps by adding the 'hidden' class
+        steps.forEach((step) => {
+          step.classList.add('hidden');
+        });
+      
+        // Show the user div by removing the 'hidden' class
+        introDiv.classList.remove('hidden');
+    });
+
 
     nextButton.addEventListener('click', () => {
         // Hide all the steps by adding the 'hidden' class
