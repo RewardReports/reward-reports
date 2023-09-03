@@ -513,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (templateResponse.ok) {
                     const templateContent = await templateResponse.text();
                     folder.file('template.md', templateContent);
-                    console.log('template.md added');
                 } else {
                     console.error('Failed to fetch template.md:', templateResponse.status);
                 }
@@ -521,9 +520,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error:', error);
                 }
             };
+
+            // Define a function to fetch and add the README file
+            const addReadmeFile = async () => {
+                try {
+                const readmeResponse = await fetch('testFiles/README.md');
+                if (readmeResponse.ok) {
+                    const readmeContent = await readmeResponse.text();
+                    folder.file('README.md', readmeContent);
+                } else {
+                    console.error('Failed to fetch readme.md:', readmeResponse.status);
+                }
+                } catch (error) {
+                console.error('Error:', error);
+                }
+            };
             
-            // Use async/await to ensure that the template file is added before other files
+            // Use async/await to ensure that the files are added before other files
             await addTemplateFile();
+            await addReadmeFile();
 
              // Update importedMarkdownFiles with the newly generated markdown file
             const newFileContent = await folder.file(markdownFileName).async('string');
