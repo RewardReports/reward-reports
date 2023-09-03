@@ -505,7 +505,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const zip = new JSZip();
             const folder = zip.folder(folderName);
             folder.file(markdownFileName, markdownContent);
-            // console.log(importedMarkdownFiles)
+
+            // Define a function to fetch and add the template file
+            const addTemplateFile = async () => {
+                try {
+                const templateResponse = await fetch('testFiles/template.md');
+                if (templateResponse.ok) {
+                    const templateContent = await templateResponse.text();
+                    folder.file('template.md', templateContent);
+                    console.log('template.md added');
+                } else {
+                    console.error('Failed to fetch template.md:', templateResponse.status);
+                }
+                } catch (error) {
+                console.error('Error:', error);
+                }
+            };
+            
+            // Use async/await to ensure that the template file is added before other files
+            await addTemplateFile();
 
              // Update importedMarkdownFiles with the newly generated markdown file
             const newFileContent = await folder.file(markdownFileName).async('string');
@@ -516,6 +534,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (importedMarkdownFiles.length > 0) {
                 importedMarkdownFiles.forEach(importedFile => {
                     folder.file(importedFile.name, importedFile.content);
+                    console.log(importedFile.name)
+                    console.log(importedFile.content)
                 });
             }
         
