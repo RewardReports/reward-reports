@@ -452,6 +452,21 @@ document.addEventListener('DOMContentLoaded', () => {
     //     });
     // });
 
+    // Function to convert HTML links to Markdown format
+    function convertLinksToMarkdown(section) {
+        const links = section.querySelectorAll('a');
+        
+        links.forEach(link => {
+        const text = link.textContent;
+        const url = link.getAttribute('href');
+        const markdownLink = `[${text}](${url})`;
+        
+        // Replace the HTML link with the Markdown link
+        const linkNode = document.createTextNode(markdownLink);
+        link.parentNode.replaceChild(linkNode, link);
+        });
+    }
+
     publishButton.addEventListener('click', async () => {
         // Show a confirmation dialog before proceeding
         const editSubsections = document.querySelectorAll('.subsection p');
@@ -473,8 +488,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             markdownContent += `<!-- Author: ${contextInfo.author} --> `;
             markdownContent += `<!-- Description: ${contextInfo.description} -->\n\n`;
-        
+
+            
             sections.forEach(section => {
+                convertLinksToMarkdown(section);
                 markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
 
                 const subsections = section.querySelectorAll('.subsection');
@@ -600,6 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             descriptionInput.value = '';
             activeDraftButton.style.display = "none";
+            replaceLinksInSection();
         }
     });
 
@@ -1037,6 +1055,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+    // Function to replace [Link](URL) with HTML links in a given paragraph
+    function replaceLinksInParagraph(paragraph) {
+        
+        // Regular expression to match [Link](URL) patterns
+        const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+        // Replace matching patterns with HTML links if not already in HTML format
+        const replacedParagraph = paragraph.innerHTML.replace(linkPattern, (match, text, url) => {
+            // Check if the match is already an HTML link (contains '<a' tag)
+            if (match.includes('<a')) {
+            return match; // Return the original match
+            }
+            return `<a href="${url}" target="_blank">${text}</a>`;
+        });
+
+        // Set the HTML content of the paragraph to the replaced text
+        paragraph.innerHTML = replacedParagraph;
+    }
+  
+  
+    
+    // Function to search for and replace links in all <p> elements within currentEditSection
+    function replaceLinksInSection() {
+        const paragraphs = document.querySelectorAll('p');
+    
+        paragraphs.forEach(paragraph => {
+        replaceLinksInParagraph(paragraph);
+        });
+    }
+  
+
     saveButton.addEventListener('click', () => {
         // console.log(currentEditSection.id);
         const subsections = document.querySelectorAll('.subsection p');
@@ -1048,6 +1098,8 @@ document.addEventListener('DOMContentLoaded', () => {
             author: editorInput.value,
             description: descriptionInput.value.replace(/\s+/g, ' ')
         };
+
+        replaceLinksInSection();
             
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
