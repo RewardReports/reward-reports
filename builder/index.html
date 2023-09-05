@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <!-- Make sure to load the highlight.js CSS file before the Diff2Html CSS file -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/github.min.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css"
-    /> -->
     <title>Reward Reports</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.0.0/diff.min.js"></script>
@@ -161,21 +154,31 @@
                             <div class="user-type-container">
                                 <div class="user-column">
                                     <div id="technical" class="user-icon">
-                                        <svg width="120" height="120" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg width="30%" height="30%" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M233.333 266.667L100 389.743L233.333 533.333M566.667 266.667L700 389.743L566.667 533.333M466.667 133.333L333.333 666.667" stroke="black" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>    
-                                    </div>                                                                     
-                                    <h4>Technical Expert</h4>
-                                    <p style="font-size: 0.8rem; color:#808080;">e.g. Deveopers, Model Designers, ML Researchers, etc...</p>
+                                    </div>
                                 </div>
                                 <div class="user-column">
                                     <div id="non-technical" class="user-icon">
-                                        <svg width="100" height="90" viewBox="0 0 475 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg width="30%" height="27%" viewBox="0 0 475 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M337.496 87.4189L408.203 158.13M275 474.903H475M25 474.915L26.1875 466.61C30.3828 437.228 32.4844 422.532 37.2578 408.817C41.4922 396.646 47.2812 385.071 54.4765 374.38C62.5859 362.329 73.0781 351.833 94.0703 330.845L385.266 39.6455C404.797 20.1182 436.453 20.1182 455.98 39.6455C475.504 59.1728 475.504 90.8291 455.98 110.356L159.437 406.899C140.395 425.942 130.875 435.462 120.031 443.032C110.406 449.755 100.023 455.321 89.0977 459.622C76.793 464.462 63.5937 467.126 37.1992 472.454L25 474.915Z" stroke="black" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                     </div> 
-                                    <h4>Non-Technical Expert</h4>
-                                    <p style="font-size: 0.8rem; color:#808080;">e.g. Managers, Auditors, Interdisciplinary Researchers, etc...</p>
+                                </div>
+                            </div>
+                            <div class="user-text-container">
+                                <div class="user-text-column">
+                                    <div class="user-text">                                                           
+                                        <h4>Technical Expert</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Deveopers, Model Designers, ML Researchers, etc...</p>
+                                    </div>
+                                </div>
+                                <div class="user-text-column">
+                                    <div class="user-text">
+                                        <h4>Non-Technical Expert</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Managers, Auditors, Interdisciplinary Researchers, etc...</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="centered-div user-buttons">
@@ -1070,7 +1073,6 @@
                             <!-- Populate options from importedMarkdownFiles -->
                             <option disabled>Publish or import report(s) first</option>
                         </select>
-                        <!-- <button id="compareButton">Compare</button> -->
                     </div>
                 <div class="row row-large">
                     <div id="diff-container">
