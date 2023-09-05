@@ -124,6 +124,8 @@ nav {
     margin: 2vh 2vw;
     height: auto;
     width: auto;
+    white-space: nowrap; /* Prevent text from wrapping to multiple lines by default */
+    text-overflow: ellipsis; /* Add an ellipsis (...) for overflow text */
 }
 
 .tabs li {
