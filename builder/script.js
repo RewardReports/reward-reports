@@ -239,13 +239,52 @@ document.addEventListener('DOMContentLoaded', () => {
             } 
         });
         populateLastEdit()
-    });  
+    }); 
+    
+    // Function to add the text below the section heading
+    function addLinkInstructions(section) {
+        // Create a <p> element for the format text
+        const formatText = document.createElement('p');
+        formatText.textContent = 'Links should be formatted as [Hyperlink text](Link URL). e.g.[Reward Reports](https://rewardreports.github.io/)';
+
+        // Create a <em> element for the example (italicized)
+        const example = document.createElement('em');
+        example.textContent = 'e.g. [Reward Reports](https://rewardreports.github.io/)';
+
+        // Create a <div> to contain the format text
+        const formatTextContainer = document.createElement('div');
+        formatTextContainer.appendChild(formatText);
+        formatTextContainer.appendChild(example);
+        formatTextContainer.classList.add('format-text-container'); // Add a class for styling
+
+
+        // Insert the format text container after the centered-div
+        const centeredDiv = section.querySelector('.centered-div');
+        centeredDiv.insertAdjacentElement('afterend', formatTextContainer);
+    }
+
+    function removeLinkInstructions(section) {
+        const formatTextContainer = section.querySelector('.format-text-container');
+    
+        // Check if the format text container exists
+        if (formatTextContainer) {
+            formatTextContainer.remove();
+        }
+    }
 
     editButtons.forEach(button => {
         button.addEventListener('click', () => {
             const section = button.closest('.section');
             currentEditSection = section;
             const subsections = section.querySelectorAll('.subsection p');
+
+            const formatText = section.querySelector('.format-text');
+
+            // Check if the format text already exists
+            if (!formatText) {
+                addLinkInstructions(section);
+            }
+    
 
             // Hide all other sections
             sections.forEach(otherSection => {
@@ -592,6 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
             populateLastEdit();
             checkExpendButtonNeed2();
             populateVersionTable();
+            removeLinkInstructions(currentEditSection);
             // populateCheckboxes();
             // currentContextInfo = {};
             authorForm.style.display = 'none';
@@ -1035,6 +1075,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show a confirmation dialog before proceeding
         const confirmCancel = confirm('Are you sure you want to cancel? Any unsaved changes will be discarded.');
         if (confirmCancel) {
+            removeLinkInstructions(currentEditSection);
             const paragraphs = document.querySelectorAll('p[data-original-content]');
             paragraphs.forEach((paragraph) => {
                 paragraph.textContent = paragraph.dataset.originalContent;
@@ -1093,6 +1134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetNav = document.querySelector(`[data-target="${currentEditSection.id}"]`);
         const indicator = targetNav.querySelector('.indicator');
         // console.log(indicator)
+
+        removeLinkInstructions(currentEditSection);
 
         currentContextInfo = {
             author: editorInput.value,

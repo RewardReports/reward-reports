@@ -217,8 +217,18 @@ nav {
     grid-template-columns: 1fr 1fr; /* Three equal columns */
     width: 80%;
     height: max-content;
-    margin: 30px auto;
-    gap: 40px; 
+    margin: 30px auto 0 auto;
+    gap: 10%; 
+    padding: auto;
+}
+
+.user-text-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Three equal columns */
+    width: 80%;
+    height: max-content;
+    margin: 0 auto 30px auto;
+    gap: 10%; 
 }
   
 .user-column {
@@ -226,8 +236,31 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 25px 0;
+    padding: 25px 0 0 0;
+    height: 100%;
+    width: 100%; 
 }
+
+.user-text-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 0 0;
+    height: 100%;
+    width: 100%; 
+}
+
+.user-text {
+    max-width: 80%;
+}
+
+/* .user-text p,
+.user-text h4 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
 
 .user-icon {
     border-radius: 20px;
@@ -883,3 +916,10 @@ button div{
     fill: #464B53;
     stroke: none;
 } */
+
+.format-text-container {
+    font-size: 0.8rem;
+    color: #808080; /* Faint grey color */
+    padding:0;
+    margin:0;
+}
