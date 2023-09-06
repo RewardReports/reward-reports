@@ -803,7 +803,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const sections = WithoutContext.split(/^(?=# [^#])/gm);    
         sections.forEach(section => {
-            
             const sectionTitleLine = section.split('\n')[0];
             const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
             const sectionEl = document.querySelector(`[data-target="${sectionTitle.toLowerCase().replace(/\s/g, '-')}"]`);
@@ -834,7 +833,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 contentEl.textContent = content;
             });
         });
-        // console.log(contextInfo)
+
+        replaceLinksInSection();
     }
 
     // Event listener for confirm import button in the modal
@@ -929,9 +929,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error importing reward report:', error);
         }
-    
+
         closeImportModal();
-        console.log(contextInfo)
     });
 
     function convertToGitHubAPIUrl(repoUrl) {

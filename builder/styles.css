@@ -585,6 +585,10 @@ a:hover {
     line-height: 120%;
 }
 
+.row-large img{
+    max-width: 20vw;
+}
+
 .changes-column span {
     display: inline;
     white-space: normal;
