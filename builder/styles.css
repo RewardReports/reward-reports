@@ -314,6 +314,12 @@ nav {
 .section h4{
     display: inline-block;
 }
+
+.section img{
+    max-width: 100%;
+    max-height: 40vh;
+}
+
 .subsections{
     height: 0;
     width: 0;
@@ -586,7 +592,8 @@ a:hover {
 }
 
 .row-large img{
-    max-width: 20vw;
+    max-width: 100%;
+    max-height: 40vh;
 }
 
 .changes-column span {
