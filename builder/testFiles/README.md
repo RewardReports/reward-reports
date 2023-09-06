@@ -1,6 +1,6 @@
 # Reward Reports Protocol
 
-The Reward Reports Protocol provides a structured framework for documenting and evaluating machine learning models, specifically focused on reinforcement learning systems. A key aspect of this protocol is the organization and maintenance of Reward Reports for a model, which allows for the systematic tracking of changes and improvements over time.
+The Reward Reports Protocol provides a structured framework for documenting and evaluating machine learning models. A key aspect of this protocol is the organization and maintenance of Reward Reports for a model, which allows for the systematic tracking of changes and improvements over time.
 
 ## Introduction
 
