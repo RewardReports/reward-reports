@@ -318,6 +318,7 @@ nav {
 .section img{
     max-width: 100%;
     max-height: 40vh;
+    display: block;
 }
 
 .subsections{
@@ -594,6 +595,7 @@ a:hover {
 .row-large img{
     max-width: 100%;
     max-height: 40vh;
+    display: block;
 }
 
 .changes-column span {

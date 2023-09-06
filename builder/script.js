@@ -245,16 +245,32 @@ document.addEventListener('DOMContentLoaded', () => {
     function addLinkInstructions(section) {
         // Create a <p> element for the format text
         const formatText = document.createElement('p');
-        formatText.textContent = 'Links should be formatted as [Hyperlink text](Link URL). e.g.[Reward Reports](https://rewardreports.github.io/)';
+        formatText.textContent = 'Links should be formatted as [Hyperlink text](Link URL).';
+        
+        const formatImg = document.createElement('p');
+        formatImg.textContent = 'Images should be formatted as ![Image alt text](Image src URL).';
+
+        const lineBreak = document.createElement('br')
+        const lineBreak2 = document.createElement('br')
+
+        
+        // Create a <em> element for the example (italicized)
+        const example = document.createElement('i');
+        example.textContent = '  e.g. [Reward Reports](https://rewardreports.github.io/)';
 
         // Create a <em> element for the example (italicized)
-        const example = document.createElement('em');
-        example.textContent = 'e.g. [Reward Reports](https://rewardreports.github.io/)';
+        const example2 = document.createElement('i');
+        example2.textContent = '  e.g. ![Reward Reports Logo](https://github.com/RewardReports/reward-reports/raw/main/_assets/icon.png)';
 
+        
         // Create a <div> to contain the format text
         const formatTextContainer = document.createElement('div');
         formatTextContainer.appendChild(formatText);
-        formatTextContainer.appendChild(example);
+        formatTextContainer.appendChild(formatImg);
+        // formatText.appendChild(lineBreak);
+        formatImg.appendChild(lineBreak2);
+        formatText.appendChild(example);
+        formatImg.appendChild(example2);
         formatTextContainer.classList.add('format-text-container'); // Add a class for styling
 
 
@@ -295,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             subsections.forEach(subsection => {
                 subsection.contentEditable = true;
-                subsection.dataset.originalContent = subsection.textContent;
+                subsection.dataset.originalContent = subsection.innerHTML;
             });
 
             button.textContent = 'Editing';
@@ -493,16 +509,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to convert HTML links to Markdown format
     function convertLinksToMarkdown(section) {
-        const links = section.querySelectorAll('a');
-        
+        const links = section.querySelectorAll('a, img'); // Select both <a> and <img> elements
+
         links.forEach(link => {
-        const text = link.textContent;
-        const url = link.getAttribute('href');
-        const markdownLink = `[${text}](${url})`;
-        
-        // Replace the HTML link with the Markdown link
-        const linkNode = document.createTextNode(markdownLink);
-        link.parentNode.replaceChild(linkNode, link);
+            if (link.tagName === 'A') {
+                // Handle HTML links
+                const text = link.textContent;
+                const url = link.getAttribute('href');
+                const markdownLink = `[${text}](${url})`;
+
+                // Replace the HTML link with the Markdown link
+                const linkNode = document.createTextNode(markdownLink);
+                link.parentNode.replaceChild(linkNode, link);
+            } else if (link.tagName === 'IMG') {
+                // Handle HTML images
+                const altText = link.getAttribute('alt');
+                const imageUrl = link.getAttribute('src');
+                const markdownImage = `![${altText}](${imageUrl})`;
+
+                // Replace the HTML image with the Markdown image
+                const imageNode = document.createTextNode(markdownImage);
+                link.parentNode.replaceChild(imageNode, link);
+            }
         });
     }
 
@@ -665,6 +693,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmRestart = confirm('Are you sure you want to create a new Reward Report? Any unpublished changes will be lost.');
         
         if (confirmRestart) {
+            
+            fetch('testFiles/template.md')
+            .then(response => response.text())
+            .then(markdownContent => {
+                // Call the parseMarkdown function with the fetched content
+                parseMarkdown(markdownContent);
+            })
+            .catch(error => {
+                console.error('Error fetching Markdown content:', error);
+            });
+
             const indicators = document.querySelectorAll('.indicator');
             
 
@@ -1077,7 +1116,9 @@ document.addEventListener('DOMContentLoaded', () => {
             removeLinkInstructions(currentEditSection);
             const paragraphs = document.querySelectorAll('p[data-original-content]');
             paragraphs.forEach((paragraph) => {
-                paragraph.textContent = paragraph.dataset.originalContent;
+                // Restore the original HTML content using innerHTML
+                paragraph.innerHTML = paragraph.getAttribute('data-original-content');
+                console.log(paragraph.getAttribute('data-original-content'))
             });
             paragraphs.forEach(subsection => {
                 subsection.contentEditable = false;
@@ -1086,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             editButtons.forEach((button) => {
                 button.textContent = 'Edit';
                 button.classList.remove('editing-button');
-            });  
+            });
             sections.forEach(section => {
                 section.style.display = 'block';
             });
@@ -1097,24 +1138,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Function to replace [Link](URL) with HTML links in a given paragraph
-    function replaceLinksInParagraph(paragraph) {
+    // function replaceLinksInParagraph(paragraph) {
         
-        // Regular expression to match [Link](URL) patterns
-        const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+    //     // Regular expression to match [Link](URL) patterns
+    //     const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 
-        // Replace matching patterns with HTML links if not already in HTML format
-        const replacedParagraph = paragraph.innerHTML.replace(linkPattern, (match, text, url) => {
-            // Check if the match is already an HTML link (contains '<a' tag)
-            if (match.includes('<a')) {
-            return match; // Return the original match
+    //     // Replace matching patterns with HTML links if not already in HTML format
+    //     const replacedParagraph = paragraph.innerHTML.replace(linkPattern, (match, text, url) => {
+    //         // Check if the match is already an HTML link (contains '<a' tag)
+    //         if (match.includes('<a')) {
+    //         return match; // Return the original match
+    //         }
+    //         return `<a href="${url}" target="_blank">${text}</a>`;
+    //     });
+
+    //     // Set the HTML content of the paragraph to the replaced text
+    //     paragraph.innerHTML = replacedParagraph;
+    // }
+
+    // Function to replace [Link](URL) and ![Image Caption](Image Source Link) with HTML links and images
+    function replaceLinksInParagraph(paragraph) {
+        // Regular expression to match [Link](URL) and ![Image Caption](Image Source Link) patterns
+        const linkPattern = /(\[([^\]]+)\]\(([^)]+)\))|(!\[(.*?)\]\(([^)]+)\))/g;
+
+        // Replace matching patterns with HTML links or images if not already in HTML format
+        const replacedParagraph = paragraph.innerHTML.replace(linkPattern, (match, textLink, text, url, imageLink, altText, imageUrl) => {
+            // Check if the match is already an HTML link (contains '<a' tag) or image (contains '<img' tag)
+            if (match.includes('<a') || match.includes('<img')) {
+                return match; // Return the original match
             }
-            return `<a href="${url}" target="_blank">${text}</a>`;
+
+            // Handle text links
+            if (textLink) {
+                return `<a href="${url}" target="_blank">${text}</a>`;
+            }
+
+            // Handle image links
+            if (imageLink) {
+                return `<img src="${imageUrl}" alt="${altText}" />`;
+            }
         });
 
         // Set the HTML content of the paragraph to the replaced text
         paragraph.innerHTML = replacedParagraph;
     }
-  
   
     
     // Function to search for and replace links in all <p> elements within currentEditSection
