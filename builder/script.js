@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageContainer = document.getElementById('message-container')
     // Display the message if user is using a mobile device
     if (isMobile) {
-        messageContainer.style.display = 'block';
+        messageContainer.style.display = 'flex';
     }
 
 
