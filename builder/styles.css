@@ -219,7 +219,7 @@ nav {
     grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
     width: 95%;
     height: max-content;
-    margin: 30px auto 0 auto;
+    margin: 15vh auto 0 auto;
     gap: 3%; 
     padding: auto;
 }
@@ -229,7 +229,7 @@ nav {
     grid-template-columns: 1fr 1fr 1fr 1fr; /* Three equal columns */
     width: 95%;
     height: max-content;
-    margin: 0 auto 30px auto;
+    margin: 0 auto 15vh auto;
     gap: 3%; 
 }
   
