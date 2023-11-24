@@ -48,7 +48,7 @@
                     <ul class="sections">
                         <li data-target="system-details" class="sections-head">
                             <div class="section-header">
-                                System Details
+                                Overview
                                 <div class="indicator hidden"></div>
                             </div>
                             <ul class="subsections">
@@ -60,26 +60,28 @@
                         </li>
                         <li data-target="optimization-intent" class="sections-head">
                             <div class="section-header">
-                                Optimization Intent
+                                Performance
                                 <div class="indicator hidden"></div>
                             </div>
                             <ul class="subsections">
                                 <li data-target="optimization-intent-sub1">Goal of Reinforcement</li>
                                 <li data-target="optimization-intent-sub2">Defined Performance Metrics</li>
-                                <li data-target="optimization-intent-sub3">Oversight Metrics</li>
-                                <li data-target="optimization-intent-sub4">Known Failure Modes</li>
+                                <li data-target="optimization-intent-sub3">Known Failure Modes</li>
                             </ul>
                         </li>
                         <li data-target="institutional-interface" class="sections-head">
                             <div class="section-header">
-                                Institutional Interface
+                                Responsibilities
                                 <div class="indicator hidden"></div>
                             </div>
                             <ul class="subsections">
-                                <li data-target="institutional-interface-sub1">Deployment Agency</li>
-                                <li data-target="institutional-interface-sub2">Stakeholders</li>
-                                <li data-target="institutional-interface-sub3">Explainability & Transparency</li>
-                                <li data-target="institutional-interface-sub4">Recourse</li>
+                                <li data-target="institutional-interface-sub1">Reporting Cadence</li>
+                                <li data-target="institutional-interface-sub2">Update Triggers</li>
+                                <li data-target="institutional-interface-sub3">Oversight Metrics</li>
+                                <li data-target="institutional-interface-sub4">Legacy System(s)</li>
+                                <li data-target="institutional-interface-sub5">Stakeholders</li>
+                                <li data-target="institutional-interface-sub6">Explainability & Transparency</li>
+                                <li data-target="institutional-interface-sub7">Recourse</li>
                             </ul>
                         </li>
                         <li data-target="implementation" class="sections-head">
@@ -111,13 +113,14 @@
                         </li>
                         <li data-target="system-maintenance" class="sections-head">
                             <div class="section-header">
-                                System Maintenance
+                                Maintenance
                                 <div class="indicator hidden"></div>
                             </div>
                             <ul class="subsections">
-                                <li data-target="system-maintenance-sub1">Reporting Cadence</li>
-                                <li data-target="system-maintenance-sub2">Update Triggers</li>
-                                <li data-target="system-maintenance-sub3">Changelog</li>
+                                <li data-target="system-maintenance-sub1">Comments on Performance</li>
+                                <li data-target="system-maintenance-sub2">Comments on User Feedback</li>
+                                <li data-target="system-maintenance-sub3">Recommendations</li>
+                                <li data-target="system-maintenance-sub4">Changelog</li>
                             </ul>
                         </li>
                     </ul>
@@ -170,18 +173,45 @@
                                             </svg>
                                     </div> 
                                 </div>
+                                <div class="user-column">
+                                    <div id="technical" class="user-icon">
+                                        <svg width="93" height="68" viewBox="0 0 93 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M83.5938 -0.000488281H8.59375C3.85 0.00576172 0.00625 3.84951 0 8.59326V58.5933C0.00625 63.337 3.85 67.1808 8.59375 67.187H83.5938C88.3375 67.1808 92.1812 63.337 92.1875 58.5933V8.59326C92.1812 3.84951 88.3375 0.00576172 83.5938 -0.000488281ZM8.59375 4.68701H83.5938C85.75 4.69014 87.4969 6.43701 87.5 8.59326V12.4995H4.6875V8.59326C4.69063 6.43701 6.4375 4.69014 8.59375 4.68701ZM83.5938 62.4995H8.59375C6.4375 62.4964 4.69063 60.7495 4.6875 58.5933V17.187H87.5V58.5933C87.4969 60.7495 85.75 62.4964 83.5938 62.4995ZM77.3438 24.9995H52.3438C51.05 24.9995 50 26.0495 50 27.3433C50 28.637 51.05 29.687 52.3438 29.687H77.3438C78.6375 29.687 79.6875 28.637 79.6875 27.3433C79.6875 26.0495 78.6375 24.9995 77.3438 24.9995ZM77.3438 37.4995H52.3438C51.05 37.4995 50 38.5495 50 39.8433C50 41.137 51.05 42.187 52.3438 42.187H77.3438C78.6375 42.187 79.6875 41.137 79.6875 39.8433C79.6875 38.5495 78.6375 37.4995 77.3438 37.4995ZM77.3438 49.9995H52.3438C51.05 49.9995 50 51.0495 50 52.3433C50 53.637 51.05 54.687 52.3438 54.687H77.3438C78.6375 54.687 79.6875 53.637 79.6875 52.3433C79.6875 51.0495 78.6375 49.9995 77.3438 49.9995Z" fill="black"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9666 34.3984C15.9666 27.9148 20.9828 22.9392 27.4747 22.9392C34.156 22.9392 38.9829 28.803 38.9829 34.3984C38.9829 37.7582 37.6316 40.7307 35.4074 42.8062C39.8049 44.6092 43.4434 47.8647 45.723 51.9679C46.2594 52.9335 45.9115 54.1511 44.946 54.6875C43.9804 55.2239 42.7628 54.876 42.2264 53.9105C39.7474 49.4484 35.2776 46.2277 30.0081 45.4381C29.0793 45.299 28.3725 44.5324 28.309 43.5954C28.2455 42.6584 28.8426 41.8035 29.7441 41.5403C32.8273 40.6404 34.9829 37.896 34.9829 34.3984C34.9829 30.7987 31.7394 26.9392 27.4747 26.9392C23.1725 26.9392 19.9666 30.1433 19.9666 34.3984C19.9666 37.896 22.1222 40.6404 25.2054 41.5402C26.1069 41.8034 26.7039 42.6583 26.6405 43.5953C26.577 44.5323 25.8702 45.2989 24.9414 45.4381C19.6717 46.2277 15.2019 49.4489 12.723 53.9105C12.1865 54.876 10.9689 55.2239 10.0033 54.6874C9.03777 54.1509 8.68994 52.9333 9.2264 51.9678C11.5059 47.865 15.1444 44.6093 19.5421 42.8062C17.3179 40.7307 15.9666 37.7582 15.9666 34.3984Z" fill="black"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="user-column">
+                                    <div id="non-technical" class="user-icon">
+                                        <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M61.1442 62.8309C57.1703 55.641 50.0069 50.4504 41.5549 49.1775C47.2016 47.5209 51.125 42.4368 51.125 36.125C51.125 29.5027 45.3427 22.5 37.5 22.5C29.766 22.5 23.875 28.391 23.875 36.125C23.875 42.4368 27.7984 47.5209 33.4451 49.1774C24.9926 50.4505 17.8294 55.6417 13.8556 62.8308M73 37.5C73 57.1063 57.1063 73 37.5 73C17.8939 73 2 57.1063 2 37.5C2 17.8939 17.8939 2 37.5 2C57.1063 2 73 17.8939 73 37.5Z" stroke="black" stroke-width="4" stroke-linejoin="round"/>
+                                        </svg>                                                                                                                                                                         
+                                    </div> 
+                                </div>
                             </div>
                             <div class="user-text-container">
                                 <div class="user-text-column">
                                     <div class="user-text">                                                           
-                                        <h4>Technical Expert</h4>
-                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Developers, Model Designers, ML Researchers, etc...</p>
+                                        <h4>Builder</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Developers, Algorithm Designers, ML Engineers, etc...</p>
                                     </div>
                                 </div>
                                 <div class="user-text-column">
                                     <div class="user-text">
-                                        <h4>Non-Technical Expert</h4>
-                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Managers, Auditors, Interdisciplinary Researchers, etc...</p>
+                                        <h4>Vendor</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. System Administrator, Company Executive, etc...</p>
+                                    </div>
+                                </div>
+                                <div class="user-text-column">
+                                    <div class="user-text">                                                           
+                                        <h4>Client</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. City Representative, School Official, Auditors, etc...</p>
+                                    </div>
+                                </div>
+                                <div class="user-text-column">
+                                    <div class="user-text">
+                                        <h4>User</h4>
+                                        <p style="font-size: 0.8rem; color:#808080;">e.g. Client's Customers, System User, Citizens, etc...</p>
                                     </div>
                                 </div>
                             </div>
@@ -230,7 +260,7 @@
                     <div class="main-content build">
                         <div id="system-details" class="section">
                             <div class="centered-div">
-                                <h3>System Details</h3> 
+                                <h3>Overview</h3> 
                                 <button class="edit-button">Edit</button>
                             </div>
                             <div id="system-details-sub1" class="subsection">
@@ -265,7 +295,7 @@
                         
                         <div id="optimization-intent" class="section">
                             <div class="centered-div">
-                                <h3>Optimization Intent</h3>
+                                <h3>Performance</h3>
                                 <button class="edit-button">Edit</button>
                             </div>
                             <div id="optimization-intent-sub1" class="subsection">
@@ -283,13 +313,6 @@
                                 <p >A list of "performance metrics" included explicitly in the reward signal, the criteria for why these metrics were chosen, and from where these criteria were drawn (e.g. government agencies, domain precedent, GitHub repositories, toy environments). Performance metrics that are used by the designer to tune the system, but not explicitly included in the reward signal should also be reported here.</p>
                             </div>
                             <div id="optimization-intent-sub3" class="subsection">
-                                <h4>Oversight Metrics</h4>
-                                <svg class="info" style="width: 15px; height:15px; margin:0">
-                                    <use xlink:href="#info"/>
-                                </svg>
-                                <p >Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g. performance differences across demographic groups)? Why aren't they part of the reward signal, and why must they be monitored?</p>
-                            </div>
-                            <div id="optimization-intent-sub4" class="subsection">
                                 <h4>Known Failure Modes</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
@@ -300,31 +323,52 @@
                     
                         <div id="institutional-interface" class="section">
                             <div class="centered-div">
-                                <h3>Institutional Interface</h3> 
+                                <h3>Responsibilities</h3> 
                                 <button class="edit-button">Edit</button>
                             </div>
                             <div id="institutional-interface-sub1" class="subsection">
-                                <h4>Deployment Agency</h4>
+                                <h4>Reporting Cadence</h4>
+                                <svg class="info" style="width: 15px; height:15px; margin:0">
+                                    <use xlink:href="#info"/>
+                                </svg>
+                                <p >The intended timeframe for revisiting the reward report. How was this decision reached and motivated?</p>
+                            </div>
+                            <div id="institutional-interface-sub2" class="subsection" >
+                                <h4>Update Triggers</h4>
+                                <svg class="info" style="width: 15px; height:15px; margin:0">
+                                    <use xlink:href="#info"/>
+                                </svg>
+                                <p >Specific events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above. Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either of performance or oversight) that falls outside a defined threshold of critical safety.</p>
+                            </div>
+                            <div id="institutional-interface-sub3" class="subsection" >
+                                <h4>Oversight Metrics</h4>
+                                <svg class="info" style="width: 15px; height:15px; margin:0">
+                                    <use xlink:href="#info"/>
+                                </svg>
+                                <p>Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g. performance differences across demographic groups)? Why aren't they part of the reward signal, and why must they be monitored?</p>
+                            </div>
+                            <div id="institutional-interface-sub4" class="subsection">
+                                <h4>Legacy System(s)</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
                                 </svg>
                                 <p >What other agency or controlling entity roles, if any, are intended to be subsumed by the system? How may these roles change following system deployment?</p>
                             </div>
-                            <div id="institutional-interface-sub2" class="subsection" >
+                            <div id="institutional-interface-sub5" class="subsection" >
                                 <h4>Stakeholders</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
                                 </svg>
                                 <p >What other interests are implicated in the design specification or system deployment, beyond the designer? What role will these interests play in subsequent report documentation? What other entities, if any, does the deployed system interface with whose interests are not intended to be in scope?</p>
                             </div>
-                            <div id="institutional-interface-sub3" class="subsection" >
+                            <div id="institutional-interface-sub6" class="subsection" >
                                 <h4>Explainability & Transparency</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
                                 </svg>
                                 <p >Does the system offer explanations of its decisions or actions? What is the purpose of these explanations? To what extent is the policy transparent, i.e. can decisions or actions be understood in terms of meaningful intermediate quantities?</p>
                             </div>
-                            <div id="institutional-interface-sub4" class="subsection" >
+                            <div id="institutional-interface-sub7" class="subsection" >
                                 <h4>Recourse</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
@@ -426,24 +470,31 @@
                         
                         <div id="system-maintenance" class="section">
                             <div class="centered-div">
-                                <h3>System Maintenance</h3> 
+                                <h3>Maintenance</h3> 
                                 <button class="edit-button">Edit</button>
                             </div>
                             <div id="system-maintenance-sub1" class="subsection">
-                                <h4>Reporting Cadence</h4>
+                                <h4>Comments on Performance</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
                                 </svg>
-                                <p >The intended timeframe for revisiting the reward report. How was this decision reached and motivated?</p>
+                                <p >What shifts in metrics seem most significant?</p>
                             </div>
                             <div id="system-maintenance-sub2" class="subsection">
-                                <h4>Update Triggers</h4>
+                                <h4>Comments on User Feedback</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
                                 </svg>
-                                <p >Specific events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above. Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either of performance or oversight) that falls outside a defined threshold of critical safety.</p>
+                                <p >What feedback is concerning or surprising?</p>
                             </div>
                             <div id="system-maintenance-sub3" class="subsection">
+                                <h4>Recommendations</h4>
+                                <svg class="info" style="width: 15px; height:15px; margin:0">
+                                    <use xlink:href="#info"/>
+                                </svg>
+                                <p >What adjustments must be made, if any, to ensure success? To whom are these recommendations made? How will these adjustments be implemented?</p>
+                            </div>
+                            <div id="system-maintenance-sub4" class="subsection">
                                 <h4>Changelog</h4>
                                 <svg class="info" style="width: 15px; height:15px; margin:0">
                                     <use xlink:href="#info"/>
@@ -481,31 +532,43 @@
                         </div>
                         <div class="hidden-info" data-target="optimization-intent-sub3-info">
                             <p>
-                                Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g. performance differences across demographic groups)? Why aren't they part of the reward signal, and why must they be monitored?
-                            </p>
-                        </div>
-                        <div class="hidden-info" data-target="optimization-intent-sub4-info">
-                            <p>
                                 A description of any prior known instances of "reward hacking" or model misalignment in the domain at stake, and description of how the current system avoids this.
                             </p>
                         </div>
-    
+
                         <div class="hidden-info" data-target="institutional-interface-sub1-info">
                             <p>
-                                What other agency or controlling entity roles, if any, are intended to be subsumed by the system? How may these roles change following system deployment?
+                                The intended timeframe for revisiting the reward report. How was this decision reached and motivated?
                             </p>
                         </div>
                         <div class="hidden-info" data-target="institutional-interface-sub2-info">
                             <p>
+                                Specific events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above. Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either of performance or oversight) that falls outside a defined threshold of critical safety.
+                            </p>
+                        </div>
+
+                        <div class="hidden-info" data-target="institutional-interface-sub3-info">
+                            <p>
+                                Are there any additional metrics not included in the reward signal but relevant for vendor or system oversight (e.g. performance differences across demographic groups)? Why aren't they part of the reward signal, and why must they be monitored?
+                            </p>
+                        </div>
+    
+                        <div class="hidden-info" data-target="institutional-interface-sub4-info">
+                            <p>
+                                What other agency or controlling entity roles, if any, are intended to be subsumed by the system? How may these roles change following system deployment?
+                            </p>
+                        </div>
+                        <div class="hidden-info" data-target="institutional-interface-sub5-info">
+                            <p>
                                 What other interests are implicated in the design specification or system deployment, beyond the designer? What role will these interests play in subsequent report documentation? What other entities, if any, does the deployed system interface with whose interests are not intended to be in scope?
                             </p>
                         </div>
-                        <div class="hidden-info" data-target="institutional-interface-sub3-info">
+                        <div class="hidden-info" data-target="institutional-interface-sub6-info">
                             <p>
                                 Does the system offer explanations of its decisions or actions? What is the purpose of these explanations? To what extent is the policy transparent, i.e. can decisions or actions be understood in terms of meaningful intermediate quantities?
                             </p>
                         </div>
-                        <div class="hidden-info" data-target="institutional-interface-sub4-info">
+                        <div class="hidden-info" data-target="institutional-interface-sub7-info">
                             <p>
                                 Can stakeholders or users contest the decisions or actions of the system? What processes, technical or otherwise, are in place to handle this?
                             </p>
@@ -547,22 +610,22 @@
                             </p>
                         </div>
     
-                        <div class="hidden-info" data-target="evaluation-sub7-info">
+                        <div class="hidden-info" data-target="evaluation-sub1-info">
                             <p>
                                 How is the system evaluated (and if applicable, trained) prior to deployment (e.g. using simulation, static datasets, etc.)? Exhaustive details of the offline evaluation environment should be provided. For simulation, details should include description or external reference to the underlying model, ranges of parameters, etc. For evaluation on static datasets, considering referring to associated documentation (e.g. Datasheets [@gebru2021datasheets]).
                             </p>
                         </div>
-                        <div class="hidden-info" data-target="evaluation-sub7-info">
+                        <div class="hidden-info" data-target="evaluation-sub2-info">
                             <p>
                                 Present and discuss the results of offline evaluation. For static evaluation, consider referring to associated documentation (e.g. Model Cards [@mitchell2019model]). If applicable, compare the behaviors arising from counterfactual specifications (e.g. of states, observations, actions).
                             </p>
                         </div>
-                        <div class="hidden-info" data-target="evaluation-sub7-info">
+                        <div class="hidden-info" data-target="evaluation-sub3-info">
                             <p>
                                 To what extent is it reasonable to draw conclusions about the behavior of the deployed system based on presented offline evaluations? What is the current state of understanding of the online performance of the system? If the system has been deployed, were any unexpected behaviors observed?
                             </p>
                         </div>
-                        <div class="hidden-info" data-target="evaluation-sub7-info">
+                        <div class="hidden-info" data-target="evaluation-sub4-info">
                             <p>
                                 What standards of performance and safety is the system required to meet? Where do these standards come from? How is the system verified to meet these standards?
                             </p>
@@ -570,15 +633,20 @@
                         
                         <div class="hidden-info" data-target="system-maintenance-sub1-info">
                             <p>
-                                The intended timeframe for revisiting the reward report. How was this decision reached and motivated?
+                                What shifts in metrics seem most significant?
                             </p>
                         </div>
                         <div class="hidden-info" data-target="system-maintenance-sub2-info">
                             <p>
-                                Specific events (projected or historic) significant enough to warrant revisiting this report, beyond the cadence outlined above. Example triggers include a defined stakeholder group empowered to demand a system audit, or a specific metric (either of performance or oversight) that falls outside a defined threshold of critical safety.
+                                What feedback is concerning or surprising?
                             </p>
                         </div>
                         <div class="hidden-info" data-target="system-maintenance-sub3-info">
+                            <p>
+                                What adjustments must be made, if any, to ensure success? To whom are these recommendations made? How will these adjustments be implemented?
+                            </p>
+                        </div>
+                        <div class="hidden-info" data-target="system-maintenance-sub4-info">
                             <p>
                                 Descriptions of updates and lessons learned from observing and maintaining the deployed system. This includes when the updates were made and what motivated them in light of previous reports. The changelog comprises the central difference between reward reports and other forms of machine learning documentation, as it directly reflects their intrinsically dynamic nature.
                             </p>
@@ -639,7 +707,7 @@
                             <b>Learn More</b>
                         </div>
                         <div class="right-content-sub">
-                            <p id="learn-more-section" style="font-size: 0.8rem; color:#808080;">System Details section provides essential information about the automated decision system.</p>
+                            <p id="learn-more-section" style="font-size: 0.8rem; color:#808080;">Overview section provides essential information about the automated decision system.</p>
                             <p><a href="https://rewardreports.github.io/">Read more
                                 <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M2 14.5C1.71875 14.5 1.46875 14.4062 1.28125 14.2188C0.875 13.8438 0.875 13.1875 1.28125 12.8125L5.5625 8.5L1.28125 4.21875C0.875 3.84375 0.875 3.1875 1.28125 2.8125C1.65625 2.40625 2.3125 2.40625 2.6875 2.8125L7.6875 7.8125C8.09375 8.1875 8.09375 8.84375 7.6875 9.21875L2.6875 14.2188C2.5 14.4062 2.25 14.5 2 14.5Z" fill="#0092B3"/>
@@ -974,7 +1042,7 @@
                         <ul class="sections">
                             <li data-target="system-details" class="sections-head">
                                 <div class="section-header">
-                                    System Details
+                                    Overview
                                     <div class="changed-indicator hidden"></div>
                                 </div>
                                 <ul class="subsections">
@@ -986,26 +1054,28 @@
                             </li>
                             <li data-target="optimization-intent" class="sections-head">
                                 <div class="section-header">
-                                    Optimization Intent
+                                    Performance
                                     <div class="changed-indicator hidden"></div>
                                 </div>
                                 <ul class="subsections">
                                     <li data-target="optimization-intent-sub1">Goal of Reinforcement</li>
                                     <li data-target="optimization-intent-sub2">Defined Performance Metrics</li>
-                                    <li data-target="optimization-intent-sub3">Oversight Metrics</li>
-                                    <li data-target="optimization-intent-sub4">Known Failure Modes</li>
+                                    <li data-target="optimization-intent-sub3">Known Failure Modes</li>
                                 </ul>
                             </li>
                             <li data-target="institutional-interface" class="sections-head">
                                 <div class="section-header">
-                                    Institutional Interface
+                                    Responsibilities
                                     <div class="changed-indicator hidden"></div>
                                 </div>
                                 <ul class="subsections">
-                                    <li data-target="institutional-interface-sub1">Deployment Agency</li>
-                                    <li data-target="institutional-interface-sub2">Stakeholders</li>
-                                    <li data-target="institutional-interface-sub3">Explainability & Transparency</li>
-                                    <li data-target="institutional-interface-sub4">Recourse</li>
+                                    <li data-target="institutional-interface-sub1">Reporting Cadence</li>
+                                    <li data-target="institutional-interface-sub2">Update Triggers</li>
+                                    <li data-target="institutional-interface-sub3">Oversight Metrics</li>
+                                    <li data-target="institutional-interface-sub4">Legacy System(s)</li>
+                                    <li data-target="institutional-interface-sub5">Stakeholders</li>
+                                    <li data-target="institutional-interface-sub6">Explainability & Transparency</li>
+                                    <li data-target="institutional-interface-sub7">Recourse</li>
                                 </ul>
                             </li>
                             <li data-target="implementation" class="sections-head">
@@ -1037,13 +1107,14 @@
                             </li>
                             <li data-target="system-maintenance" class="sections-head">
                                 <div class="section-header">
-                                    System Maintenance
+                                    Maintenance
                                     <div class="changed-indicator hidden"></div>
                                 </div>
                                 <ul class="subsections">
-                                    <li data-target="system-maintenance-sub1">Reporting Cadence</li>
-                                    <li data-target="system-maintenance-sub2">Update Triggers</li>
-                                    <li data-target="system-maintenance-sub3">Changelog</li>
+                                    <li data-target="system-maintenance-sub1">Comments on Performance</li>
+                                    <li data-target="system-maintenance-sub2">Comments on User Feedback</li>
+                                    <li data-target="system-maintenance-sub3">Recommendations</li>
+                                    <li data-target="system-maintenance-sub4">Changelog</li>
                                 </ul>
                             </li>
                         </ul>
