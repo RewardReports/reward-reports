@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentContextInfo = {};
     let currentScrollSection = document.getElementById('system-details');
     let userType;
+    let reportVersion;
 
 
 
@@ -139,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
         // Show the user div by removing the 'hidden' class
         startBuild.classList.remove('hidden');
-        userFilter(userType);
     });
         
 
@@ -192,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
         restartButton.style.display = "block";
+        reportVersion = "new";
+        userFilter(userType);
     });
 
     uploadReportButton.addEventListener('click', () => {
@@ -206,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         leftScanItems[0].classList.add('active-section');
         subsections[0].classList.add('active-sub')
         restartButton.style.display = "block";
+        reportVersion = "revision"
+        userFilter(userType);
     });
 
     leftScanItemsAll.forEach((item) => {
@@ -1344,11 +1348,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('optimization-intent').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
+            if (reportVersion=="new") {
+                document.getElementById('system-maintenance').classList.add('hidden')
+            }
         } else if (userType=="client") {
             console.log("this is client")
             document.getElementById('optimization-intent').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
+            if (reportVersion=="new") {
+                document.getElementById('system-maintenance').classList.add('hidden')
+            }
         } else if (userType=="user") {
             console.log("this is client")
             document.getElementById('system-details').classList.add('hidden')
@@ -1356,6 +1366,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('system-maintenance').classList.add('hidden')
         } 
     }
+
 
     versionHistoryLink.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
