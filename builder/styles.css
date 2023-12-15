@@ -512,7 +512,7 @@ nav {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .right-content{

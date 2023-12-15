@@ -76,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     var userTypeText = {
         "technical": "Welcome, Technical Experts! Your expertise is crucial for successful model evaluation. Please keep in mind that the Performance and Implementation sections are particularly pertinent to your domain. These sections will allow you to dive deep into the technical nuances and intricacies of your model's behavior. Of course, you're not limited to these areas – the whole report is at your disposal. ",
-        "non-technical": "Hello, Non-Technical Experts!  Your expertise is crucial in understanding the broader implications and impacts of the model. Please keep in mind that the Responsibilities and Evaluation sections are particularly pertinent to your domain. While these sections are your primary arena, feel free to explore the entire report. We're here to support you in your journey of responsible AI evaluation."
+        "non-technical": "Hello, Non-Technical Experts!  Your expertise is crucial in understanding the broader implications and impacts of the model. Please keep in mind that the Responsibilities and Evaluation sections are particularly pertinent to your domain. While these sections are your primary arena, feel free to explore the entire report. We're here to support you in your journey of responsible AI evaluation.",
+        "builder":"builder",
+        "vendor":"vendor",
+        "client":"client",
+        "user":"user"
     };
 
 
@@ -88,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add 'selected' class to the clicked user icon
             userIcon.classList.add('selected');
             userType = userIcon.id;
-            userTypeDescrip.textContent = kebabToTitleCase(userType) + " Expert";
+            console.log(userType)
+            userTypeDescrip.textContent = kebabToTitleCase(userType);
             userReccomendation.textContent = userTypeText[userType];
             // Enable the button
             nextButton.disabled = false;
@@ -134,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
         // Show the user div by removing the 'hidden' class
         startBuild.classList.remove('hidden');
+        userFilter(userType);
     });
         
 
@@ -687,6 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeDraftButton.style.display = "none";
             replaceLinksInSection();
         }
+        userFilter(userType);
     });
 
     restartButton.addEventListener('click', () => {
@@ -1239,6 +1246,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });  
         currentEditSection = undefined;
         // descriptionInput.value = '';
+
+        userFilter(userType);
     });
 
     infoIcons.forEach((icon) => {
@@ -1321,6 +1330,31 @@ document.addEventListener('DOMContentLoaded', () => {
           return firstLetter + restOfWord;
         });
         return capitalizedWords.join(' ');
+    }
+
+    function userFilter(userType) {
+        sections.forEach(section => section.classList.remove('hidden'));
+        if (userType=="builder") {
+            console.log("this is builder")
+            document.getElementById('system-details').classList.add('hidden')
+            document.getElementById('institutional-interface').classList.add('hidden')
+            document.getElementById('system-maintenance').classList.add('hidden')
+        } else if (userType=="vendor") {
+            console.log("this is vendor")
+            document.getElementById('optimization-intent').classList.add('hidden')
+            document.getElementById('implementation').classList.add('hidden')
+            document.getElementById('evaluation').classList.add('hidden')
+        } else if (userType=="client") {
+            console.log("this is client")
+            document.getElementById('optimization-intent').classList.add('hidden')
+            document.getElementById('implementation').classList.add('hidden')
+            document.getElementById('evaluation').classList.add('hidden')
+        } else if (userType=="user") {
+            console.log("this is client")
+            document.getElementById('system-details').classList.add('hidden')
+            document.getElementById('institutional-interface').classList.add('hidden')
+            document.getElementById('system-maintenance').classList.add('hidden')
+        } 
     }
 
     versionHistoryLink.addEventListener('click', () => {
