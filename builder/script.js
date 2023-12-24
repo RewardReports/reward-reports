@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBuild = document.querySelector('.start-building');
     const backUser = document.getElementById('back-user');
     const userTypeDescrip = document.getElementById('user-type-description');
+    const userTypeExtra = document.getElementById('user-type-extra');
     const userReccomendation = document.getElementById('user-recommendation');
     const backIntro = document.getElementById('back-intro');
     const introDiv = document.querySelector('.intro');
@@ -75,13 +76,32 @@ document.addEventListener('DOMContentLoaded', () => {
         "evaluation": "Evaluation section assesses feedback system behavior and anticipates future performance and risks. Designers record evaluations before deployment and upon revisiting reward reports. Stakeholders and users can hold designers accountable for system performance. Evaluation type (offline/online) and procedure (static/dynamic) are important to distinguish.",
         "system-maintenance": "Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
     };
+    // var userTypeText = {
+    //     "technical": "Welcome, Technical Experts! Your expertise is crucial for successful model evaluation. Please keep in mind that the Performance and Implementation sections are particularly pertinent to your domain. These sections will allow you to dive deep into the technical nuances and intricacies of your model's behavior. Of course, you're not limited to these areas – the whole report is at your disposal. ",
+    //     "non-technical": "Hello, Non-Technical Experts!  Your expertise is crucial in understanding the broader implications and impacts of the model. Please keep in mind that the Responsibilities and Evaluation sections are particularly pertinent to your domain. While these sections are your primary arena, feel free to explore the entire report. We're here to support you in your journey of responsible AI evaluation.",
+    //     "builder":"Welcome, Builders! Your expertise is instrumental in shaping the technical aspects of the Reward Reports. Your primary focus will be on the Performance, Implementation, and Evaluation sections. Dive deep into the technical intricacies and behavior of the model. As you fill out your portion of the report, you'll navigate through these sections, ensuring a comprehensive evaluation of the model's performance and implementation.",
+    //     "vendor":"Hello, Vendors! Your role in the Reward Reports is crucial for providing an Overview and detailing Responsibilities. You are responsible for shaping the initial narrative of the report, offering insights into the system's overview and your specific responsibilities. As subsequent reports unfold, you will also address Maintenance, ensuring a comprehensive understanding of ongoing system health.",
+    //     "client":"Greetings, Clients! Your contribution to Reward Reports involves providing an Overview, detailing Responsibilities, and addressing Maintenance. You play a pivotal role in shaping the narrative of the report, offering insights into the system's overview and your specific responsibilities. As time passes, your attention to Maintenance ensures a comprehensive understanding of ongoing system health.",
+    //     "user":"Hello, Users! Your feedback is invaluable for the success of Reward Reports. As you interact with the report, your focus will be on the Performance, Implementation, and Evaluation sections. Rate your satisfaction, describe what happened during your interaction, and share insights into what would have improved your experience. Your input helps refine the system's performance and implementation, ensuring a user-centric approach."
+    // };
+
     var userTypeText = {
-        "technical": "Welcome, Technical Experts! Your expertise is crucial for successful model evaluation. Please keep in mind that the Performance and Implementation sections are particularly pertinent to your domain. These sections will allow you to dive deep into the technical nuances and intricacies of your model's behavior. Of course, you're not limited to these areas – the whole report is at your disposal. ",
-        "non-technical": "Hello, Non-Technical Experts!  Your expertise is crucial in understanding the broader implications and impacts of the model. Please keep in mind that the Responsibilities and Evaluation sections are particularly pertinent to your domain. While these sections are your primary arena, feel free to explore the entire report. We're here to support you in your journey of responsible AI evaluation.",
-        "builder":"builder",
-        "vendor":"vendor",
-        "client":"client",
-        "user":"user"
+        "builder": {
+            "description":"(e.g., algorithm designer, ML engineer)",
+            "text":"Welcome, Builders! Your expertise is instrumental in shaping the technical aspects of the Reward Reports. Your primary focus will be on the Performance, Implementation, and Evaluation sections. Dive deep into the technical intricacies and behavior of the model. As you fill out your portion of the report, you'll navigate through these sections, ensuring a comprehensive evaluation of the model's performance and implementation.",
+        },
+        "vendor": {
+            "description": "(e.g., system administrator, company executive)",
+            "text": "Hello, Vendors! Your role in the Reward Reports is pivotal for providing an Overview and detailing Responsibilities. Shape the initial narrative by offering insights into the system's overview and your specific responsibilities. As subsequent reports unfold, your responsibility extends to addressing Maintenance, ensuring a comprehensive understanding of ongoing system health."
+        },
+        "client": {
+            "description": "(e.g., city representative, school official)",
+            "text": "Greetings, Clients! Your contribution to Reward Reports involves providing an Overview, detailing Responsibilities, and addressing Maintenance. Play a pivotal role in shaping the narrative by offering insights into the system's overview and your specific responsibilities. As time passes, your attention to Maintenance ensures a comprehensive understanding of ongoing system health."
+        },
+        "user": {
+            "description": "(e.g., customer, auditor, citizen)",
+            "text": "Hello, Users! Your feedback is invaluable for the success of Reward Reports. As you interact with the report, focus on the Performance, Implementation, and Evaluation sections. Rate your satisfaction, describe what happened, and share insights into what would have improved your experience. Your input refines the system's performance and implementation, ensuring a user-centric approach."
+        }
     };
 
 
@@ -95,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             userType = userIcon.id;
             console.log(userType)
             userTypeDescrip.textContent = kebabToTitleCase(userType);
-            userReccomendation.textContent = userTypeText[userType];
+            userReccomendation.textContent = userTypeText[userType].text;
             // Enable the button
             nextButton.disabled = false;
         });
