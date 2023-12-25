@@ -968,8 +968,15 @@
             </div> 
         </section>
         <section id="user-feedback" class="content-section">
-            <div class='polis' data-conversation_id='3ac9xhyan2'></div>
-            <script async src='https://pol.is/embed.js'></script/>
+            <div id="external-content"></div>
+            <script>
+                fetch('/polis-proxy')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('external-content').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error fetching content:', error));
+            </script>
         </section>
         <section id="view-changes" class="content-section">
             <!-- Content of View Changes tab -->

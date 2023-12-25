@@ -1,5 +1,6 @@
 // Load Node modules
 var express = require('express');
+const axios = require('axios');
 const ejs = require('ejs');
 // Initialise Express
 var app = express();
@@ -9,6 +10,16 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 // Port website will run on
 app.listen(8080);
+
+
+app.get('/polis-proxy', async (req, res) => {
+  try {
+    const response = await axios.get('https://pol.is/report/r3rrm8rpttsfvxfwnaz7b');
+    res.send(response.data);
+  } catch (error) {
+    res.status(500).send('Error fetching content: ' + error);
+  }
+});
 
 // *** GET Routes - display pages ***
 // Root Route
