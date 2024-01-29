@@ -1,1 +1,1 @@
-web: cd builder; npm run start
+web: cd builder; npm install; npm run start
