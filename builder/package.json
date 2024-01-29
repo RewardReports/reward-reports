@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/RewardReports/reward-reports/issues"
   },
-  "homepage": "https://github.com/RewardReports/reward-reports#readme"
+  "homepage": "https://github.com/RewardReports/reward-reports#readme",
+  "dependencies": {
+    "mongodb": "6.3"
+  }
 }
