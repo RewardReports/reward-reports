@@ -19,7 +19,7 @@ var mongodbRestConfiguration = {
   "db": "mongodb://localhost:27017",
   "endpoint_root": "server",
   "server": {
-    "port": 3000,
+    "port": 3001,
     "address": "0.0.0.0"
   },
   "accessControl": {
