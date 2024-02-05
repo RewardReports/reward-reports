@@ -14,9 +14,11 @@ app.listen(process.env.PORT);
 
 var mongodbRest = require('mongodb-rest/server.js');
 
+const mongodbUri = "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority";
+
 // MongoDB REST configuration:
 var mongodbRestConfiguration = {
-  "db": "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority",
+  "db": mongodbUri,
   "endpoint_root": "server",
   "server": {
     "port": 3001,
@@ -71,10 +73,9 @@ app.get('/', function(req, res) {
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+const client = new MongoClient(mongodbUri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
