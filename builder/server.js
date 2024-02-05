@@ -16,7 +16,7 @@ var mongodbRest = require('mongodb-rest/server.js');
 
 // MongoDB REST configuration:
 var mongodbRestConfiguration = {
-  "db": "mongodb://localhost:27017",
+  "db": "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority",
   "endpoint_root": "server",
   "server": {
     "port": 3001,
@@ -27,11 +27,7 @@ var mongodbRestConfiguration = {
     "allowMethods": "GET,POST,PUT,DELETE,HEAD,OPTIONS",
     "allowCredentials": false
   },
-  "dbAccessControl": {
-    "foo_database": ["collection1", "collection2"],
-    "bar_database": ["collection2", "collection3"],
-    "zoo_database": [],
-  },
+  "dbAccessControl": {},
   "mongoOptions": {
     "serverOptions": {
     },
