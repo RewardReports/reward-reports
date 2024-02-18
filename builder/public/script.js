@@ -1,3 +1,69 @@
+// Database Connection
+/*
+Attempts at connecting to REST backend
+
+https://us-east-1.aws.data.mongodb-api.com/app/data-jkmjb/endpoint/data/v1
+
+curl -X POST 'https://realm.mongodb.com/api/client/v2.0/app/data-jkmjb/auth/providers/local-userpass/login' --header 'Content-Type: application/json' --data-raw '{
+  "username": "blakeelias@gmail.com",
+  "password": "k8VkKXqs!7.,,#M"
+}'
+
+curl -X POST 'https://services.cloud.mongodb.com/api/client/v2.0/app/data-jkmjb/auth/providers/local-userpass/login' --header 'Content-Type: application/json' --data-raw '{
+  "username": "blakeelias@gmail.com",
+  "password": "k8VkKXqs!7.,,#M"
+}'
+
+
+https://www.mongodb.com/community/forums/t/error-cannot-find-app-using-client-app-id/220607/4
+curl -X POST 'https://us-east-1.aws.data.mongodb-api.com/app/data-jkmjb/auth/providers/local-userpass/login' --header 'Content-Type: application/json' --data-raw '{
+  "username": "blakeelias@gmail.com",
+  "password": "k8VkKXqs!7.,,#M"
+}'
+
+
+curl --location --request POST 'https://us-east-1.aws.data.mongodb-api.com/app/data-jkmjb/endpoint/data/v1/action/findOne' \
+--header 'Content-Type: application/json' \
+--header 'Access-Control-Request-Headers: *' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--data-raw '{
+    "collection":"recipes",
+    "database":"myDatabase",
+    "dataSource":"Cluster0",
+    "projection": {"_id": 1}
+}'
+
+curl --location --request POST 'https://us-east-1.aws.data.mongodb-api.com/app/data-jkmjb/endpoint/data/v1/action/findOne' \
+--header 'Content-Type: application/json' \
+--header 'Access-Control-Request-Headers: *' \
+-H "email: blakeelias@gmail.com" \
+-H "password: k8VkKXqs!7.,,#M" \
+--data-raw '{
+  "collection":"recipes",
+  "database":"myDatabase",
+  "dataSource":"Cluster0",
+  "projection": {"_id": 1}
+}'
+
+
+curl --location --request POST 'https://us-east-1.aws.data.mongodb-api.com/app/data-jkmjb/endpoint/data/v1/action/findOne' \
+--header 'Content-Type: application/json' \
+--header 'Access-Control-Request-Headers: *' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Accept: application/ejson' \
+--data-raw '{
+    "collection":"recipes",
+    "database":"myDatabase",
+    "dataSource":"Cluster0",
+    "projection": {"_id": 1}
+}'
+
+-H "email: bob@example" \
+-H "password: Pa55w0rd!" \
+
+*/
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // CODE FOR NON DESKTOP
