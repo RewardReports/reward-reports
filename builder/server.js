@@ -25,7 +25,7 @@ mongoose.connect(mongodbUri, {
 
 // Create Mongooose schema and model
 const ReportSchema = new mongoose.Schema({
-  date: String,
+  datetime: Date,
   markdownContent: String
 });
 
