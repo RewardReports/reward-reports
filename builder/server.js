@@ -29,7 +29,7 @@ const ReportSchema = new mongoose.Schema({
   markdownContent: String
 });
 
-const Item = mongoose.model('Item', ItemSchema);
+const Report = mongoose.model('Report', ReportSchema);
 
 app.use(bodyParser.json()); // Middleware to parse JSON data
 
