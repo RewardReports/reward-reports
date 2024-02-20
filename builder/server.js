@@ -84,9 +84,14 @@ run().catch(console.dir);
 // *** POST Routes - handle form submissions ***
 // POST route for the form on the 'View Changes' tab
 app.post('/saveReport', async (req, res) => {
+  console.log("POST route for the form on the 'View Changes' tab");
+  console.log(req);
   try {
+    console.log(req.body);
     const newReport = new Report(req.body);
+    console.log(newReport)
     const savedItem = await newReport.save();
+    console.log(savedItem);
     res.status(200).json(savedReport);
   } catch (error) {
     res.status(500).json({ message: 'Error saving item', error });
