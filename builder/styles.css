@@ -547,7 +547,7 @@ a:hover {
 
 .changes-page-container {
     display: grid;
-    grid-template-columns: 18% 1fr 1fr; /* Three equal columns */
+    grid-template-columns: 18% 41% 41%; 
     width: 100%;
     height: max-content;
 }
@@ -557,7 +557,17 @@ a:hover {
     flex-direction: column;
     min-height: calc(100vh - 60px);
     border-right: 1px solid #ccc;
+    max-width: 100%;
 }
+
+.changes-column a {
+    display: block; /* Ensure anchor tags behave as block elements */
+    width: 100%; /* Set the width to 100% to ensure they don't overflow */
+    overflow: hidden; /* Clip the overflow */
+    text-overflow: ellipsis; /* Display an ellipsis (...) to represent clipped text */
+    white-space: nowrap; /* Prevent wrapping of text */
+}
+
   
 .row {
     padding: 20px;

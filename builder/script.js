@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditSection;
     let contextInfo = {};
     let currentContextInfo = {};
-    let currentScrollSection = document.getElementById('system-details');
+    let currentScrollSection = document.getElementById('overview');
     let userType;
     let reportVersion;
 
@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const offset = 100;
     var learnMoreText = {
-        "system-details": "Overview section provides essential information about the automated decision system.",
-        "optimization-intent": "Performance section addresses the reward function's goal and optimization strategy. Designers document the intent of the solution, translating quantitative objectives into qualitative descriptions. Later, they reflect on how implementation details impact the broader goal. Stakeholders and users can use this section to understand if the system's intent aligns with observed effects.",
-        "institutional-interface": "Responsibilities section documents the intended and observed relationships between the system and its broader context. Explicit documentation allows designers to reflect on system assumptions over time. Reflections may involve novel interests or agencies, helping organize stakeholders' and users' emerging interests.",
+        "overview": "Overview section provides essential information about the automated decision system.",
+        "performance": "Performance section addresses the reward function's goal and optimization strategy. Designers document the intent of the solution, translating quantitative objectives into qualitative descriptions. Later, they reflect on how implementation details impact the broader goal. Stakeholders and users can use this section to understand if the system's intent aligns with observed effects.",
+        "responsibilities": "Responsibilities section documents the intended and observed relationships between the system and its broader context. Explicit documentation allows designers to reflect on system assumptions over time. Reflections may involve novel interests or agencies, helping organize stakeholders' and users' emerging interests.",
         "implementation": "Implementation section details specific reinforcement learning system implementation decisions. Even minor changes can cause significant behavior shifts downstream, challenging tracking at scale. Documenting design decisions helps prevent failures and aids technical progress.",
         "evaluation": "Evaluation section assesses feedback system behavior and anticipates future performance and risks. Designers record evaluations before deployment and upon revisiting reward reports. Stakeholders and users can hold designers accountable for system performance. Evaluation type (offline/online) and procedure (static/dynamic) are important to distinguish.",
-        "system-maintenance": "Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
+        "maintenance": "Maintenance section outlines post-deployment oversight and updates. It covers reviews of real-world implementation and how monitoring dynamics illuminate assumptions. Plans for sustained shifts in observations or metrics are included, along with references to previous Reward Reports and subsequent changes. This section defines accountability for the system and its management.",
     };
     // var userTypeText = {
     //     "technical": "Welcome, Technical Experts! Your expertise is crucial for successful model evaluation. Please keep in mind that the Performance and Implementation sections are particularly pertinent to your domain. These sections will allow you to dive deep into the technical nuances and intricacies of your model's behavior. Of course, you're not limited to these areas – the whole report is at your disposal. ",
@@ -595,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
                 subsections.forEach(subsection => {
                     const title = subsection.querySelector('h4').textContent;
-                    const content = subsection.querySelector('p').textContent;
+                    const content = subsection.querySelector('p').innerText.replace(/<br>/g, '\n'); // Replace <br> with newline character
         
                     markdownContent += `## ${title}\n\n${content}\n\n`;
                 });
@@ -888,8 +888,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
             subsections.forEach((subsection, index) => {
                 const lines = subsection.split('\n\n');
+                console.log(lines)
                 const title = lines[0];
-                const content = lines.slice(1).join('\n'); // Join lines using '\n' to maintain line breaks
+                const content = lines.slice(1).join('<br>'); // Join lines using '\n' to maintain line breaks
+                console.log(content)
 
     
                 const subsectionEl = document.getElementById(`${sectionTitle.toLowerCase().replace(/\s/g, '-')}-sub${index + 1}`);
@@ -900,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
     
                 const contentEl = subsectionEl.querySelector('p');
-                contentEl.textContent = content;
+                contentEl.innerHTML = content;
             });
         });
 
@@ -1360,30 +1362,30 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => section.classList.remove('hidden'));
         if (userType=="builder") {
             console.log("this is builder")
-            document.getElementById('system-details').classList.add('hidden')
-            document.getElementById('institutional-interface').classList.add('hidden')
-            document.getElementById('system-maintenance').classList.add('hidden')
+            document.getElementById('overview').classList.add('hidden')
+            document.getElementById('responsibilities').classList.add('hidden')
+            document.getElementById('maintenance').classList.add('hidden')
         } else if (userType=="vendor") {
             console.log("this is vendor")
-            document.getElementById('optimization-intent').classList.add('hidden')
+            document.getElementById('performance').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
             if (reportVersion=="new") {
-                document.getElementById('system-maintenance').classList.add('hidden')
+                document.getElementById('maintenance').classList.add('hidden')
             }
         } else if (userType=="client") {
             console.log("this is client")
-            document.getElementById('optimization-intent').classList.add('hidden')
+            document.getElementById('performance').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
             if (reportVersion=="new") {
-                document.getElementById('system-maintenance').classList.add('hidden')
+                document.getElementById('maintenance').classList.add('hidden')
             }
         } else if (userType=="user") {
             console.log("this is client")
-            document.getElementById('system-details').classList.add('hidden')
-            document.getElementById('institutional-interface').classList.add('hidden')
-            document.getElementById('system-maintenance').classList.add('hidden')
+            document.getElementById('overview').classList.add('hidden')
+            document.getElementById('responsibilities').classList.add('hidden')
+            document.getElementById('maintenance').classList.add('hidden')
         } 
     }
 
