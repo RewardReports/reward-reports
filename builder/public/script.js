@@ -686,8 +686,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const folder = zip.folder(folderName);
             folder.file(markdownFileName, markdownContent);
 
+            // Save to database
             console.log("markdownContent");
             console.log(markdownContent);
+            fetch("/saveReport", {
+              method: "POST",
+              body: JSON.stringify({
+                datetime: now,
+                markdownContent: markdownContent,
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8"
+              }
+            })
+            .then(response => {
+                // Handle success or error messages here
+                console.log("Data submission:", response); 
+            });
+            
 
             // Define a function to fetch and add the template file
             const addTemplateFile = async () => {

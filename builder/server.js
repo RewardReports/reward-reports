@@ -1,5 +1,9 @@
 // Load Node modules
 var express = require('express');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser'); 
+
 const ejs = require('ejs');
 // Initialise Express
 var app = express();
@@ -12,58 +16,24 @@ app.set('view engine', 'ejs');
 // https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment#4-listen-on-the-correct-port
 app.listen(process.env.PORT);
 
-var mongodbRest = require('mongodb-rest/server.js');
-
 const mongodbUri = "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority";
 
-// MongoDB REST configuration:
-var mongodbRestConfiguration = {
-  "db": mongodbUri,
-  "endpoint_root": "server",
-  "server": {
-    "port": 3001,
-    "address": "0.0.0.0"
-  },
-  "accessControl": {
-    "allowOrigin": "*",
-    "allowMethods": "GET,POST,PUT,DELETE,HEAD,OPTIONS",
-    "allowCredentials": false
-  },
-  "dbAccessControl": {},
-  "mongoOptions": {
-    "serverOptions": {
-    },
-    "dbOptions": {
-      "w": 1
-    }
-  },
-  "humanReadableOutput": true,
-  "urlPrefix": "",
-  "schema": {
-    "foo_database": {
-      "collection1": {
-        "definitions": {},
-        "$schema": "http://json-schema.org/draft-06/schema#",
-        "$id": "http://json-schema.org/draft-06/schema#",
-        "type": "object",
-        "properties": {
-          "value": {
-            "$id": "/properties/value",
-            "type": "boolean",
-            "title": "Foo boolean value",
-            "description": "An explanation about the purpose of this instance.",
-            "default": false,
-            "examples": [
-              false
-            ]
-          }
-        }
-      }
-    }
-  }
-}
+mongoose.connect(mongodbUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
-mongodbRest.startServer(mongodbRestConfiguration);
+// Create Mongooose schema and model
+const ReportSchema = new mongoose.Schema({
+  date: String,
+  markdownContent: String
+});
+
+const Item = mongoose.model('Item', ItemSchema);
+
+app.use(bodyParser.json()); // Middleware to parse JSON data
+
+
 
 // *** GET Routes - display pages ***
 // Root Route
@@ -72,9 +42,8 @@ app.get('/', function(req, res) {
 });
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+/*
 const client = new MongoClient(mongodbUri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -110,4 +79,17 @@ async function run() {
   }
 }
 run().catch(console.dir);
+*/
 
+// *** POST Routes - handle form submissions ***
+// POST route for the form on the 'View Changes' tab
+app.post('/saveReport', async (req, res) => {
+  try {
+    const newReport = new Report(req.body);
+    const savedItem = await newReport.save();
+    res.status(200).json(savedReport);
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving item', error });
+  }
+});
+         
