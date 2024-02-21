@@ -595,8 +595,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
                 subsections.forEach(subsection => {
                     const title = subsection.querySelector('h4').textContent;
-                    const content = subsection.querySelector('p').innerText.replace(/<br>/g, '\n'); // Replace <br> with newline character
-        
+                    const content = subsection.querySelector('p').innerText.replace(/<br>/g, '\n\n'); // Replace <br> with newline character
+                    console.log(content)
                     markdownContent += `## ${title}\n\n${content}\n\n`;
                 });
         
@@ -887,7 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log(sectionTitle)
     
             subsections.forEach((subsection, index) => {
-                const lines = subsection.split('\n\n');
+                const lines = subsection.split('\n');
                 console.log(lines)
                 const title = lines[0];
                 const content = lines.slice(1).join('<br>'); // Join lines using '\n' to maintain line breaks
@@ -1088,7 +1088,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching GitHub API:', error);
         }
-        // console.log(importedMarkdownFiles);
     });
     
     // document.getElementById('import-from-github').addEventListener('click', async () => {
@@ -2269,7 +2268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
     });
-    
+
 });
 
 // Add a function to display a warning message
@@ -2279,6 +2278,7 @@ function displayUnloadWarning(event) {
   
   // Attach the event listener to the window
 window.addEventListener('beforeunload', displayUnloadWarning);
+
   
   // Remove the event listener when the form is submitted
 // submitButton.addEventListener('click', () => {
