@@ -1,0 +1,20 @@
+{
+  "name": "builder",
+  "version": "1.0.0",
+  "description": "Reward Reports Builder App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RewardReports/reward-reports.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RewardReports/reward-reports/issues"
+  },
+  "homepage": "https://github.com/RewardReports/reward-reports#readme"
+}

@@ -36,3 +36,13 @@ Please open an issue if you would like to contribute.
   year={2022}
 }
 ```
+
+### Running
+
+To run the web tool, run the following command:
+```
+cd builder
+npm start
+```
+
+Then visit [localhost:8080/](http://localhost:8080/) in the browser.

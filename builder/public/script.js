@@ -1014,80 +1014,85 @@ document.addEventListener('DOMContentLoaded', () => {
         return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
     }
 
+   async function loadFromGithubUrl(githubUrl) {
+     const apiUrl = convertToGitHubAPIUrl(githubUrl);
+
+     try {
+         const response = await fetch(apiUrl);
+         const data = await response.json();
+
+         const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
+
+         if (markdownFiles.length > 0) {
+             for (const file of markdownFiles) {
+                 try {
+                     const contentResponse = await fetch(file.download_url);
+                     const content = await contentResponse.text();
+
+                     // Process the content similar to your existing code
+                     const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
+                     importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+
+                 } catch (error) {
+                     console.error('Error fetching markdown content:', error);
+                 }
+             }
+
+             const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
+                 const latestDateString = latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                 const currentDateString = currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                 const parts = latestDateString.split(/[- :]/);
+                 const year = parseInt(parts[0]);
+                 const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
+                 const day = parseInt(parts[2]);
+                 const hours = parseInt(parts[3]);
+                 const minutes = parseInt(parts[4]);
+                 const seconds = parseInt(parts[5]);
+
+                 const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
+
+                 const parts2 = currentDateString.split(/[- :]/);
+                 const year2 = parseInt(parts2[0]);
+                 const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
+                 const day2 = parseInt(parts2[2]);
+                 const hours2 = parseInt(parts2[3]);
+                 const minutes2 = parseInt(parts2[4]);
+                 const seconds2 = parseInt(parts2[5]);
+
+                 const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
+                 console.log(latestFile.name.match(/reward_report_(.*).md/)[1])
+                 console.log(latestDateTime)
+
+                 return currentDateTime > latestDateTime ? currentFile : latestFile;
+             });
+
+
+             console.log(latestMarkdownFile.name)
+
+             const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
+             const markdownContent = await markdownContentResponse.text();
+
+             // Process the markdown content as needed
+             parseMarkdown(markdownContent);
+             populateDropdowns();
+             populateLastEdit();
+             checkExpendButtonNeed2()
+             populateVersionTable();
+             // populateCheckboxes();
+
+             closeImportModal();
+         } else {
+             console.error('No reward report markdown files found.');
+         }
+     } catch (error) {
+         console.error('Error fetching GitHub API:', error);
+     }
+     // console.log(importedMarkdownFiles);
+   }
+
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
-        const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
-    
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-    
-            const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
-    
-            if (markdownFiles.length > 0) {
-                for (const file of markdownFiles) {
-                    try {
-                        const contentResponse = await fetch(file.download_url);
-                        const content = await contentResponse.text();
-                        
-                        // Process the content similar to your existing code
-                        const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
-                        importedMarkdownFiles.push({ name: trimmedFileName, content: content });
-    
-                    } catch (error) {
-                        console.error('Error fetching markdown content:', error);
-                    }
-                }
-    
-                const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
-                    const latestDateString = latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
-                    const currentDateString = currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
-                    const parts = latestDateString.split(/[- :]/);
-                    const year = parseInt(parts[0]);
-                    const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
-                    const day = parseInt(parts[2]);
-                    const hours = parseInt(parts[3]);
-                    const minutes = parseInt(parts[4]);
-                    const seconds = parseInt(parts[5]);
-
-                    const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
-
-                    const parts2 = currentDateString.split(/[- :]/);
-                    const year2 = parseInt(parts2[0]);
-                    const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
-                    const day2 = parseInt(parts2[2]);
-                    const hours2 = parseInt(parts2[3]);
-                    const minutes2 = parseInt(parts2[4]);
-                    const seconds2 = parseInt(parts2[5]);
-
-                    const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
-                    console.log(latestFile.name.match(/reward_report_(.*).md/)[1])
-                    console.log(latestDateTime)
-
-                    return currentDateTime > latestDateTime ? currentFile : latestFile;
-                });
-
-
-                console.log(latestMarkdownFile.name)
-    
-                const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
-                const markdownContent = await markdownContentResponse.text();
-    
-                // Process the markdown content as needed
-                parseMarkdown(markdownContent);
-                populateDropdowns();
-                populateLastEdit();
-                checkExpendButtonNeed2()
-                populateVersionTable();
-                // populateCheckboxes();
-                
-                closeImportModal();
-            } else {
-                console.error('No reward report markdown files found.');
-            }
-        } catch (error) {
-            console.error('Error fetching GitHub API:', error);
-        }
+        loadFromGithubUrl(githubRepositoryUrl);
     });
     
     // document.getElementById('import-from-github').addEventListener('click', async () => {
@@ -2269,6 +2274,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Initialize State
+    githubUrl = "https://github.com/RewardReports/reward-reports/tree/main/builder/testFiles";
+    loadFromGithubUrl(githubUrl);
 });
 
 // Add a function to display a warning message

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/RewardReports/reward-reports#readme",
   "dependencies": {
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "marked": "^7.0.4"
   }
