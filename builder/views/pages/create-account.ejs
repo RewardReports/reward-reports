@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Reward Reports</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.0.0/diff.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <svg style="display: none;">
+        <symbol id="info" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 0.5C12.4062 0.5 16 4.09375 16 8.5C16 12.9375 12.4062 16.5 8 16.5C3.5625 16.5 0 12.9375 0 8.5C0 4.09375 3.5625 0.5 8 0.5ZM8 4.5C7.4375 4.5 7 4.96875 7 5.5C7 6.0625 7.4375 6.5 8 6.5C8.53125 6.5 9 6.0625 9 5.5C9 4.96875 8.53125 4.5 8 4.5ZM9.25 12.5C9.65625 12.5 10 12.1875 10 11.75C10 11.3438 9.65625 11 9.25 11H8.75V8.25C8.75 7.84375 8.40625 7.5 8 7.5H7C6.5625 7.5 6.25 7.84375 6.25 8.25C6.25 8.6875 6.5625 9 7 9H7.25V11H6.75C6.3125 11 6 11.3438 6 11.75C6 12.1875 6.3125 12.5 6.75 12.5H9.25Z" fill="#464B53"/>
+        </symbol>
+    </svg>
+    <nav>
+        <div class="site-name"><a href="https://rewardreports.github.io/reward-reports/builder/index.html">Reward Reports</a></div>
+        <ul class="tabs">
+            <li class="active">Build Report</li>
+            <li>Version History</li>
+            <li>User Feedback</li>
+            <li>Performance</li>
+            <li>View Changes</li>
+        </ul>
+    </nav>
+    <main>
+        <section id="login" class="content-section active-tab">
+            <div class="columns">
+                <div class="left-scan">
+                    <ul class="sections">
+                        <li data-target="overview" class="sections-head">
+                            <div class="section-header">
+                                Overview
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="overview-sub1">System Owner</li>
+                                <li data-target="overview-sub2">Dates</li>
+                                <li data-target="overview-sub3">Feedback & Commmunication</li>
+                                <li data-target="overview-sub4">Other Resources</li>
+                            </ul>
+                        </li>
+                        <li data-target="performance" class="sections-head">
+                            <div class="section-header">
+                                Performance
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="performance-sub1">Goal of Reinforcement</li>
+                                <li data-target="performance-sub2">Defined Performance Metrics</li>
+                                <li data-target="performance-sub3">Known Failure Modes</li>
+                            </ul>
+                        </li>
+                        <li data-target="responsibilities" class="sections-head">
+                            <div class="section-header">
+                                Responsibilities
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="responsibilities-sub1">Reporting Cadence</li>
+                                <li data-target="responsibilities-sub2">Update Triggers</li>
+                                <li data-target="responsibilities-sub3">Oversight Metrics</li>
+                                <li data-target="responsibilities-sub4">Legacy System(s)</li>
+                                <li data-target="responsibilities-sub5">Stakeholders</li>
+                                <li data-target="responsibilities-sub6">Explainability & Transparency</li>
+                                <li data-target="responsibilities-sub7">Recourse</li>
+                            </ul>
+                        </li>
+                        <li data-target="implementation" class="sections-head">
+                            <div class="section-header">
+                                Implementation
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="implementation-sub1">Reward Details</li>
+                                <li data-target="implementation-sub2">Environment Details</li>
+                                <li data-target="implementation-sub3">Measurement Details</li>
+                                <li data-target="implementation-sub4">Algorithmic Details</li>
+                                <li data-target="implementation-sub5">Data Flow</li>
+                                <li data-target="implementation-sub6">Limitations</li>
+                                <li data-target="implementation-sub7">Engineering Tricks</li>
+                            </ul>
+                        </li>
+                        <li data-target="evaluation" class="sections-head">
+                            <div class="section-header">
+                                Evaluation
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="evaluation-sub1">Evaluation Environment</li>
+                                <li data-target="evaluation-sub2">Offline Evaluations</li>
+                                <li data-target="evaluation-sub3">Evaluation Validity</li>
+                                <li data-target="evaluation-sub4">Performance Standards</li>
+                            </ul>
+                        </li>
+                        <li data-target="maintenance" class="sections-head">
+                            <div class="section-header">
+                                Maintenance
+                                <div class="indicator hidden"></div>
+                            </div>
+                            <ul class="subsections">
+                                <li data-target="maintenance-sub1">Comments on Performance</li>
+                                <li data-target="maintenance-sub2">Comments on User Feedback</li>
+                                <li data-target="maintenance-sub3">Recommendations</li>
+                                <li data-target="maintenance-sub4">Changelog</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-content-container">
+                    <div class="main-content pre-build active-mode">
+                        <div class="intro steps">
+                            <h1>About Reward Reports</h1>
+                            <p>This is a tool to generate and visualize Reward Reports.</p>
+                            <p>It aims to provide a simple interface to build from scratch a new Reward Report or to edit an existing one.</p>
+                            <p>You can upload existing report(s) from your device or directly import them from your GitHub repository.</p>
+                            <p>This is also the place to visualize how your reports for a single model have changed over time.</p>
+                            <p style="font-size: 0.8rem; color:#808080;">
+                                If this is your first time using the Reward Reports Builder, we highly recommend you read through <a href="testFiles/README.md" target="_blank">this Reward Reports Protocol</a>.
+                             </p>
+                            <p style="font-size: 0.8rem; color:#808080;">
+                                You can learn more about Reward Reports at <a href="https://rewardreports.github.io/">https://rewardreports.github.io/</a>.
+                            </p>
+                            <br><br>
+                            <div class="button-container">
+                                <form id="first-form" class="active-form" action="/create-account" method="POST">
+                                    <label for="organization">Organization Name:</label>
+                                    <input type="text" id="organization" name="organization" required>
+                                    <br>
+                                    <label for="username">Username:</label>
+                                    <input type="text" id="username" name="username" required>
+                                    <br>
+                                    <label for="email">Organization Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                    <br>
+                                    <label for="password">Password:</label>
+                                    <input type="password" id="password" name="password" required>
+                                    <br>
+                                    <button type="submit" onclick="nextForm()">Next</button>
+                                </form>
+                                <form id="user-type-form" class="user-steps hidden" action="/select-user-type" method="POST">
+                                    <h2>Please select your user type</h2>
+                                    <div class="user-type-container">
+                                        <label class="user-column">
+                                            <input type="radio" name="userType" value="Builder" hidden required>
+                                            <div class="user-icon" id="builder"><svg width="30%" height="30%" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M233.333 266.667L100 389.743L233.333 533.333M566.667 266.667L700 389.743L566.667 533.333M466.667 133.333L333.333 666.667" stroke="black" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg></div>
+                                            <div class="user-text">
+                                                <h4>Builder</h4>
+                                                <p>e.g. Developers, Algorithm Designers, ML Engineers</p>
+                                            </div>
+                                        </label>
+                                        <label class="user-column">
+                                            <input type="radio" name="userType" value="Vendor" hidden required>
+                                            <div class="user-icon" id="vendor"><svg width="30%" height="27%" viewBox="0 0 475 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M337.496 87.4189L408.203 158.13M275 474.903H475M25 474.915L26.1875 466.61C30.3828 437.228 32.4844 422.532 37.2578 408.817C41.4922 396.646 47.2812 385.071 54.4765 374.38C62.5859 362.329 73.0781 351.833 94.0703 330.845L385.266 39.6455C404.797 20.1182 436.453 20.1182 455.98 39.6455C475.504 59.1728 475.504 90.8291 455.98 110.356L159.437 406.899C140.395 425.942 130.875 435.462 120.031 443.032C110.406 449.755 100.023 455.321 89.0977 459.622C76.793 464.462 63.5937 467.126 37.1992 472.454L25 474.915Z" stroke="black" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg></div>
+                                            <div class="user-text">
+                                                <h4>Vendor</h4>
+                                                <p>e.g. System Administrator, Company Executive</p>
+                                            </div>
+                                        </label>
+                                        <label class="user-column">
+                                            <input type="radio" name="userType" value="Client"  hidden required>
+                                            <div class="user-icon" id="client"><svg width="30%" height="30%" viewBox="0 0 93 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M83.5938 -0.000488281H8.59375C3.85 0.00576172 0.00625 3.84951 0 8.59326V58.5933C0.00625 63.337 3.85 67.1808 8.59375 67.187H83.5938C88.3375 67.1808 92.1812 63.337 92.1875 58.5933V8.59326C92.1812 3.84951 88.3375 0.00576172 83.5938 -0.000488281ZM8.59375 4.68701H83.5938C85.75 4.69014 87.4969 6.43701 87.5 8.59326V12.4995H4.6875V8.59326C4.69063 6.43701 6.4375 4.69014 8.59375 4.68701ZM83.5938 62.4995H8.59375C6.4375 62.4964 4.69063 60.7495 4.6875 58.5933V17.187H87.5V58.5933C87.4969 60.7495 85.75 62.4964 83.5938 62.4995ZM77.3438 24.9995H52.3438C51.05 24.9995 50 26.0495 50 27.3433C50 28.637 51.05 29.687 52.3438 29.687H77.3438C78.6375 29.687 79.6875 28.637 79.6875 27.3433C79.6875 26.0495 78.6375 24.9995 77.3438 24.9995ZM77.3438 37.4995H52.3438C51.05 37.4995 50 38.5495 50 39.8433C50 41.137 51.05 42.187 52.3438 42.187H77.3438C78.6375 42.187 79.6875 41.137 79.6875 39.8433C79.6875 38.5495 78.6375 37.4995 77.3438 37.4995ZM77.3438 49.9995H52.3438C51.05 49.9995 50 51.0495 50 52.3433C50 53.637 51.05 54.687 52.3438 54.687H77.3438C78.6375 54.687 79.6875 53.637 79.6875 52.3433C79.6875 51.0495 78.6375 49.9995 77.3438 49.9995Z" fill="black"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9666 34.3984C15.9666 27.9148 20.9828 22.9392 27.4747 22.9392C34.156 22.9392 38.9829 28.803 38.9829 34.3984C38.9829 37.7582 37.6316 40.7307 35.4074 42.8062C39.8049 44.6092 43.4434 47.8647 45.723 51.9679C46.2594 52.9335 45.9115 54.1511 44.946 54.6875C43.9804 55.2239 42.7628 54.876 42.2264 53.9105C39.7474 49.4484 35.2776 46.2277 30.0081 45.4381C29.0793 45.299 28.3725 44.5324 28.309 43.5954C28.2455 42.6584 28.8426 41.8035 29.7441 41.5403C32.8273 40.6404 34.9829 37.896 34.9829 34.3984C34.9829 30.7987 31.7394 26.9392 27.4747 26.9392C23.1725 26.9392 19.9666 30.1433 19.9666 34.3984C19.9666 37.896 22.1222 40.6404 25.2054 41.5402C26.1069 41.8034 26.7039 42.6583 26.6405 43.5953C26.577 44.5323 25.8702 45.2989 24.9414 45.4381C19.6717 46.2277 15.2019 49.4489 12.723 53.9105C12.1865 54.876 10.9689 55.2239 10.0033 54.6874C9.03777 54.1509 8.68994 52.9333 9.2264 51.9678C11.5059 47.865 15.1444 44.6093 19.5421 42.8062C17.3179 40.7307 15.9666 37.7582 15.9666 34.3984Z" fill="black"/>
+                                            </svg></div>
+                                            <div class="user-text">
+                                                <h4>Client</h4>
+                                                <p>e.g. City Representative, School Official, Auditors</p>
+                                            </div>
+                                        </label>
+                                        <label class="user-column">
+                                            <input type="radio" name="userType" value="User" hidden required>
+                                            <div class="user-icon" id="user"><svg width="30%" height="30%" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M61.1442 62.8309C57.1703 55.641 50.0069 50.4504 41.5549 49.1775C47.2016 47.5209 51.125 42.4368 51.125 36.125C51.125 29.5027 45.3427 22.5 37.5 22.5C29.766 22.5 23.875 28.391 23.875 36.125C23.875 42.4368 27.7984 47.5209 33.4451 49.1774C24.9926 50.4505 17.8294 55.6417 13.8556 62.8308M73 37.5C73 57.1063 57.1063 73 37.5 73C17.8939 73 2 57.1063 2 37.5C2 17.8939 17.8939 2 37.5 2C57.1063 2 73 17.8939 73 37.5Z" stroke="black" stroke-width="4" stroke-linejoin="round"/>
+                                            </svg></div>
+                                            <div class="user-text">
+                                                <h4>User</h4>
+                                                <p>e.g. Client's Customers, System User, Citizens</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <button type="submit">Create Account</button>
+                                </form>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="right-scan"></div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const forms = document.querySelectorAll('form'); // Get all forms
+        let currentFormIndex = 0;
+        function nextForm() {
+            if (currentFormIndex < forms.length - 1) {
+                forms[currentFormIndex].classList.add('hidden'); // Hide current form
+                currentFormIndex++; // Move to next form
+                forms[currentFormIndex].classList.remove('hidden'); // Show next form
+            }
+        }
+        document.querySelectorAll('.user-column').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove 'selected' class from all user columns
+                console.log("clicked column")
+                document.querySelectorAll('.user-column').forEach(div => {
+                    div.classList.remove('selected');
+                });
+        
+                // Add 'selected' class to the clicked user column
+                this.classList.add('selected');
+                
+        
+                // Retrieve the user icon within the clicked column
+                const userIcon = this.querySelector('.user-icon');
+
+                document.querySelectorAll('.user-icon').forEach(div => {
+                    div.classList.remove('selected');
+                });
+        
+                userIcon.classList.add('selected');
+
+                // Set the user type based on the id of the user icon within the clicked column
+                const userType = userIcon.id;
+        
+                // Update the user type description text
+                // userTypeDescrip.textContent = kebabToTitleCase(userType);
+
+                console.log(userType);
+        
+                // Update the user recommendation text from a predefined object
+                // userReccomendation.textContent = userTypeText[userType].text;
+        
+                // Enable the next button after a selection is made
+                // nextButton.disabled = false;
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

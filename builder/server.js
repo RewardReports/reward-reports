@@ -10,11 +10,19 @@ var app = express();
 // Render static files
 app.use(express.static('public'));
 // Set the view engine to ejs
+
+
 app.set('view engine', 'ejs');
 // Port website will run on
 // Listen on port specified in 'PORT' environment variable:
 // https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment#4-listen-on-the-correct-port
-app.listen(process.env.PORT);
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(port);
+
+
 
 const mongodbUri = "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority";
 
@@ -38,48 +46,13 @@ app.use(bodyParser.json()); // Middleware to parse JSON data
 // *** GET Routes - display pages ***
 // Root Route
 app.get('/', function(req, res) {
+  res.render('pages/start');
+});
+
+// Define a route to render the login page
+app.get('/build', (req, res) => {
   res.render('pages/index');
 });
-
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-/*
-const client = new MongoClient(mongodbUri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
-    // Provide the name of the database and collection you want to use.
-    // If the database and/or collection do not exist, the driver and Atlas
-    // will create them automatically when you first write data.
-    const dbName = "rewardReportsDB";
-    const collectionName = "reports";
-
-    // Create references to the database and collection in order to run
-    // operations on them.
-    const database = client.db(dbName);
-    const collection = database.collection(collectionName);
-
-    // Make sure to call close() on your client to perform cleanup operations
-    await client.close();
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-*/
 
 // *** POST Routes - handle form submissions ***
 // POST route for the form on the 'View Changes' tab
@@ -121,3 +94,33 @@ app.get('/clear', async (req, res) => {
     res.status(500).json({ error: 'Error deleting reports', error });
   }
 })
+
+// Define a route to render the login page
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+// Define a route to render the login page
+app.get('/create-account', (req, res) => {
+  res.render('pages/create-account');
+});
+
+
+// Route for handling login form submission
+app.post('/login', (req, res) => {
+  // Handle login logic here
+  // Redirect to project selection page after login
+  res.redirect('/project-selection');
+});
+
+// Route for handling create account form submission
+app.post('/select-user-type', (req, res) => {
+  // Handle account creation logic here
+  // Redirect to project selection page after account creation
+  res.redirect('/project-selection');
+});
+
+// Define a route to render the login page
+app.get('/project-selection', (req, res) => {
+  res.render('pages/project-selection');
+});

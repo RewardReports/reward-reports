@@ -110,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const userIcons = document.querySelectorAll('.user-icon');
     const nextButton = document.getElementById('user-selected');
     const steps = document.querySelectorAll('.steps');
-    const startButton = document.getElementById('start');
+    // const startButton = document.getElementById('start');
     const userDiv = document.querySelector('.user');
     const startBuild = document.querySelector('.start-building');
-    const backUser = document.getElementById('back-user');
+    // const backUser = document.getElementById('back-user');
     const userTypeDescrip = document.getElementById('user-type-description');
     const userTypeExtra = document.getElementById('user-type-extra');
     const userReccomendation = document.getElementById('user-recommendation');
@@ -170,6 +170,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    document.querySelectorAll('.user-column').forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove 'selected' class from all user columns
+            document.querySelectorAll('.user-column').forEach(div => {
+                div.classList.remove('selected');
+            });
+    
+            // Add 'selected' class to the clicked user column
+            this.classList.add('selected');
+    
+            // Retrieve the user icon within the clicked column
+            const userIcon = this.querySelector('.user-icon');
+            
+            // Set the user type based on the id of the user icon within the clicked column
+            const userType = userIcon.id;
+            console.log(userType);
+    
+            // Update the user type description text
+            userTypeDescrip.textContent = kebabToTitleCase(userType);
+    
+            // Update the user recommendation text from a predefined object
+            userReccomendation.textContent = userTypeText[userType].text;
+    
+            // Enable the next button after a selection is made
+            nextButton.disabled = false;
+        });
+    });
+
 
     userIcons.forEach(userIcon => {
         userIcon.addEventListener('click', () => {
@@ -187,47 +215,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    startButton.addEventListener('click', () => {
-        // Hide all the steps by adding the 'hidden' class
-        steps.forEach((step) => {
-            step.classList.add('hidden');
-        });
+    // startButton.addEventListener('click', () => {
+    //     // Hide all the steps by adding the 'hidden' class
+    //     steps.forEach((step) => {
+    //       step.classList.add('hidden');
+    //     });
+      
+    //     // Show the user div by removing the 'hidden' class
+    //     userDiv.classList.remove('hidden');
+    // });
 
-        // Show the user div by removing the 'hidden' class
-        userDiv.classList.remove('hidden');
-    });
+    // backUser.addEventListener('click', () => {
+    //     // Hide all the steps by adding the 'hidden' class
+    //     steps.forEach((step) => {
+    //       step.classList.add('hidden');
+    //     });
+      
+    //     // Show the user div by removing the 'hidden' class
+    //     userDiv.classList.remove('hidden');
+    // });
 
-    backUser.addEventListener('click', () => {
-        // Hide all the steps by adding the 'hidden' class
-        steps.forEach((step) => {
-            step.classList.add('hidden');
-        });
-
-        // Show the user div by removing the 'hidden' class
-        userDiv.classList.remove('hidden');
-    });
-
-    backIntro.addEventListener('click', () => {
-        // Hide all the steps by adding the 'hidden' class
-        steps.forEach((step) => {
-            step.classList.add('hidden');
-        });
-
-        // Show the user div by removing the 'hidden' class
-        introDiv.classList.remove('hidden');
-    });
+    // backIntro.addEventListener('click', () => {
+    //     // Hide all the steps by adding the 'hidden' class
+    //     steps.forEach((step) => {
+    //       step.classList.add('hidden');
+    //     });
+      
+    //     // Show the user div by removing the 'hidden' class
+    //     introDiv.classList.remove('hidden');
+    // });
 
 
-    nextButton.addEventListener('click', () => {
-        // Hide all the steps by adding the 'hidden' class
-        steps.forEach((step) => {
-            step.classList.add('hidden');
-        });
-
-        // Show the user div by removing the 'hidden' class
-        startBuild.classList.remove('hidden');
-    });
-
+    // nextButton.addEventListener('click', () => {
+    //     // Hide all the steps by adding the 'hidden' class
+    //     steps.forEach((step) => {
+    //       step.classList.add('hidden');
+    //     });
+      
+    //     // Show the user div by removing the 'hidden' class
+    //     startBuild.classList.remove('hidden');
+    // });
 
     tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
