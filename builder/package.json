@@ -19,6 +19,7 @@
   "homepage": "https://github.com/RewardReports/reward-reports#readme",
   "dependencies": {
     "mongodb": "6.3",
-    "mongodb-rest": "^0.10.14"
+    "mongodb-rest": "^0.10.14",
+    "ejs": "^3.1.10"
   }
 }
