@@ -100,7 +100,7 @@ app.post('/saveReport', async (req, res) => {
 
 // *** GET Routes - load data ***
 // GET route for loading existing reports
-app.post('/loadReportVersions', async (req, res) => {
+app.get('/loadReportVersions', async (req, res) => {
   console.log("GET route for the form on the 'View Changes' tab");
   console.log(req);
   try {
