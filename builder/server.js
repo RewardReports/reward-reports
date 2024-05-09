@@ -2,7 +2,7 @@
 var express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 
 const ejs = require('ejs');
 // Initialise Express
@@ -87,14 +87,12 @@ app.post('/saveReport', async (req, res) => {
   console.log("POST route for the form on the 'View Changes' tab");
   console.log(req);
   try {
-    console.log(req.body);
     const newReport = new Report(req.body);
-    console.log(newReport)
+    console.log("created report object");
     const savedItem = await newReport.save();
-    console.log(savedItem);
-    res.status(200).json(savedReport);
+    console.log("saved report object");
+    res.status(200).json(savedItem);
   } catch (error) {
     res.status(500).json({ message: 'Error saving item', error });
   }
 });
-         
