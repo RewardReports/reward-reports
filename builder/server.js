@@ -96,3 +96,18 @@ app.post('/saveReport', async (req, res) => {
     res.status(500).json({ message: 'Error saving item', error });
   }
 });
+
+
+// *** GET Routes - load data ***
+// GET route for loading existing reports
+app.post('/loadReportVersions', async (req, res) => {
+  console.log("GET route for the form on the 'View Changes' tab");
+  console.log(req);
+  try {
+    const items = await Report.find({});
+    console.log("found items")
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(500).json({ message: 'Error loading items', error });
+  }
+});
