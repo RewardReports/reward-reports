@@ -1105,6 +1105,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch("/loadReportVersions");
             const reports = await response.json();
+            console.log("Fetched reports from database:");
+            console.log(reports);
 
             if (reports.length > 0) {
                 for (const report of reports) {
