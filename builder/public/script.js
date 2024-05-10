@@ -172,10 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     userIcons.forEach(userIcon => {
-    userIcon.addEventListener('click', () => {
-        // Remove 'selected' class from all user icons
-        userIcons.forEach(icon => icon.classList.remove('selected'));
-            
+        userIcon.addEventListener('click', () => {
+            // Remove 'selected' class from all user icons
+            userIcons.forEach(icon => icon.classList.remove('selected'));
+
             // Add 'selected' class to the clicked user icon
             userIcon.classList.add('selected');
             userType = userIcon.id;
@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.addEventListener('click', () => {
         // Hide all the steps by adding the 'hidden' class
         steps.forEach((step) => {
-          step.classList.add('hidden');
+            step.classList.add('hidden');
         });
-      
+
         // Show the user div by removing the 'hidden' class
         userDiv.classList.remove('hidden');
     });
@@ -200,9 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
     backUser.addEventListener('click', () => {
         // Hide all the steps by adding the 'hidden' class
         steps.forEach((step) => {
-          step.classList.add('hidden');
+            step.classList.add('hidden');
         });
-      
+
         // Show the user div by removing the 'hidden' class
         userDiv.classList.remove('hidden');
     });
@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
     backIntro.addEventListener('click', () => {
         // Hide all the steps by adding the 'hidden' class
         steps.forEach((step) => {
-          step.classList.add('hidden');
+            step.classList.add('hidden');
         });
-      
+
         // Show the user div by removing the 'hidden' class
         introDiv.classList.remove('hidden');
     });
@@ -221,13 +221,13 @@ document.addEventListener('DOMContentLoaded', () => {
     nextButton.addEventListener('click', () => {
         // Hide all the steps by adding the 'hidden' class
         steps.forEach((step) => {
-          step.classList.add('hidden');
+            step.classList.add('hidden');
         });
-      
+
         // Show the user div by removing the 'hidden' class
         startBuild.classList.remove('hidden');
     });
-        
+
 
     tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contentSections.forEach(section => {
                 if (section.id === targetSectionId) {
                     section.classList.add('active-tab');
-                    if (targetSectionId==="version-history"){
+                    if (targetSectionId === "version-history") {
                         checkExpendButtonNeed();
                     }
                 } else {
@@ -319,37 +319,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const sectionBottom = sectionTop + section.clientHeight;
             const sectionId = section.id;
             const correspondingNavItem = document.querySelector(`.sections li[data-target="${sectionId}"]`);
-            
+
             if (scrollTop >= sectionTop && scrollTop <= sectionBottom) {
                 currentScrollSection = section;
                 leftScanItems.forEach(li => li.classList.remove('active-section'));
                 correspondingNavItem.classList.add('active-section');
-                
+
                 subsections.forEach((sub) => {
                     sub.classList.remove('active-sub');
                     if (sub.parentElement.classList.contains('active-section')) {
                         sub.classList.add('active-sub');
-                    } 
+                    }
                 });
-            
-            } 
+
+            }
         });
         populateLastEdit()
-    }); 
-    
+    });
+
     // Function to add the text below the section heading
     function addLinkInstructions(section) {
         // Create a <p> element for the format text
         const formatText = document.createElement('p');
         formatText.textContent = 'Links should be formatted as [Hyperlink text](Link URL).';
-        
+
         const formatImg = document.createElement('p');
         formatImg.textContent = 'Images should be formatted as ![Image alt text](Image src URL).';
 
         const lineBreak = document.createElement('br')
         const lineBreak2 = document.createElement('br')
 
-        
+
         // Create a <em> element for the example (italicized)
         const example = document.createElement('i');
         example.textContent = '  e.g. [Reward Reports](https://rewardreports.github.io/)';
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const example2 = document.createElement('i');
         example2.textContent = '  e.g. ![Reward Reports Logo](https://github.com/RewardReports/reward-reports/raw/main/_assets/icon.png)';
 
-        
+
         // Create a <div> to contain the format text
         const formatTextContainer = document.createElement('div');
         formatTextContainer.appendChild(formatText);
@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeLinkInstructions(section) {
         const formatTextContainer = section.querySelector('.format-text-container');
-    
+
         // Check if the format text container exists
         if (formatTextContainer) {
             formatTextContainer.remove();
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!formatText) {
                 addLinkInstructions(section);
             }
-    
+
 
             // Hide all other sections
             sections.forEach(otherSection => {
@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     otherSection.style.display = 'none';
                 }
             });
-            
+
             subsections.forEach(subsection => {
                 subsection.contentEditable = true;
                 subsection.dataset.originalContent = subsection.innerHTML;
@@ -412,8 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             button.textContent = 'Editing';
             button.classList.add('editing-button');
-            button.removeEventListener('click', () => {});
-            
+            button.removeEventListener('click', () => { });
+
             authorForm.style.display = 'block';
         });
     });
@@ -436,12 +436,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeDrafts = [];
         const draftPagesContainer = document.getElementById('draft-pages-container')
         for (const sectionHead of leftScanItems) {
-          const indicator = sectionHead.querySelector('.indicator');
-    
-          if (indicator && !indicator.classList.contains('hidden')) {
-            const dataTarget = sectionHead.getAttribute('data-target');
-            activeDrafts.push(dataTarget); // Add data-target to the array
-          }
+            const indicator = sectionHead.querySelector('.indicator');
+
+            if (indicator && !indicator.classList.contains('hidden')) {
+                const dataTarget = sectionHead.getAttribute('data-target');
+                activeDrafts.push(dataTarget); // Add data-target to the array
+            }
         }
         console.log('Active Drafts:', activeDrafts);
 
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const draftDiv = document.createElement('div');
             draftDiv.classList.add('draft-item');
             draftDiv.classList.add('centered-div');
-        
+
 
             const draftTitle = document.createElement('span');
             draftTitle.textContent = kebabToTitleCase(draft);
@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         otherSection.style.display = 'none';
                     }
                 });
-                
+
                 subsections.forEach(subsection => {
                     subsection.contentEditable = true;
                     subsection.dataset.originalContent = subsection.textContent;
@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 mainButton.textContent = 'Editing';
                 mainButton.classList.add('editing-button');
-                mainButton.removeEventListener('click', () => {});
+                mainButton.removeEventListener('click', () => { });
             });
             draftDiv.appendChild(editButton);
 
@@ -504,38 +504,38 @@ document.addEventListener('DOMContentLoaded', () => {
         userTypeBlock.style.display = 'none';
 
 
-        leftScanItems.forEach(item =>{
+        leftScanItems.forEach(item => {
             item.classList.remove('active-section');
         });
-        subsections.forEach(item =>{
+        subsections.forEach(item => {
             item.classList.remove('active-sub');
         });
 
     });
 
-    
+
     // document.getElementById('export-button').addEventListener('click', () => {
     //     const sections = document.querySelectorAll('.section');
     //     let markdownContent = '';
-    
+
     //     sections.forEach(section => {
     //         markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
-    
+
     //         const subsections = section.querySelectorAll('.subsection');
-    
+
     //         subsections.forEach(subsection => {
     //             const title = subsection.querySelector('h4').textContent;
     //             const content = subsection.querySelector('p').textContent;
-    
+
     //             markdownContent += `## ${title}\n\n${content}\n\n`;
     //         });
-    
+
     //         markdownContent += '\n';
     //     });
-    
+
     //     const blob = new Blob([markdownContent], { type: 'text/plain;charset=utf-8' });
     //     const filename = 'reward_report.md';
-        
+
     //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     //         window.navigator.msSaveOrOpenBlob(blob, filename);
     //     } else {
@@ -552,27 +552,27 @@ document.addEventListener('DOMContentLoaded', () => {
     //     const sections = document.querySelectorAll('.section');
     //     let markdownContent = '';
 
-    
+
     //     sections.forEach(section => {
     //         markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
-    
+
     //         const subsections = section.querySelectorAll('.subsection');
-    
+
     //         subsections.forEach(subsection => {
     //             const title = subsection.querySelector('h4').textContent;
     //             const content = subsection.querySelector('p').textContent;
-    
+
     //             markdownContent += `## ${title}\n\n${content}\n\n`;
     //         });
-    
+
     //         markdownContent += '\n';
     //     });
-    
+
     //     const now = new Date();
     //     const formattedDate = now.toISOString().replace(/:/g, '-'); // Replace colons with dashes
     //     const folderName = `reward_reports_${formattedDate}`;
     //     const markdownFileName = `reward_report_${formattedDate}.md`;
-    
+
     //     const zip = new JSZip();
     //     const folder = zip.folder(folderName);
     //     folder.file(markdownFileName, markdownContent);
@@ -584,10 +584,10 @@ document.addEventListener('DOMContentLoaded', () => {
     //             folder.file(importedFile.name, importedFile.content);
     //         });
     //     }
-    
+
     //     zip.generateAsync({ type: 'blob' }).then(function (content) {
     //         const filename = `${folderName}.zip`;
-    
+
     //         if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     //             window.navigator.msSaveOrOpenBlob(content, filename);
     //         } else {
@@ -635,41 +635,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const editSubsections = document.querySelectorAll('.subsection p');
         const confirmPublish = confirm('Publishing will publish all pages under drafts.');
 
-       
+
 
         if (confirmPublish) {
-    
+
             currentContextInfo = {
                 author: editorInput.value,
                 description: descriptionInput.value.replace(/\s+/g, ' ')
             };
-    
+
             contextInfo = currentContextInfo;
-            
+
             const sections = document.querySelectorAll('.section');
             let markdownContent = '';
 
             markdownContent += `<!-- Author: ${contextInfo.author} --> `;
             markdownContent += `<!-- Description: ${contextInfo.description} -->\n\n`;
 
-            
+
             sections.forEach(section => {
                 convertLinksToMarkdown(section);
                 markdownContent += `# ${section.querySelector('h3').textContent}\n\n`;
 
                 const subsections = section.querySelectorAll('.subsection');
-        
+
                 subsections.forEach(subsection => {
                     const title = subsection.querySelector('h4').textContent;
                     const content = subsection.querySelector('p').innerText.replace(/<br>/g, '\n\n'); // Replace <br> with newline character
                     console.log(content)
+
                     markdownContent += `## ${title}\n\n${content}\n\n`;
                 });
-        
+
                 markdownContent += '\n';
-                
+
             });
-        
+
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -681,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
             const folderName = `reward_reports`;
             const markdownFileName = `reward_report_${formattedDate}.md`;
-        
+
             const zip = new JSZip();
             const folder = zip.folder(folderName);
             folder.file(markdownFileName, markdownContent);
@@ -690,56 +691,56 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("markdownContent");
             console.log(markdownContent);
             fetch("/saveReport", {
-              method: "POST",
-              body: JSON.stringify({
-                datetime: now,
-                markdownContent: markdownContent,
-              }),
-              headers: {
-                "Content-type": "application/json; charset=UTF-8"
-              }
+                method: "POST",
+                body: JSON.stringify({
+                    datetime: now,
+                    markdownContent: markdownContent,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
             })
-            .then(response => {
-                // Handle success or error messages here
-                console.log("Data submission:", response); 
-            });
-            
+                .then(response => {
+                    // Handle success or error messages here
+                    console.log("Data submission:", response);
+                });
+
 
             // Define a function to fetch and add the template file
             const addTemplateFile = async () => {
                 try {
-                const templateResponse = await fetch('testFiles/template.md');
-                if (templateResponse.ok) {
-                    const templateContent = await templateResponse.text();
-                    folder.file('template.md', templateContent);
-                } else {
-                    console.error('Failed to fetch template.md:', templateResponse.status);
-                }
+                    const templateResponse = await fetch('testFiles/template.md');
+                    if (templateResponse.ok) {
+                        const templateContent = await templateResponse.text();
+                        folder.file('template.md', templateContent);
+                    } else {
+                        console.error('Failed to fetch template.md:', templateResponse.status);
+                    }
                 } catch (error) {
-                console.error('Error:', error);
+                    console.error('Error:', error);
                 }
             };
 
             // Define a function to fetch and add the README file
             const addReadmeFile = async () => {
                 try {
-                const readmeResponse = await fetch('testFiles/README.md');
-                if (readmeResponse.ok) {
-                    const readmeContent = await readmeResponse.text();
-                    folder.file('README.md', readmeContent);
-                } else {
-                    console.error('Failed to fetch readme.md:', readmeResponse.status);
-                }
+                    const readmeResponse = await fetch('testFiles/README.md');
+                    if (readmeResponse.ok) {
+                        const readmeContent = await readmeResponse.text();
+                        folder.file('README.md', readmeContent);
+                    } else {
+                        console.error('Failed to fetch readme.md:', readmeResponse.status);
+                    }
                 } catch (error) {
-                console.error('Error:', error);
+                    console.error('Error:', error);
                 }
             };
-            
+
             // Use async/await to ensure that the files are added before other files
             await addTemplateFile();
             await addReadmeFile();
 
-             // Update importedMarkdownFiles with the newly generated markdown file
+            // Update importedMarkdownFiles with the newly generated markdown file
             const newFileContent = await folder.file(markdownFileName).async('string');
             const newFileName = markdownFileName;
             importedMarkdownFiles.push({ name: newFileName, content: newFileContent });
@@ -752,10 +753,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(importedFile.content)
                 });
             }
-        
-            zip.generateAsync({ type: 'blob' }).then(function (content) {
+
+            zip.generateAsync({ type: 'blob' }).then(function(content) {
                 const filename = `${folderName}.zip`;
-        
+
                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {
                     window.navigator.msSaveOrOpenBlob(content, filename);
                 } else {
@@ -766,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     link.click();
                     URL.revokeObjectURL(url);
                 }
-            }).catch(function (error) {
+            }).catch(function(error) {
                 console.error('Error generating ZIP:', error);
             });
             // console.log('Markdown content:', importedMarkdownFiles);
@@ -779,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // currentContextInfo = {};
             authorForm.style.display = 'none';
             currentEditSection = undefined;
-            
+
             sections.forEach(section => {
                 section.style.display = 'block';
             });
@@ -787,12 +788,12 @@ document.addEventListener('DOMContentLoaded', () => {
             editButtons.forEach((button) => {
                 button.textContent = 'Edit';
                 button.classList.remove('editing-button');
-            });  
+            });
 
             editSubsections.forEach(subsection => {
                 subsection.contentEditable = false;
             });
-            
+
             const indicators = document.querySelectorAll('.indicator');
 
             indicators.forEach(indicator => {
@@ -807,43 +808,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restartButton.addEventListener('click', () => {
         const confirmRestart = confirm('Are you sure you want to create a new Reward Report? Any unpublished changes will be lost.');
-        
+
         if (confirmRestart) {
-            
+
             fetch('testFiles/template.md')
-            .then(response => response.text())
-            .then(markdownContent => {
-                // Call the parseMarkdown function with the fetched content
-                parseMarkdown(markdownContent);
-            })
-            .catch(error => {
-                console.error('Error fetching Markdown content:', error);
-            });
+                .then(response => response.text())
+                .then(markdownContent => {
+                    // Call the parseMarkdown function with the fetched content
+                    parseMarkdown(markdownContent);
+                })
+                .catch(error => {
+                    console.error('Error fetching Markdown content:', error);
+                });
 
             const indicators = document.querySelectorAll('.indicator');
-            
+
 
             indicators.forEach(indicator => {
                 indicator.classList.add('hidden');
             });
 
-            const graphs = document.querySelectorAll(".graph") 
-            const nonGraphs = document.querySelectorAll(".no-graph") 
+            const graphs = document.querySelectorAll(".graph")
+            const nonGraphs = document.querySelectorAll(".no-graph")
             const reportElement = document.getElementById('graph-report-info');
             const noReportElement = document.getElementById('no-graph-report-info');
             const editorElement = document.getElementById('graph-editor');
             const descriptionElement = document.getElementById('graph-description');
 
-            graphs.forEach(graph =>{
+            graphs.forEach(graph => {
                 graph.style.display = "none";
             });
-            nonGraphs.forEach(graph =>{
+            nonGraphs.forEach(graph => {
                 graph.style.display = "flex";
             });
             reportElement.style.display = "none";
             noReportElement.style.display = "block";
-            editorElement.textContent=""
-            descriptionElement.textContent=""
+            editorElement.textContent = ""
+            descriptionElement.textContent = ""
 
             activeDraftButton.style.display = "none";
 
@@ -880,7 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </svg>
                     <p>Select a date first to get started and compare two different versions.</p>
                 </div>
-            `;        
+            `;
             originalContainer.innerHTML = `
                 <div class="compare-inplace">
                     <svg width="137" height="105" viewBox="0 0 137 105" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -888,15 +889,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </svg>
                     <p>Select a date first to get started and compare two different versions.</p>
                 </div>
-            `;  
-            tbody.innerHTML =`
+            `;
+            tbody.innerHTML = `
                 <tr>
                     <td colspan="7" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
                     </td>
                 </tr>
             `;
 
-            restartButton.style.display="none";
+            restartButton.style.display = "none";
         }
     });
 
@@ -908,10 +909,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
+
     // Start observing changes to the 'style' attribute of authorForm
     observer.observe(authorForm, { attributes: true });
-    
+
     // Function to open the modal
     function openImportModal() {
         const modal = document.getElementById('import-modal');
@@ -955,8 +956,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
-        
-        const sections = WithoutContext.split(/^(?=# [^#])/gm);    
+
+        const sections = WithoutContext.split(/^(?=# [^#])/gm);
         sections.forEach(section => {
             const sectionTitleLine = section.split('\n')[0];
             const sectionTitle = sectionTitleLine.slice(2); // Remove the '# ' from the title
@@ -965,12 +966,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!sectionEl) {
                 return; // Skip if section element not found
             }
-    
+
             const subsections = section.split('## ');
             subsections.shift();
             // console.log(sectionEl)
             // console.log(sectionTitle)
-    
+
             subsections.forEach((subsection, index) => {
                 const lines = subsection.split('\n');
                 console.log(lines)
@@ -978,14 +979,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const content = lines.slice(1).join('<br>'); // Join lines using '\n' to maintain line breaks
                 console.log(content)
 
-    
+
                 const subsectionEl = document.getElementById(`${sectionTitle.toLowerCase().replace(/\s/g, '-')}-sub${index + 1}`);
                 // console.log(subsectionEl)
 
                 if (!subsectionEl) {
                     return; // Skip if subsection element not found
                 }
-    
+
                 const contentEl = subsectionEl.querySelector('p');
                 contentEl.innerHTML = content;
             });
@@ -998,22 +999,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('confirm-import').addEventListener('click', async () => {
         const importFileInput = document.getElementById('import-file');
         const file = importFileInput.files[0];
-    
+
         if (!file) {
             return;
         }
-    
+
         try {
             const zip = new JSZip();
             const importedZip = await zip.loadAsync(file);
 
-    
+
             const folderName = Object.keys(importedZip.files)[0];
             // console.log('Imported zip folder:', folderName);
             // console.log('Zip files:', Object.keys(importedZip.files));
             const folder = importedZip.folder(folderName);
             const markdownFiles = Object.keys(folder.files).filter(fileName => {
-                return fileName.startsWith(folderName + 'reward_report_') && fileName.endsWith('.md'); 
+                return fileName.startsWith(folderName + 'reward_report_') && fileName.endsWith('.md');
             });
 
 
@@ -1022,11 +1023,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const trimmedFileName = fileName.substring(fileName.lastIndexOf('/') + 1); // Extract file name after last "/"
                 return { name: trimmedFileName, content: content };
             }));
-    
+
             if (markdownFiles.length === 1) {
                 // console.log('Markdown files found:', markdownFiles);
                 const markdownContent = await importedZip.files[markdownFiles[0]].async('string');
-                
+
                 // Use the markdown content to populate the HTML page (similar to the export code)
                 // console.log('Markdown content:', markdownContent);
 
@@ -1067,7 +1068,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     return currentDateTime > latestDateTime ? currentFile : latestFile;
                 });
-    
+
                 const markdownContent = await importedZip.files[latestMarkdownFile].async('string');
                 // console.log('Latest Markdown files found:', markdownContent);
 
@@ -1095,125 +1096,175 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = parts[3];
         const repoName = parts[4];
         const path = parts.slice(7).join('/');
-        
+
         return `https://api.github.com/repos/${username}/${repoName}/contents/${path}`;
     }
 
-   async function loadFromGithubUrl(githubUrl) {
-     const apiUrl = convertToGitHubAPIUrl(githubUrl);
 
-     try {
-         const response = await fetch(apiUrl);
-         const data = await response.json();
+    async function loadReportsFromDatabase() {
+        try {
+            const response = await fetch("/loadReportVersions");
+            const reports = await response.json();
 
-         const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
+            if (reports.length > 0) {
+                for (const report of reports) {
+                    try {
+                        const content = report.markdownContent;
+                        const trimmedFileName = report.datetime;
+                        importedMarkdownFiles.push({ name: trimmedFileName, content: content });
 
-         if (markdownFiles.length > 0) {
-             for (const file of markdownFiles) {
-                 try {
-                     const contentResponse = await fetch(file.download_url);
-                     const content = await contentResponse.text();
+                    } catch (error) {
+                        console.error('Error fetching markdown content:', error);
+                    }
+                }
 
-                     // Process the content similar to your existing code
-                     const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
-                     importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+                const latestMarkdownFile = reports.reduce((latestFile, currentFile) => {
 
-                 } catch (error) {
-                     console.error('Error fetching markdown content:', error);
-                 }
-             }
+                    const latestDateTime = latestFile.datetime;
+                    const currentDateTime = currentFile.datetime;
+                    console.log(latestDateTime)
 
-             const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
-                 const latestDateString = latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
-                 const currentDateString = currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
-                 const parts = latestDateString.split(/[- :]/);
-                 const year = parseInt(parts[0]);
-                 const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
-                 const day = parseInt(parts[2]);
-                 const hours = parseInt(parts[3]);
-                 const minutes = parseInt(parts[4]);
-                 const seconds = parseInt(parts[5]);
-
-                 const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
-
-                 const parts2 = currentDateString.split(/[- :]/);
-                 const year2 = parseInt(parts2[0]);
-                 const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
-                 const day2 = parseInt(parts2[2]);
-                 const hours2 = parseInt(parts2[3]);
-                 const minutes2 = parseInt(parts2[4]);
-                 const seconds2 = parseInt(parts2[5]);
-
-                 const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
-                 console.log(latestFile.name.match(/reward_report_(.*).md/)[1])
-                 console.log(latestDateTime)
-
-                 return currentDateTime > latestDateTime ? currentFile : latestFile;
-             });
+                    return currentDateTime > latestDateTime ? currentFile : latestFile;
+                });
 
 
-             console.log(latestMarkdownFile.name)
+                console.log(latestMarkdownFile.datetime)
 
-             const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
-             const markdownContent = await markdownContentResponse.text();
+                const markdownContent = latestMarkdownFile.markdownContent;
 
-             // Process the markdown content as needed
-             parseMarkdown(markdownContent);
-             populateDropdowns();
-             populateLastEdit();
-             checkExpendButtonNeed2()
-             populateVersionTable();
-             // populateCheckboxes();
+                // Process the markdown content as needed
+                parseMarkdown(markdownContent);
+                populateDropdowns();
+                populateLastEdit();
+                checkExpendButtonNeed2()
+                populateVersionTable();
+                // populateCheckboxes();
 
-             closeImportModal();
-         } else {
-             console.error('No reward report markdown files found.');
-         }
-     } catch (error) {
-         console.error('Error fetching GitHub API:', error);
-     }
-     // console.log(importedMarkdownFiles);
-   }
+                closeImportModal();
+            } else {
+                console.error('No reward report markdown files found.');
+            }
+        } catch (error) {
+            console.error('Error fetching GitHub API:', error);
+        }
+    }
+
+    
+    async function loadFromGithubUrl(githubUrl) {
+        const apiUrl = convertToGitHubAPIUrl(githubUrl);
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
+
+            if (markdownFiles.length > 0) {
+                for (const file of markdownFiles) {
+                    try {
+                        const contentResponse = await fetch(file.download_url);
+                        const content = await contentResponse.text();
+
+                        // Process the content similar to your existing code
+                        const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
+                        importedMarkdownFiles.push({ name: trimmedFileName, content: content });
+
+                    } catch (error) {
+                        console.error('Error fetching markdown content:', error);
+                    }
+                }
+
+                const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
+                    const latestDateString = latestFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const currentDateString = currentFile.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' ');
+                    const parts = latestDateString.split(/[- :]/);
+                    const year = parseInt(parts[0]);
+                    const month = parseInt(parts[1]) - 1; // Months are zero-based in JavaScript
+                    const day = parseInt(parts[2]);
+                    const hours = parseInt(parts[3]);
+                    const minutes = parseInt(parts[4]);
+                    const seconds = parseInt(parts[5]);
+
+                    const latestDateTime = new Date(year, month, day, hours, minutes, seconds);
+
+                    const parts2 = currentDateString.split(/[- :]/);
+                    const year2 = parseInt(parts2[0]);
+                    const month2 = parseInt(parts2[1]) - 1; // Months are zero-based in JavaScript
+                    const day2 = parseInt(parts2[2]);
+                    const hours2 = parseInt(parts2[3]);
+                    const minutes2 = parseInt(parts2[4]);
+                    const seconds2 = parseInt(parts2[5]);
+
+                    const currentDateTime = new Date(year2, month2, day2, hours2, minutes2, seconds2);
+                    console.log(latestFile.name.match(/reward_report_(.*).md/)[1])
+                    console.log(latestDateTime)
+
+                    return currentDateTime > latestDateTime ? currentFile : latestFile;
+                });
+
+
+                console.log(latestMarkdownFile.name)
+
+                const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
+                const markdownContent = await markdownContentResponse.text();
+
+                // Process the markdown content as needed
+                parseMarkdown(markdownContent);
+                populateDropdowns();
+                populateLastEdit();
+                checkExpendButtonNeed2()
+                populateVersionTable();
+                // populateCheckboxes();
+
+                closeImportModal();
+            } else {
+                console.error('No reward report markdown files found.');
+            }
+        } catch (error) {
+            console.error('Error fetching GitHub API:', error);
+        }
+        // console.log(importedMarkdownFiles);
+    }
 
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
         loadFromGithubUrl(githubRepositoryUrl);
     });
-    
+
     // document.getElementById('import-from-github').addEventListener('click', async () => {
     //     const githubRepositoryUrl = document.getElementById('github-folder-url').value;
     //     const apiUrl = convertToGitHubAPIUrl(githubRepositoryUrl);
-    
+
     //     try {
     //         const response = await fetch(apiUrl);
     //         const data = await response.json();
-    
+
     //         const markdownFiles = data.filter(file => (file.name.endsWith('.md') && file.name.startsWith('reward_report_')));
-    
+
     //         for (const file of markdownFiles) {
     //             try {
     //                 const contentResponse = await fetch(file.download_url);
     //                 const content = await contentResponse.text();
-                    
+
     //                 // Process the content similar to your existing code
     //                 const trimmedFileName = file.name.substring(file.name.lastIndexOf('/') + 1);
     //                 importedMarkdownFiles.push({ name: trimmedFileName, content: content });
-    
+
     //             } catch (error) {
     //                 console.error('Error fetching markdown content:', error);
     //             }
     //         }
-    
+
     //         if (markdownFiles.length > 0) {
     //             const latestMarkdownFile = markdownFiles.reduce((latestFile, currentFile) => {
     //                 const latestDateTime = new Date(latestFile.name.match(/reward_report_(.*)\.md/)[1]);
     //                 const currentDateTime = new Date(currentFile.name.match(/reward_report_(.*)\.md/)[1]);
     //                 return currentDateTime > latestDateTime ? currentFile : latestFile;
     //             });
-    
+
     //             const markdownContentResponse = await fetch(latestMarkdownFile.download_url);
     //             const markdownContent = await markdownContentResponse.text();
-    
+
     //             // Process the markdown content as needed
     //             parseMarkdown(markdownContent);
     //             populateDropdowns();
@@ -1230,7 +1281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     }
     //     console.log(importedMarkdownFiles)
     // });
-    
+
     cancelButton.addEventListener('click', () => {
         // Show a confirmation dialog before proceeding
         const confirmCancel = confirm('Are you sure you want to cancel? Any unsaved changes will be discarded.');
@@ -1261,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to replace [Link](URL) with HTML links in a given paragraph
     // function replaceLinksInParagraph(paragraph) {
-        
+
     //     // Regular expression to match [Link](URL) patterns
     //     const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 
@@ -1304,17 +1355,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set the HTML content of the paragraph to the replaced text
         paragraph.innerHTML = replacedParagraph;
     }
-  
-    
+
+
     // Function to search for and replace links in all <p> elements within currentEditSection
     function replaceLinksInSection() {
         const paragraphs = document.querySelectorAll('p');
-    
+
         paragraphs.forEach(paragraph => {
-        replaceLinksInParagraph(paragraph);
+            replaceLinksInParagraph(paragraph);
         });
     }
-  
+
 
     saveButton.addEventListener('click', () => {
         // console.log(currentEditSection.id);
@@ -1331,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         replaceLinksInSection();
-            
+
         subsections.forEach(subsection => {
             subsection.contentEditable = false;
         });
@@ -1345,8 +1396,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (hasUnsavedChanges) {
-        indicator.classList.remove('hidden');
-        activeDraftButton.style.display = "block";
+            indicator.classList.remove('hidden');
+            activeDraftButton.style.display = "block";
         }
 
         sections.forEach(section => {
@@ -1358,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editButtons.forEach((button) => {
             button.textContent = 'Edit';
             button.classList.remove('editing-button');
-        });  
+        });
         currentEditSection = undefined;
         // descriptionInput.value = '';
 
@@ -1371,14 +1422,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetInfoDiv = document.querySelector(`[data-target="${targetId}"]`);
             const scrollTop = window.scrollY || window.pageYOffset;
 
-    
+
             if (targetInfoDiv) {
                 targetInfoDiv.style.left = event.clientX + 'px';
                 targetInfoDiv.style.top = (event.clientY + scrollTop - 50) + 'px';
                 targetInfoDiv.classList.add('show-info');
             }
         });
-    
+
         icon.addEventListener('mouseout', () => {
             hiddenInfoDivs.forEach((div) => {
                 div.classList.remove('show-info');
@@ -1426,7 +1477,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
             dateElement.textContent = formattedDate;
 
-            if(contextInfo){
+            if (contextInfo) {
                 descriptionElement.textContent = contextInfo['description'];
             } else {
                 descriptionElement.textContent = "";
@@ -1434,15 +1485,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             lastEditedSection.style.display = 'none';
-        } 
+        }
     }
 
     function kebabToTitleCase(kebabString) {
         const words = kebabString.split('-');
         const capitalizedWords = words.map(word => {
-          const firstLetter = word[0].toUpperCase();
-          const restOfWord = word.slice(1);
-          return firstLetter + restOfWord;
+            const firstLetter = word[0].toUpperCase();
+            const restOfWord = word.slice(1);
+            return firstLetter + restOfWord;
         });
         return capitalizedWords.join(' ');
     }
@@ -1497,16 +1548,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial call to update button status
     updateButtonStatus();
-    
-    tabs[0].click();
-    
 
-    
-    
-    
-    
-    
-    
+    tabs[0].click();
+
+
+
+
+
+
+
+
     //CODE FOR VIEW CHANGES TAB
     const diffContainer = document.getElementById('diff-container');
     const originalContainer = document.getElementById('original-container');
@@ -1515,14 +1566,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const graphDropdown = document.getElementById('metric-date');
     // const compareButton = document.getElementById('compareButton');
     const changesNav = document.getElementById('changeNav');
-    
+
 
     const sectionHeaders = changesNav.querySelectorAll('.sections li');
     const subsectionHeaders = changesNav.querySelectorAll('.sections ul');
 
 
     sectionHeaders.forEach(sectionHeader => {
-        sectionHeader.addEventListener('click', () =>{
+        sectionHeader.addEventListener('click', () => {
             sectionHeaders.forEach(li => li.classList.remove('active-section'));
             sectionHeader.classList.add('active-section');
             // filterSectionsByClass(sectionHeader.getAttribute('data-target'))
@@ -1532,12 +1583,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function activateSub(){
+    function activateSub() {
         subsectionHeaders.forEach((sub) => {
             sub.classList.remove('active-sub');
             if (sub.parentElement.classList.contains('active-section')) {
                 sub.classList.add('active-sub');
-            } 
+            }
         });
     }
 
@@ -1554,14 +1605,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const allDates3 = document.createElement('optgroup');
         allDates3.label = "All Dates"
 
-        
+
         // Sort importedMarkdownFiles from newest to oldest
         if (importedMarkdownFiles.length > 0) {
             const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
                 const dateA = a.name.match(/reward_report_(.*).md/)[1];
                 const dateB = b.name.match(/reward_report_(.*).md/)[1];
                 return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-            });        
+            });
             sortedFiles.forEach(file => {
                 const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
                 const parts = filename.split(/[- :]/);
@@ -1586,7 +1637,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 allDates1.appendChild(option1);
                 allDates2.appendChild(option2);
                 allDates3.appendChild(option3);
-            });       
+            });
         } else {
             importedMarkdownFiles.forEach(file => {
                 const option1 = document.createElement('option');
@@ -1601,7 +1652,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 allDates1.appendChild(option1);
                 allDates2.appendChild(option2);
                 allDates3.appendChild(option3);
-            }); 
+            });
         }
         file1Dropdown.appendChild(allDates1);
         file2Dropdown.appendChild(allDates2);
@@ -1638,23 +1689,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     graphDropdown.addEventListener('change', () => {
         const selectedFile = graphDropdown.value;
-        const graphs = document.querySelectorAll(".graph") 
-        const nonGraphs = document.querySelectorAll(".no-graph") 
+        const graphs = document.querySelectorAll(".graph")
+        const nonGraphs = document.querySelectorAll(".no-graph")
         const reportElement = document.getElementById('graph-report-info');
         const noReportElement = document.getElementById('no-graph-report-info');
         const editorElement = document.getElementById('graph-editor');
         const descriptionElement = document.getElementById('graph-description');
 
         if (selectedFile) {
-            graphs.forEach(graph =>{
+            graphs.forEach(graph => {
                 graph.style.display = "flex"
             });
-            nonGraphs.forEach(graph =>{
+            nonGraphs.forEach(graph => {
                 graph.style.display = "none"
             });
 
-            noReportElement.style.display="none";
-            reportElement.style.display="block";
+            noReportElement.style.display = "none";
+            reportElement.style.display = "block";
 
             const report = importedMarkdownFiles.find(file => file.name === selectedFile)?.content || '';
             console.log(report)
@@ -1667,14 +1718,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } else {
-            graphs.forEach(graph =>{
+            graphs.forEach(graph => {
                 graph.style.display = "none";
             });
-            nonGraphs.forEach(graph =>{
+            nonGraphs.forEach(graph => {
                 graph.style.display = "flex";
             });
-            reportElement.style.display="none";
-            noReportElement.style.display="block";
+            reportElement.style.display = "none";
+            noReportElement.style.display = "block";
         }
         checkExpendButtonNeed3()
     });
@@ -1704,17 +1755,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // function filterSectionsByClass(className) {
     //     const container = document.getElementById('original-container');
     //     const sections = container.querySelectorAll('h3');
-    
+
     //     sections.forEach(section => {
     //         if (section.classList.contains(className)) {
     //             const siblingElements = [section];
-    
+
     //             let nextElement = section.nextElementSibling;
     //             while (nextElement && nextElement.tagName !== 'H3') {
     //                 siblingElements.push(nextElement);
     //                 nextElement = nextElement.nextElementSibling;
     //             }
-    
+
     //             container.innerHTML = '';
     //             siblingElements.forEach(element => {
     //                 container.appendChild(element);
@@ -1726,16 +1777,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterActiveSection() {
         const activeSection = changesNav.querySelector('.active-section');
         if (activeSection) {
-            const className = activeSection.getAttribute('data-target'); 
+            const className = activeSection.getAttribute('data-target');
             const container = document.getElementById('original-container');
             const sections = container.querySelectorAll('h3');
             const container2 = document.getElementById('diff-container');
             const sections2 = container2.querySelectorAll('section');
 
-    
+
             sections.forEach(section => {
                 const siblingElements = [section];
-    
+
                 let nextElement = section.nextElementSibling;
                 while (nextElement && nextElement.tagName !== 'H3') {
                     siblingElements.push(nextElement);
@@ -1751,16 +1802,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     siblingElements.forEach(element => {
                         element.style.display = 'none';
                     });
-                }  
+                }
             });
 
             sections2.forEach(section => {
-               
+
                 if (section.classList.contains(className)) {
                     section.style.display = 'block';
                 } else {
                     section.style.display = 'none';
-                }  
+                }
             });
         }
     }
@@ -1769,13 +1820,13 @@ document.addEventListener('DOMContentLoaded', () => {
     //     const activeSection = changesNav.querySelector('.active-section');
     //     if (activeSection) {
     //         const className = activeSection.getAttribute('data-target');
-        
+
     //         const container = document.getElementById('diff-container');
     //         const sections = container.querySelectorAll('h3');
-        
+
     //         sections.forEach(section => {
     //             const siblingElements = [section];
-    
+
     //             let nextElement = section.nextElementSibling;
     //             while (nextElement && nextElement.tagName !== 'H3') {
     //                 siblingElements.push(nextElement);
@@ -1795,8 +1846,8 @@ document.addEventListener('DOMContentLoaded', () => {
     //         });
     //     }
     // }
-    
-    
+
+
 
     function compare() {
 
@@ -1806,7 +1857,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const selectedFile1 = file1Dropdown.value;
         const selectedFile2 = file2Dropdown.value;
-    
+
         // Find the corresponding content for the selected files
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
         const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
@@ -1814,9 +1865,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const content1noCont = content1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
         const content2noCont = content2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
 
-        const content1Sections = content1noCont.split(/^(?=# [^#])/gm);    
-        const content2Sections = content2noCont.split(/^(?=# [^#])/gm);    
-       
+        const content1Sections = content1noCont.split(/^(?=# [^#])/gm);
+        const content2Sections = content2noCont.split(/^(?=# [^#])/gm);
+
 
         if (content1Sections.length !== content2Sections.length) {
             throw new Error("Input arrays must have the same length");
@@ -1833,13 +1884,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const markedContent1 = section1;
             const markedContent2 = section2;
             let htmlContent = "";
-        
+
             // Compute the diff using jsdiff
             const diff = Diff.diffWordsWithSpace(markedContent1, markedContent2);
-        
+
             // Clear existing content and start building the HTML
             htmlContent += `<section class="${sectionTitle.toLowerCase().replace(/\s/g, '-')}">`;
-        
+
             diff.forEach(part => {
                 // const span = document.createElement('span');
                 // span.textContent = part.value;
@@ -1869,22 +1920,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         const sections = diffContainer.querySelectorAll('section');
-        
+
         sections.forEach(section => {
             const removedSpans = section.querySelectorAll('span.removed');
             const filteredRemovedSpans = Array.from(removedSpans).filter(span => {
                 return span.textContent.trim() !== '';
             });
-            
+
             const addedSpans = section.querySelectorAll('span.added');
             const filteredAddedSpans = Array.from(addedSpans).filter(span => {
                 return span.textContent.trim() !== '';
             });
-            
+
 
 
             console.log(section.classList[0] + ": " + filteredRemovedSpans.length + ", " + filteredAddedSpans.length)
-            
+
             // Check if there are any removed or added spans in the section
             if (filteredRemovedSpans.length > 0 || filteredAddedSpans.length > 0) {
                 const targetNav = document.querySelector(`#changeNav [data-target="${section.classList[0]}"] .changed-indicator`);
@@ -1896,24 +1947,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // function compare() {
     //     const selectedFile1 = file1Dropdown.value;
     //     const selectedFile2 = file2Dropdown.value;
-    
+
     //     // Find the corresponding content for the selected files
     //     const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
     //     const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
-    
+
     //     // Convert Markdown to HTML
     //     const markedContent1 = content1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
     //     const markedContent2 = content2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
-    
+
     //     console.log(markedContent1)
     //     console.log(markedContent2)
 
     //     // Compute the diff using jsdiff
     //     const diff = Diff.diffWords(markedContent1, markedContent2);
-    
+
     //     // Clear existing content and start building the HTML
     //     diffContainer.innerHTML = '';
-    
+
     //     diff.forEach(part => {
 
     //         // const span = document.createElement('span');
@@ -1929,7 +1980,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //         }
 
     //         diffContainer.innerHTML += htmlBit;
-    
+
     //     });
     // }
 
@@ -1939,28 +1990,28 @@ document.addEventListener('DOMContentLoaded', () => {
         originalContainer.innerHTML = '';
         originalContainer.innerHTML = marked.parse(content1);
     }
-    
+
     // Event listener for the Compare button
     // compareButton.addEventListener('click', () => {
     //     const selectedFile1 = file1Dropdown.value;
     //     const selectedFile2 = file2Dropdown.value;
 
-        // // Find the corresponding content for the selected files
-        // const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
-        // const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
+    // // Find the corresponding content for the selected files
+    // const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
+    // const content2 = importedMarkdownFiles.find(file => file.name === selectedFile2)?.content || '';
 
-        // // Compute the diff using jsdiff
-        // const diff = Diff.diffLines(content1, content2);
+    // // Compute the diff using jsdiff
+    // const diff = Diff.diffLines(content1, content2);
 
-        // // Display the diff in the container
-        // container.innerHTML = '';
-        // diff.forEach(part => {
-        //     const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
-        //     const span = document.createElement('span');
-        //     span.style.color = color;
-        //     span.textContent = part.value;
-        //     container.appendChild(span);
-        // });
+    // // Display the diff in the container
+    // container.innerHTML = '';
+    // diff.forEach(part => {
+    //     const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+    //     const span = document.createElement('span');
+    //     span.style.color = color;
+    //     span.textContent = part.value;
+    //     container.appendChild(span);
+    // });
     // });
 
     //CODE FOR VERSION HISTORY
@@ -1978,7 +2029,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dateA = a.name.match(/reward_report_(.*).md/)[1];
             const dateB = b.name.match(/reward_report_(.*).md/)[1];
             return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-        });        
+        });
         sortedFiles.forEach((file, index) => {
             const filename = file.name.match(/reward_report_(.*).md/)[1].replace(/_/g, ' '); // Replace this with your actual filename
             const parts = filename.split(/[- :]/);
@@ -1997,10 +2048,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // const bookmarkCheckbox = document.createElement('input');
             // bookmarkCheckbox.type = 'checkbox';
             // bookmarkCheckbox.classList.add('bookmark-checkbox');
-            
+
             // // Set the custom attribute to store the index
             // bookmarkCheckbox.setAttribute('data-file-index', index);
-            
+
             // nameCell.appendChild(bookmarkCheckbox);
 
             // Create the container for the checkbox and SVG
@@ -2037,7 +2088,7 @@ document.addEventListener('DOMContentLoaded', () => {
             uncheckedSvg.style.display = 'block';
 
             // Toggle visibility of SVGs based on checkbox state
-            bookmarkCheckbox.addEventListener('change', function () {
+            bookmarkCheckbox.addEventListener('change', function() {
                 if (bookmarkCheckbox.checked) {
                     checkedSvg.style.display = 'block';
                     uncheckedSvg.style.display = 'none';
@@ -2058,7 +2109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             row.appendChild(nameCell);
-            
+
             const contentCell = document.createElement('td');
             const descriptionCell = document.createElement('div');
             descriptionCell.classList.add('description-cell');
@@ -2070,7 +2121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             contentCell.appendChild(descriptionCell);
-            
+
 
             const expandButton = document.createElement('span');
             expandButton.classList.add('expand-button');
@@ -2083,7 +2134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     expandButton.textContent = 'Read more...';
                 }
             });
-            
+
             contentCell.appendChild(expandButton);
             row.appendChild(contentCell);
 
@@ -2113,16 +2164,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("update")
                 populateCheckboxes();
             });
-        }); 
+        });
     }
 
-    function checkExpendButtonNeed(){
+    function checkExpendButtonNeed() {
         const descriptionCells = document.querySelectorAll('.description-cell');
-        descriptionCells.forEach((descriptionCell)=> {
+        descriptionCells.forEach((descriptionCell) => {
             const expandButton = descriptionCell.parentElement.querySelector('.expand-button')
             console.log(descriptionCell.scrollHeight)
             console.log(descriptionCell.clientHeight)
-            if(descriptionCell.scrollHeight > descriptionCell.clientHeight) {
+            if (descriptionCell.scrollHeight > descriptionCell.clientHeight) {
                 expandButton.style.display = "block";
             } else {
                 expandButton.style.display = "none";
@@ -2130,12 +2181,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function checkExpendButtonNeed2(){
+    function checkExpendButtonNeed2() {
         const descriptionElement = document.getElementById('last-edit-description');
         const expandButton = descriptionElement.parentElement.querySelector('.expand-button')
         console.log(descriptionElement.scrollHeight)
         console.log(descriptionElement.clientHeight)
-        if(descriptionElement.scrollHeight > descriptionElement.clientHeight) {
+        if (descriptionElement.scrollHeight > descriptionElement.clientHeight) {
             expandButton.style.display = "block";
         } else {
             expandButton.style.display = "none";
@@ -2150,12 +2201,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function checkExpendButtonNeed3(){
+    function checkExpendButtonNeed3() {
         const descriptionElement = document.getElementById('graph-description');
         const expandButton = descriptionElement.parentElement.querySelector('.expand-button')
         console.log(descriptionElement.scrollHeight)
         console.log(descriptionElement.clientHeight)
-        if(descriptionElement.scrollHeight > descriptionElement.clientHeight) {
+        if (descriptionElement.scrollHeight > descriptionElement.clientHeight) {
             expandButton.style.display = "block";
         } else {
             expandButton.style.display = "none";
@@ -2169,7 +2220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     const checkboxForm = document.getElementById('checkbox-form');
     const checkboxForm2 = document.getElementById('checkbox-form-perf');
     const compareButtons = document.querySelectorAll('.compare-flagged-button');
@@ -2178,8 +2229,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateCheckboxes() {
         const checkboxContainer = checkboxForm.querySelector('#checkbox-container');
         const checkboxContainer2 = checkboxForm2.querySelector('#checkbox-container-perf');
-        checkboxContainer.innerHTML="";
-        checkboxContainer2.innerHTML="";
+        checkboxContainer.innerHTML = "";
+        checkboxContainer2.innerHTML = "";
 
 
         let flaggedDates = document.querySelectorAll('optgroup[label="Flagged Dates"]');
@@ -2203,13 +2254,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        
+
 
         const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
             const dateA = a.name.match(/reward_report_(.*).md/)[1];
             const dateB = b.name.match(/reward_report_(.*).md/)[1];
             return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-        });        
+        });
         sortedFiles.forEach(function(file, index) {
             const bookmarkCheckbox = document.querySelector(`.bookmark-checkbox[data-file-index="${index}"]`);
             console.log(bookmarkCheckbox)
@@ -2222,9 +2273,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const hours = parseInt(parts[3]);
                 const minutes = parseInt(parts[4]);
                 const seconds = parseInt(parts[5]);
-    
+
                 const formattedDate = new Date(year, month, day, hours, minutes, seconds).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
-    
+
                 const checkboxLabel = document.createElement('label');
                 const checkboxLabel2 = document.createElement('label');
                 checkboxLabel.innerHTML = `<input type="checkbox" class="compare-checkbox" value="${index}"> ${formattedDate}<br>`;
@@ -2265,10 +2316,10 @@ document.addEventListener('DOMContentLoaded', () => {
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
                     selectedCount1++;
-                if (selectedCount1 > maxSelected) {
-                    checkbox.checked = false;
-                    selectedCount1--;
-                }
+                    if (selectedCount1 > maxSelected) {
+                        checkbox.checked = false;
+                        selectedCount1--;
+                    }
                 } else {
                     selectedCount1--;
                 }
@@ -2278,13 +2329,13 @@ document.addEventListener('DOMContentLoaded', () => {
         compareCheckboxes2.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
-                selectedCount2++;
-                if (selectedCount2 > maxSelected) {
-                    checkbox.checked = false;
-                    selectedCount2--;
-                }
+                    selectedCount2++;
+                    if (selectedCount2 > maxSelected) {
+                        checkbox.checked = false;
+                        selectedCount2--;
+                    }
                 } else {
-                selectedCount2--;
+                    selectedCount2--;
                 }
             });
         });
@@ -2304,16 +2355,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Add a click event listener to the submit button
-    compareButtons.forEach((button) =>  {
+    compareButtons.forEach((button) => {
         button.disabled = true; // Initially disable the button
         button.addEventListener('click', function() {
             const selectedCheckboxes = button.parentElement.querySelectorAll('input[type="checkbox"]:checked');
-            if (selectedCheckboxes.length === 2){
+            if (selectedCheckboxes.length === 2) {
                 const sortedFiles = importedMarkdownFiles.slice().sort((a, b) => {
                     const dateA = a.name.match(/reward_report_(.*).md/)[1];
                     const dateB = b.name.match(/reward_report_(.*).md/)[1];
                     return dateB.localeCompare(dateA); // Sort in descending order (newest to oldest)
-                }); 
+                });
                 const selectedMarkdownFiles = ['file1.md', 'file2.md']; // Replace with actual file names
                 console.log(selectedCheckboxes)
                 selectedCheckboxes.forEach(function(checkbox, index) {
@@ -2322,21 +2373,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectedMarkdownFiles[index] = selectedFile;
                     console.log(selectedMarkdownFiles);
                 });
-    
-    
+
+
                 // Select the first item from selectedMarkdownFiles in file1Dropdown
                 if (selectedMarkdownFiles[0]) {
                     for (let i = 0; i < file1Dropdown.options.length; i++) {
                         console.log(file1Dropdown.options[i].value)
                         console.log(selectedMarkdownFiles[0].name)
-    
+
                         if (file1Dropdown.options[i].value === selectedMarkdownFiles[0].name) {
                             file1Dropdown.options[i].selected = true;
                             break;
                         }
                     }
                 }
-                
+
                 // Select the second item from selectedMarkdownFiles in file2Dropdown
                 if (selectedMarkdownFiles[1]) {
                     for (let i = 0; i < file2Dropdown.options.length; i++) {
@@ -2346,12 +2397,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
-    
+
                 // Trigger the change event on the dropdowns to update their selected options
                 const changeEvent = new Event('change', { bubbles: true });
                 file1Dropdown.dispatchEvent(changeEvent);
                 file2Dropdown.dispatchEvent(changeEvent);
-    
+
                 // Now navigate to the "View Changes" tab
                 tabs[3].click();
             }
@@ -2362,17 +2413,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize State
     githubUrl = "https://github.com/RewardReports/reward-reports/tree/main/builder/testFiles";
     loadFromGithubUrl(githubUrl);
+
+    loadReportsFromDatabase();
 });
 
 // Add a function to display a warning message
 function displayUnloadWarning(event) {
     event.returnValue = 'If you leave this page without publishing, you will lose your progress on your Reward Report. Are you sure you want to leave?';
 }
-  
-  // Attach the event listener to the window
+
+// Attach the event listener to the window
 window.addEventListener('beforeunload', displayUnloadWarning);
 
-  
   // Remove the event listener when the form is submitted
 // submitButton.addEventListener('click', () => {
 //     window.removeEventListener('beforeunload', displayUnloadWarning);
