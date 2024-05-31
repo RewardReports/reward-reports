@@ -1112,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (const report of reports) {
                     try {
                         const content = report.markdownContent;
-                        const trimmedFileName = report.datetime;
+                        const trimmedFileName = "reward_report_" + report.datetime + ".md";
                         importedMarkdownFiles.push({ name: trimmedFileName, content: content });
 
                     } catch (error) {
