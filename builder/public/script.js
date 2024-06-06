@@ -1101,6 +1101,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    function formatDateTime(dateTime) {
+      const year = dateTime.getFullYear();
+      const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+      const day = String(dateTime.getDate()).padStart(2, '0');
+      const hours = String(dateTime.getHours()).padStart(2, '0');
+      const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+      const seconds = String(dateTime.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+    }
+
     async function loadReportsFromDatabase() {
         try {
             const response = await fetch("/loadReportVersions");
@@ -1112,7 +1122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (const report of reports) {
                     try {
                         const content = report.markdownContent;
-                        const trimmedFileName = "reward_report_" + report.datetime + ".md";
+                        const trimmedFileName = "reward_report_" + formatDateTime(new Date(report.datetime)) + ".md";
                         importedMarkdownFiles.push({ name: trimmedFileName, content: content });
 
                     } catch (error) {
