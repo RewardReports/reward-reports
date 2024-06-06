@@ -1152,7 +1152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
-    async function loadFromGithubUrl(githubUrl) {
+    async function loadReportsFromGithub(githubUrl) {
         const apiUrl = convertToGitHubAPIUrl(githubUrl);
 
         try {
@@ -1230,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('import-from-github').addEventListener('click', async () => {
         const githubRepositoryUrl = document.getElementById('github-folder-url').value;
-        loadFromGithubUrl(githubRepositoryUrl);
+        loadReportsFromGithub(githubRepositoryUrl);
     });
 
     // document.getElementById('import-from-github').addEventListener('click', async () => {
@@ -2414,7 +2414,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize State
     githubUrl = "https://github.com/RewardReports/reward-reports/tree/main/builder/testFiles";
-    // loadFromGithubUrl(githubUrl);
+    // loadReportsFromGithub(githubUrl);
 
     loadReportsFromDatabase();
 });
