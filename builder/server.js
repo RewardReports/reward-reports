@@ -111,3 +111,13 @@ app.get('/loadReportVersions', async (req, res) => {
     res.status(500).json({ message: 'Error loading items', error });
   }
 });
+
+
+app.get('/clear', async (req, res) => {
+  try {
+    await Report.deleteMany({});
+    res.status(200).json({ message: 'All reports deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting reports', error });
+  }
+})
