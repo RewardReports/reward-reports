@@ -1750,16 +1750,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Adjust heading level as needed (e.g., convert level 1 to h3 and level 2 to h4)
         try {
             const label = text.toLowerCase().replace(' ', '-');
+            text = text;
+            if (level === 1) {
+                return `<h3 class="${label}">${text}</h3>`;
+            } else if (level === 2) {
+                return `<h4 class="${label}">${text}</h4>`;
+            } else {
+                return `<h${level}>${text}</h${level}>`;
+            }
         } catch (err) {
             console.log(`Exception. label: ${label}`);
-        }
-        text = text;
-        if (level === 1) {
-            return `<h3 class="${label}">${text}</h3>`;
-        } else if (level === 2) {
-            return `<h4 class="${label}">${text}</h4>`;
-        } else {
-            return `<h${level}>${text}</h${level}>`;
         }
     };
 
