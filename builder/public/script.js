@@ -1759,7 +1759,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `<h${level}>${text}</h${level}>`;
             }
         } catch (err) {
-            console.log(`Exception. label: ${text}`);
+            console.log(`Exception. label: ${text}:`);
+            console.log(text);
         }
     };
 
