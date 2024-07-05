@@ -1748,7 +1748,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Override the default heading rendering
     renderer.heading = function(text, level) {
         // Adjust heading level as needed (e.g., convert level 1 to h3 and level 2 to h4)
-        const label = text.toLowerCase().replace(' ', '-');
+        try {
+            const label = text.toLowerCase().replace(' ', '-');
+        } catch (err) {
+            console.log(`label: {label}`);
+        }
         text = text;
         if (level === 1) {
             return `<h3 class="${label}">${text}</h3>`;
