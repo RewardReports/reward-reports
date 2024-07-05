@@ -1751,7 +1751,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const label = text.toLowerCase().replace(' ', '-');
         } catch (err) {
-            console.log(`label: {label}`);
+            console.log(`Exception. label: ${label}`);
         }
         text = text;
         if (level === 1) {
