@@ -1868,10 +1868,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function compare() {
 
+        // Mark which sections have any changes in left side section view
         const indicators = document.querySelectorAll('.changed-indicator');
         indicators.forEach(indicator => {
             indicator.classList.add('hidden');
         });
+
+        // Select 2 relevant files
         const selectedFile1 = file1Dropdown.value;
         const selectedFile2 = file2Dropdown.value;
 
@@ -1881,9 +1884,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debugger;
 
+        // Remove comment headers from Markdown files
         const content1noCont = content1.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
         const content2noCont = content2.replace(/<!--\s*author:[^>]*-->\s*<!--\s*description:[^>]*-->/gi, '');
 
+        // Split into sections
         const content1Sections = content1noCont.split(/^(?=# [^#])/gm);
         const content2Sections = content2noCont.split(/^(?=# [^#])/gm);
 
@@ -1911,6 +1916,8 @@ document.addEventListener('DOMContentLoaded', () => {
             htmlContent += `<section class="${sectionTitle.toLowerCase().replace(/\s/g, '-')}">`;
 
             diff.forEach(part => {
+                if (part.value === undefined) return;
+                
                 // const span = document.createElement('span');
                 // span.textContent = part.value;
                 htmlBit = marked.parse(part.value);
