@@ -89,8 +89,8 @@ app.post('/saveReport', async (req, res) => {
   try {
     const newReport = new Report(req.body);
     console.log("created report object");
-    const savedItem = await newReport.save();
-    console.log("saved report object");
+    // const savedItem = await newReport.save();
+    // console.log("saved report object");
     res.status(200).json(savedItem);
   } catch (error) {
     res.status(500).json({ message: 'Error saving item', error });
