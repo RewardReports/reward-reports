@@ -1911,7 +1911,7 @@ document.addEventListener('DOMContentLoaded', () => {
             diff.forEach(part => {
                 // const span = document.createElement('span');
                 // span.textContent = part.value;
-                htmlBit = marked.parse(part.value);
+                htmlBit = DOMPurify.sanitize(marked.parse(part.value));
                 // console.log(htmlBit)
                 if (part.added) {
                     htmlBit = `<span class="added">${htmlBit}</span>`;
@@ -1986,7 +1986,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //         // const span = document.createElement('span');
     //         // span.textContent = part.value;
-    //         htmlBit = marked.parse(part.value);
+    //         htmlBit = DOMPurify.sanitize(marked.parse(part.value));
     //         console.log(htmlBit)
     //         if (part.added) {
     //             htmlBit = `<span class="added">${htmlBit}</span>`;
@@ -2005,7 +2005,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedFile1 = file1Dropdown.value;
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
         originalContainer.innerHTML = '';
-        originalContainer.innerHTML = marked.parse(content1);
+        originalContainer.innerHTML = DOMPurify.sanitize(marked.parse(content1));
     }
 
     // Event listener for the Compare button
