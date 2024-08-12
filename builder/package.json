@@ -4,7 +4,7 @@
   "description": "Reward Reports Builder App",
   "main": "server.js",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "npx webpack --mode production"
   },
   "repository": {
     "type": "git",
