@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Reward Reports Builder App",
   "main": "server.js",
+  "engines": {
+    "node": "20.16.0"
+  },
   "scripts": {
     "build": "npx webpack --mode production"
   },
