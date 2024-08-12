@@ -1917,7 +1917,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             diff.forEach(part => {
                 if (part.value === undefined) return;
-                
+
                 // const span = document.createElement('span');
                 // span.textContent = part.value;
                 htmlBit = marked.parse(part.value);
@@ -2011,6 +2011,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 
     function populateFile1() {
+        debugger;
         const selectedFile1 = file1Dropdown.value;
         const content1 = importedMarkdownFiles.find(file => file.name === selectedFile1)?.content || '';
         originalContainer.innerHTML = '';
