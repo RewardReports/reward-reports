@@ -4,8 +4,7 @@
   "description": "Reward Reports Builder App",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/RewardReports/reward-reports#readme",
   "dependencies": {
+    "marked": "^12.0.0",
     "mongodb": "6.3",
     "mongodb-rest": "^0.10.14"
   }

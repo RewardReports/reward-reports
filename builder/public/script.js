@@ -63,6 +63,8 @@ curl --location --request POST 'https://us-east-1.aws.data.mongodb-api.com/app/d
 
 */
 
+import 'marked' from marked;
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
