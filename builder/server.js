@@ -31,13 +31,28 @@ mongoose.connect(mongodbUri, {
   useUnifiedTopology: true
 });
 
-// Create Mongooose schema and model
+// Create Mongooose schemas and models
 const ReportSchema = new mongoose.Schema({
   datetime: String,
-  markdownContent: String
+  markdownContent: String,
+  organization_id: mongoose.Schema.Types.ObjectId,
 });
 
+const OrganizationSchema = new mongoose.Schema({
+  name: String,
+  parent_organization_id: mongoose.Schema.Types.ObjectId,
+});
+
+const UserSchema = new mongoose.Schema({
+  username: String,
+  organization_email: String,
+  organization_id: mongoose.Schema.Types.ObjectId,
+});
+
+
 const Report = mongoose.model('Report', ReportSchema);
+const Organization = mongoose.model('Organization', OrganizationSchema);
+const User = mongoose.model('User', UserSchema);
 
 app.use(bodyParser.json()); // Middleware to parse JSON data
 
@@ -124,3 +139,32 @@ app.post('/select-user-type', (req, res) => {
 app.get('/project-selection', (req, res) => {
   res.render('pages/project-selection');
 });
+
+// Define a route to render the login page
+app.get('/organizations', async (req, res) => {
+  try {
+    const organizations = await Organization.find({});
+    res.status(200).json(organizations);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching organizations', error });
+  }
+});
+
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users', error });
+  }
+});
+
+app.get('/reports', async (req, res) => {
+  try {
+    const reports = await Report.find({});
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching reports', error });
+  }
+});
+
