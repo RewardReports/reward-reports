@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/RewardReports/reward-reports#readme",
   "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
     "mongodb": "6.3",
     "mongodb-rest": "^0.10.14",
-    "ejs": "^3.1.10"
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
