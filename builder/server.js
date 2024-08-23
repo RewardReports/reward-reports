@@ -4,6 +4,10 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const session = require('express-session');
+
 const ejs = require('ejs');
 // Initialise Express
 var app = express();
