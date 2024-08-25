@@ -10,8 +10,6 @@ var app = express();
 // Render static files
 app.use(express.static('public'));
 // Set the view engine to ejs
-
-
 app.set('view engine', 'ejs');
 // Port website will run on
 // Listen on port specified in 'PORT' environment variable:
@@ -47,6 +45,11 @@ const UserSchema = new mongoose.Schema({
   username: String,
   organization_email: String,
   organization_id: mongoose.Schema.Types.ObjectId,
+  user_type: mongoose.Schema.Types.ObjectId,
+});
+
+const UserType = new mongoose.Schema({
+  type_name: String, // 'Client', 'Vendor', etc.
 });
 
 const ProjectSchema = new mongoose.Schema({
@@ -65,18 +68,120 @@ app.use(bodyParser.json()); // Middleware to parse JSON data
 
 
 
-// *** GET Routes - display pages ***
+// *** GET Routes - REST APIs ***
+
+// Get list of all projects
+app.get('/projects', async (req, res) => {
+  try {
+    const projects = await Project.find({});
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching projects', error });
+  }
+});
+
+// Get list of all organizations
+app.get('/organizations', async (req, res) => {
+  try {
+    const organizations = await Organization.find({});
+    res.status(200).json(organizations);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching organizations', error });
+  }
+});
+
+// Get list of all users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users', error });
+  }
+});
+
+// Get list of all report versions
+app.get('/reports', async (req, res) => {
+  try {
+    const reports = await Report.find({});
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching reports', error });
+  }
+});
+
+// Route for looking up the projects under an organization, using 
+// a parameter for the organization id:
+app.get('/projects/:organizationId', async (req, res) => {
+  try {
+    const projects = await Project.find({ organization_id: req.params.organizationId });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching projects', error });
+  }
+});
+
+// Route for looking up the reports under a project, using
+// a parameter for the project id:
+app.get('/reports/:projectId', async (req, res) => {
+  try {
+    const reports = await Report.find({ project_id: req.params.projectId });
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching reports', error });
+  }
+});
+
+// GET route for loading existing reports
+// TODO: deprecate in favor of '/reports/:projectId' (look-up by project ID)
+app.get('/loadReportVersions', async (req, res) => {
+  console.log("GET route for the form on the 'View Changes' tab");
+  console.log(req);
+  try {
+    const items = await Report.find({});
+    console.log("found items")
+    res.status(200).json(items);
+  } catch (error) {
+    res.status(500).json({ message: 'Error loading items', error });
+  }
+});
+
+// *** GET Routes - Pages ***
+
 // Root Route
 app.get('/', function(req, res) {
   res.render('pages/start');
 });
 
-// Define a route to render the login page
+// Define a route to render the report builder page
 app.get('/build', (req, res) => {
   res.render('pages/index');
 });
 
+// Define a route to render the login page
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+
 // *** POST Routes - handle form submissions ***
+
+// Create account
+app.post('/create-account', (req, res) => {
+  User.create({
+    username: req.body.username,
+    organization_email: req.body.organization_email,
+    organization_id: req.body.organization_id,
+  })
+    .then(savedUser => {
+      console.log('User created successfully:', savedUser);
+    })
+    .catch(error => {
+      console.error('Error creating user:', error);
+    });
+  res.render('pages/create-account');
+});
+
 // POST route for the form on the 'View Changes' tab
 app.post('/saveReport', async (req, res) => {
   console.log("POST route for the form on the 'View Changes' tab");
@@ -92,23 +197,22 @@ app.post('/saveReport', async (req, res) => {
   }
 });
 
-
-// *** GET Routes - load data ***
-// GET route for loading existing reports
-app.get('/loadReportVersions', async (req, res) => {
-  console.log("GET route for the form on the 'View Changes' tab");
+// POST route for creating new project in an organization
+app.post('/createProject', async (req, res) => {
   console.log(req);
   try {
-    const items = await Report.find({});
-    console.log("found items")
-    res.status(200).json(items);
+    const newProject = new Project(req.body);
+    console.log("created project object");
+    const savedItem = await newProject.save();
+    console.log("saved project object");
+    res.status(200).json(savedItem);
   } catch (error) {
-    res.status(500).json({ message: 'Error loading items', error });
+    res.status(500).json({ message: 'Error creating project', error });
   }
 });
 
-
-app.get('/clear', async (req, res) => {
+// Clear existing report versions
+app.post('/clear', async (req, res) => {
   try {
     await Report.deleteMany({});
     res.status(200).json({ message: 'All reports deleted successfully' });
@@ -116,28 +220,6 @@ app.get('/clear', async (req, res) => {
     res.status(500).json({ error: 'Error deleting reports', error });
   }
 })
-
-// Define a route to render the login page
-app.get('/login', (req, res) => {
-  res.render('pages/login');
-});
-
-// Define a route to render the login page
-app.get('/create-account', (req, res) => {
-  User.create({
-    username: req.body.username,
-    organization_email: req.body.organization_email,
-    organization_id: req.body.organization_id,
-  })
-    .then(savedUser => {
-      console.log('User created successfully:', savedUser);
-    })
-    .catch(error => {
-      console.error('Error creating user:', error);
-    });
-  res.render('pages/create-account');
-});
-
 
 // Route for handling login form submission
 app.post('/login', (req, res) => {
@@ -158,65 +240,4 @@ app.get('/project-selection', (req, res) => {
   res.render('pages/project-selection');
 });
 
-// Define a route to render the login page
-app.get('/projects', async (req, res) => {
-  try {
-    const projects = await Project.find({});
-    res.status(200).json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching projects', error });
-  }
-});
-
-// Define a route to render the login page
-app.get('/organizations', async (req, res) => {
-  try {
-    const organizations = await Organization.find({});
-    res.status(200).json(organizations);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching organizations', error });
-  }
-});
-
-app.get('/users', async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching users', error });
-  }
-});
-
-app.get('/reports', async (req, res) => {
-  try {
-    const reports = await Report.find({});
-    res.status(200).json(reports);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching reports', error });
-  }
-});
-
-
-// Route for looking up the projects under an organization, using 
-// a parameter for the organization id:
-app.get('/projects/:organizationId', async (req, res) => {
-  try {
-    const projects = await Project.find({ organization_id: req.params.organizationId });
-    res.status(200).json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching projects', error });
-  }
-});
-
-
-// Route for looking up the reports under a project, using
-// a parameter for the project id:
-app.get('/reports/:projectId', async (req, res) => {
-  try {
-    const reports = await Report.find({ project_id: req.params.projectId });
-    res.status(200).json(reports);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching reports', error });
-  }
-});
 
