@@ -117,6 +117,17 @@ app.get('/login', (req, res) => {
 
 // Define a route to render the login page
 app.get('/create-account', (req, res) => {
+  User.create({
+    username: req.body.username,
+    organization_email: req.body.organization_email,
+    organization_id: req.body.organization_id,
+  })
+    .then(savedUser => {
+      console.log('User created successfully:', savedUser);
+    })
+    .catch(error => {
+      console.error('Error creating user:', error);
+    });
   res.render('pages/create-account');
 });
 

@@ -127,17 +127,39 @@
                             <br><br>
                             <div class="button-container">
                                 <form id="first-form" class="active-form" action="/create-account" method="POST">
-                                    <label for="organization">Organization Name:</label>
-                                    <input type="text" id="organization" name="organization" required>
+                                    <label for="organization_id">Organization Name:</label>
+                                    <select name="organization_id" id="organization_id">
+                                      <option value="">--Please choose an option--</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        function set_organization_options(organizations) {
+                                            var select_organization = document.getElementById('organization_id');
+                                            for (organization: organizations) {
+                                                
+                                            }
+                                        }
+                                        async function fetchData(url) {
+                                          try {
+                                            const response = await fetch(url);
+                                            if (!response.ok) {
+                                              throw new Error('Network response was not ok');
+                                            }
+                                            const data = await response.json();
+                                            
+                                          } catch (error) {
+                                            console.error('Error:', error);
+                                          }
+                                        }
+
+                                        // Usage
+                                        fetchData('/organizations');
+                                    </script>
                                     <br>
                                     <label for="username">Username:</label>
                                     <input type="text" id="username" name="username" required>
                                     <br>
-                                    <label for="email">Organization Email:</label>
-                                    <input type="email" id="email" name="email" required>
-                                    <br>
-                                    <label for="password">Password:</label>
-                                    <input type="password" id="password" name="password" required>
+                                    <label for="organization_email">Organization Email:</label>
+                                    <input type="email" id="organization_email" name="organization_email" required>
                                     <br>
                                     <button type="submit" onclick="nextForm()">Next</button>
                                 </form>
