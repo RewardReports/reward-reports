@@ -35,7 +35,7 @@ mongoose.connect(mongodbUri, {
 const ReportSchema = new mongoose.Schema({
   datetime: String,
   markdownContent: String,
-  organization_id: mongoose.Schema.Types.ObjectId,
+  project_id: mongoose.Schema.Types.ObjectId,
 });
 
 const OrganizationSchema = new mongoose.Schema({
@@ -49,10 +49,17 @@ const UserSchema = new mongoose.Schema({
   organization_id: mongoose.Schema.Types.ObjectId,
 });
 
+const ProjectSchema = new mongoose.Schema({
+  name: String,
+  organization_id: mongoose.Schema.Types.ObjectId,
+});
+
+
 
 const Report = mongoose.model('Report', ReportSchema);
 const Organization = mongoose.model('Organization', OrganizationSchema);
 const User = mongoose.model('User', UserSchema);
+const Project = mongoose.model('User', ProjectSchema);
 
 app.use(bodyParser.json()); // Middleware to parse JSON data
 
@@ -149,6 +156,16 @@ app.post('/select-user-type', (req, res) => {
 // Define a route to render the login page
 app.get('/project-selection', (req, res) => {
   res.render('pages/project-selection');
+});
+
+// Define a route to render the login page
+app.get('/projects', async (req, res) => {
+  try {
+    const projects = await Project.find({});
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching projects', error });
+  }
 });
 
 // Define a route to render the login page
