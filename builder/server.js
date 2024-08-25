@@ -196,3 +196,27 @@ app.get('/reports', async (req, res) => {
   }
 });
 
+
+// Route for looking up the projects under an organization, using 
+// a parameter for the organization id:
+app.get('/projects/:organizationId', async (req, res) => {
+  try {
+    const projects = await Project.find({ organization_id: req.params.organizationId });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching projects', error });
+  }
+});
+
+
+// Route for looking up the reports under a project, using
+// a parameter for the project id:
+app.get('/reports/:projectId', async (req, res) => {
+  try {
+    const reports = await Report.find({ project_id: req.params.projectId });
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching reports', error });
+  }
+});
+
