@@ -149,7 +149,7 @@
                                         var select_organization = document.getElementById('organization_id');
                                         organizations.forEach(function(organization) {
                                             console.log(organization);
-                                            option_html = "<option value='" + organization._id + "' onselect='showOrganizationProjects()'>" + organization.name + "</option>";
+                                            option_html = "<option value='" + organization._id + "'>" + organization.name + "</option>";
                                             select_organization.innerHTML += option_html;
                                         });
                                     }
