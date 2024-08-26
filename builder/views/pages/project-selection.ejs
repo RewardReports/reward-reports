@@ -126,7 +126,7 @@
                             </p>
                             <br><br>
                             <div class="button-container">
-                                <h2>Welcome {{USER}} to {{ORGANIZATION}}'s' Reward Reports Portal</h2>
+                                <h2>Welcome <%= user.full_name %> to the Reward Reports Portal</h2>
                                 <select v-model="layerValue">
                                     <option :value="null">SelectProject</option>
                                 </select>
