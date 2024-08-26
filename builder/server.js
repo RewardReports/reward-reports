@@ -163,10 +163,13 @@ app.get('/login', (req, res) => {
   res.render('pages/login');
 });
 
+app.get('/create-account', (req, res) => {
+  res.render('pages/create-account');
+});
 
 // *** POST Routes - handle form submissions ***
 
-// Create account
+// Create user
 app.post('/create-account', (req, res) => {
   User.create({
     username: req.body.username,
@@ -179,7 +182,6 @@ app.post('/create-account', (req, res) => {
     .catch(error => {
       console.error('Error creating user:', error);
     });
-  res.render('pages/create-account');
 });
 
 // POST route for the form on the 'View Changes' tab

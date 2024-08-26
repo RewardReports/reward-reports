@@ -135,7 +135,8 @@
                                         function set_organization_options(organizations) {
                                             var select_organization = document.getElementById('organization_id');
                                             for (organization: organizations) {
-                                                
+                                                option_html = "<option value='" + organization._id + "'>" + organization.name + "</option>";
+                                                select_organization.innerHTML += option;
                                             }
                                         }
                                         async function fetchData(url) {
@@ -145,7 +146,7 @@
                                               throw new Error('Network response was not ok');
                                             }
                                             const data = await response.json();
-                                            
+                                            set_organization_options(data);
                                           } catch (error) {
                                             console.error('Error:', error);
                                           }
