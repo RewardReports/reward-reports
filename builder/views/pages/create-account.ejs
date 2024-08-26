@@ -225,7 +225,7 @@
         const form_divs = document.querySelectorAll('form div.form-screen'); // Get all form divs
         let currentFormIndex = 0;
         function nextForm() {
-            if (currentFormIndex < forms.length - 1) {
+            if (currentFormIndex < form_divs.length - 1) {
                 form_divs[currentFormIndex].classList.add('hidden'); // Hide current form
                 currentFormIndex++; // Move to next form
                 form_divs[currentFormIndex].classList.remove('hidden'); // Show next form
