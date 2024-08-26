@@ -178,6 +178,7 @@ app.post('/create-user', (req, res) => {
     username: req.body.username,
     organization_email: req.body.organization_email,
     organization_id: req.body.organization_id,
+    full_name: req.body.full_name,
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
