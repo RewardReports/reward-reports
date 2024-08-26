@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const ejs = require('ejs');
 // Initialise Express
-var app = connect();
+var app = express();
 // Render static files
 app.use(express.static('public'));
 // Parse URL-encoded form data
