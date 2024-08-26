@@ -171,7 +171,7 @@ app.get('/create-account', (req, res) => {
 
 // Create user
 app.post('/create-account', (req, res) => {
-  console.log("Create account request: ", req.body);
+  console.log("Create account request: ", req);
   User.create({
     username: req.body.username,
     organization_email: req.body.organization_email,
