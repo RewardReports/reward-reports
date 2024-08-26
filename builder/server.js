@@ -46,7 +46,7 @@ const OrganizationSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   full_name: String,
   organization_email: String,
-  // organization_id: mongoose.Schema.Types.ObjectId,
+  organization_id: mongoose.Schema.Types.ObjectId,
   // user_type: mongoose.Schema.Types.ObjectId,
 });
 
@@ -177,7 +177,7 @@ app.post('/create-user', (req, res) => {
   User.create({
     username: req.body.username,
     organization_email: req.body.organization_email,
-    // organization_id: req.body.organization_id,
+    organization_id: req.body.organization_id,
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
