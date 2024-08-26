@@ -1,5 +1,6 @@
 // Load Node modules
 var express = require('express');
+var connect = require('connect');
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
@@ -7,7 +8,7 @@ const bodyParser = require('body-parser');
 
 const ejs = require('ejs');
 // Initialise Express
-var app = express();
+var app = connect();
 // Render static files
 app.use(express.static('public'));
 // Parse URL-encoded form data
