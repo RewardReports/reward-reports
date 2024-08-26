@@ -44,7 +44,7 @@ const OrganizationSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-  username: String,
+  full_name: String,
   organization_email: String,
   // organization_id: mongoose.Schema.Types.ObjectId,
   // user_type: mongoose.Schema.Types.ObjectId,
@@ -185,7 +185,7 @@ app.post('/create-user', (req, res) => {
     .catch(error => {
       console.error('Error creating user:', error);
     });
-  res.render('pages/create-account');
+  return res.redirect('/login');
 });
 
 // POST route for the form on the 'View Changes' tab
@@ -230,8 +230,14 @@ app.post('/clear', async (req, res) => {
 // Route for handling login form submission
 app.post('/login', (req, res) => {
   // Handle login logic here
-  // Redirect to project selection page after login
-  res.redirect('/project-selection');
+  var organization_email = req.body.organization_email;
+  try {
+    var user = User.findOne({ organization_email: organization_email });
+    // Redirect to project selection page after login
+    res.redirect('/build');
+  } catch (error) {
+    res.status(500).json({ error: 'Error logging in', error });
+  }
 });
 
 // Route for handling create account form submission
