@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema({
   // user_type: mongoose.Schema.Types.ObjectId,
 });
 
-const UserType = new mongoose.Schema({
+const UserTypeSchema = new mongoose.Schema({
   type_name: String, // 'Client', 'Vendor', etc.
 });
 
@@ -65,6 +65,7 @@ const Report = mongoose.model('Report', ReportSchema);
 const Organization = mongoose.model('Organization', OrganizationSchema);
 const User = mongoose.model('User', UserSchema);
 const Project = mongoose.model('Project', ProjectSchema);
+const UserType = mongoose.model('UserType', UserTypeSchema);
 
 app.use(bodyParser.json()); // Middleware to parse JSON data
 
