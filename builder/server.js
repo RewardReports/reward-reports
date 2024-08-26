@@ -9,6 +9,8 @@ const ejs = require('ejs');
 var app = express();
 // Render static files
 app.use(express.static('public'));
+// Parse URL-encoded form data
+app.use(express.urlencoded({ extended: true }));
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
 // Port website will run on
@@ -19,7 +21,6 @@ if (port == null || port == "") {
   port = 8000;
 }
 app.listen(port);
-
 
 
 const mongodbUri = "mongodb+srv://admin:admin@cluster0.yj4kiww.mongodb.net/?retryWrites=true&w=majority";
