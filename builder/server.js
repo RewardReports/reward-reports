@@ -170,7 +170,7 @@ app.get('/create-account', (req, res) => {
 // *** POST Routes - handle form submissions ***
 
 // Create user
-app.post('/create-account', (req, res) => {
+app.post('/create-user', (req, res) => {
   console.log("Create account request: ", req);
   User.create({
     username: req.body.username,
