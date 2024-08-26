@@ -1,6 +1,5 @@
 // Load Node modules
 var express = require('express');
-var connect = require('connect');
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
@@ -12,7 +11,7 @@ var app = connect();
 // Render static files
 app.use(express.static('public'));
 // Parse URL-encoded form data
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
 // Port website will run on
