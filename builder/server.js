@@ -1,5 +1,8 @@
 // Load Node modules
 var express = require('express');
+var connect = require('connect');
+var http = require('http');
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');

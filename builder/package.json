@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/RewardReports/reward-reports#readme",
   "dependencies": {
+    "connect": "^3.7.0",
+    "ejs": "^3.1.10",
     "mongodb": "6.3",
-    "mongodb-rest": "^0.10.14",
-    "ejs": "^3.1.10"
+    "mongodb-rest": "^0.10.14"
   }
 }
