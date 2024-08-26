@@ -228,6 +228,7 @@
                 currentFormIndex++; // Move to next form
                 forms[currentFormIndex].classList.remove('hidden'); // Show next form
             }
+            return true;
         }
         document.querySelectorAll('.user-column').forEach(item => {
             item.addEventListener('click', function() {
