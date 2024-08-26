@@ -232,7 +232,7 @@ app.post('/login', (req, res) => {
   // Handle login logic here
   var organization_email = req.body.organization_email;
   try {
-    var user = User.findOne({ organization_email: organization_email });
+    var user = await User.findOne({ organization_email: organization_email });
     // Redirect to project selection page after login
     res.redirect('/project-selection/' + user._id);
   } catch (error) {
@@ -250,7 +250,7 @@ app.post('/select-user-type', (req, res) => {
 // Define a route to render the login page
 app.get('/project-selection/:userId', (req, res) => {
   try {
-    var user = User.findOne({ _id: req.params.userId });
+    var user = await User.findOne({ _id: req.params.userId });
     res.render('pages/project-selection', { user: user });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', error });
