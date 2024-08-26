@@ -174,7 +174,7 @@ app.post('/create-account', (req, res) => {
   User.create({
     username: req.body.username,
     organization_email: req.body.organization_email,
-    organization_id: req.body.organization_id,
+    // organization_id: req.body.organization_id,
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
@@ -182,6 +182,7 @@ app.post('/create-account', (req, res) => {
     .catch(error => {
       console.error('Error creating user:', error);
     });
+  res.render('pages/create-account');
 });
 
 // POST route for the form on the 'View Changes' tab
