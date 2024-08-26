@@ -156,8 +156,8 @@ app.get('/', function(req, res) {
 });
 
 // Define a route to render the report builder page
-app.get('/build', (req, res) => {
-  res.render('pages/index');
+app.get('/build/:projectId', async (req, res) => {
+  res.render('pages/index', { projectId: req.params.projectId });
 });
 
 // Define a route to render the login page
