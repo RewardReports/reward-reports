@@ -228,7 +228,7 @@ app.post('/clear', async (req, res) => {
 })
 
 // Route for handling login form submission
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   // Handle login logic here
   var organization_email = req.body.organization_email;
   try {
@@ -241,14 +241,14 @@ app.post('/login', (req, res) => {
 });
 
 // Route for handling create account form submission
-app.post('/select-user-type', (req, res) => {
+app.post('/select-user-type', async (req, res) => {
   // Handle account creation logic here
   // Redirect to project selection page after account creation
   res.redirect('/project-selection');
 });
 
 // Define a route to render the login page
-app.get('/project-selection/:userId', (req, res) => {
+app.get('/project-selection/:userId', async (req, res) => {
   try {
     var user = await User.findOne({ _id: req.params.userId });
     res.render('pages/project-selection', { user: user });
