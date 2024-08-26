@@ -127,17 +127,17 @@
                             <br><br>
                             <div class="button-container">
                                 <form id="first-form" class="active-form" action="/create-user" method="POST">
-                                    <!--label for="organization_id">Organization Name:</label>
+                                    <label for="organization_id">Organization Name:</label>
                                     <select name="organization_id" id="organization_id">
                                       <option value="">--Please choose an option--</option>
                                     </select>
                                     <script type="text/javascript">
                                         function set_organization_options(organizations) {
                                             var select_organization = document.getElementById('organization_id');
-                                            for (const organization in organizations) {
+                                            organizations.forEach(function(organization) {
                                                 option_html = "<option value='" + organization._id + "'>" + organization.name + "</option>";
                                                 select_organization.innerHTML += option_html;
-                                            }
+                                            });
                                         }
                                         async function fetchData(url) {
                                           try {
@@ -154,7 +154,7 @@
 
                                         // Usage
                                         fetchData('/organizations');
-                                </script-->
+                                    </script>
                                     <br>
                                     <label for="username">Username:</label>
                                     <input type="text" id="username" name="username" required>
