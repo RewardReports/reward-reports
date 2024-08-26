@@ -156,6 +156,12 @@ app.get('/build', async (req, res) => {
   res.render('pages/index');
 });
 
+app.get('/build/:userId', async (req, res) => {
+  const user_id = req.params.userId;
+  const user = await User.findOne({user_id: user_id})
+  res.render('pages/index', {user: user});
+});
+
 // Define a route to render the login page
 app.get('/login', (req, res) => {
   res.render('pages/login');
@@ -179,7 +185,7 @@ app.post('/create-user', async (req, res) => {
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
       // Redirect to project selection page after login
-      // res.redirect('/project-selection/' + user._id);
+      return res.redirect('/build/' + savedUser._id);
     })
     .catch(error => {
       console.error('Error creating user:', error);
