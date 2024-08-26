@@ -127,9 +127,9 @@
                             <br><br>
                             <div class="button-container">
                                 <h2>Welcome <%= user.full_name %> to the Reward Reports Portal</h2>
-                                <select v-model="layerValue" id="organization_id" ongange="handleOrganizationChange(this)">
+                                <!--select v-model="layerValue" id="organization_id" ongange="handleOrganizationChange(this)">
                                     <option :value="null">Select Organization</option>
-                                </select>
+                            </select-->
                                 <select v-model="layerValue" id="project_id">
                                     <option :value="null">Select Project</option>
                                 </select>
@@ -180,7 +180,8 @@
                                     }
 
                                     // Usage
-                                    fetchData('/organizations', set_organization_options);
+                                    // fetchData('/organizations', set_organization_options);
+                                    fetchData('/projects/' + <%= user.organization_id %>, set_project_options)
                                 </script>
                                 <a href="/build"><button>Let's get started</button></a>
                             </div>
