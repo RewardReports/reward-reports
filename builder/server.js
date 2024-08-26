@@ -44,8 +44,8 @@ const OrganizationSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   username: String,
   organization_email: String,
-  organization_id: mongoose.Schema.Types.ObjectId,
-  user_type: mongoose.Schema.Types.ObjectId,
+  // organization_id: mongoose.Schema.Types.ObjectId,
+  // user_type: mongoose.Schema.Types.ObjectId,
 });
 
 const UserType = new mongoose.Schema({
