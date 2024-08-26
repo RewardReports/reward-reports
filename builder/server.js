@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema({
   full_name: String,
   organization_email: String,
   organization_id: mongoose.Schema.Types.ObjectId,
-  user_type: mongoose.Schema.Types.ObjectId,
+  user_type: String,
 });
 
 const ProjectSchema = new mongoose.Schema({
