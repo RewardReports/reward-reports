@@ -134,9 +134,9 @@
                                     <script type="text/javascript">
                                         function set_organization_options(organizations) {
                                             var select_organization = document.getElementById('organization_id');
-                                            for (organization: organizations) {
+                                            for (const organization in organizations) {
                                                 option_html = "<option value='" + organization._id + "'>" + organization.name + "</option>";
-                                                select_organization.innerHTML += option;
+                                                select_organization.innerHTML += option_html;
                                             }
                                         }
                                         async function fetchData(url) {
@@ -267,6 +267,6 @@
             });
         });
     </script>
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
