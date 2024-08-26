@@ -172,13 +172,15 @@ app.get('/create-account', (req, res) => {
 // *** POST Routes - handle form submissions ***
 
 // Create user
-app.post('/create-user', (req, res) => {
+app.post('/create-user', async (req, res) => {
   console.log("Create account request: ", req);
+  const user_type_str = req.body.user_type;
+  const user_type = await UserType.findOne({ type_name: user_type_str });
   User.create({
     organization_email: req.body.organization_email,
     organization_id: req.body.organization_id,
     full_name: req.body.full_name,
-    user_type: req.body.user_type,
+    user_type: user_type,
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
