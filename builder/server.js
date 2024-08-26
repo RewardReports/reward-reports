@@ -156,8 +156,8 @@ app.get('/', function(req, res) {
 });
 
 // Define a route to render the report builder page
-app.get('/build/:projectId', async (req, res) => {
-  res.render('pages/index', { projectId: req.params.projectId });
+app.get('/build', async (req, res) => {
+  res.render('pages/index');
 });
 
 // Define a route to render the login page
@@ -175,13 +175,15 @@ app.get('/create-account', (req, res) => {
 app.post('/create-user', (req, res) => {
   console.log("Create account request: ", req);
   User.create({
-    username: req.body.username,
     organization_email: req.body.organization_email,
     organization_id: req.body.organization_id,
     full_name: req.body.full_name,
+    user_type: req.body.user_type,
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
+      // Redirect to project selection page after login
+      // res.redirect('/project-selection/' + user._id);
     })
     .catch(error => {
       console.error('Error creating user:', error);
@@ -239,13 +241,6 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error logging in', error });
   }
-});
-
-// Route for handling create account form submission
-app.post('/select-user-type', async (req, res) => {
-  // Handle account creation logic here
-  // Redirect to project selection page after account creation
-  res.redirect('/project-selection');
 });
 
 // Define a route to render the login page
