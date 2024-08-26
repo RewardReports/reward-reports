@@ -62,7 +62,7 @@ const ProjectSchema = new mongoose.Schema({
 const Report = mongoose.model('Report', ReportSchema);
 const Organization = mongoose.model('Organization', OrganizationSchema);
 const User = mongoose.model('User', UserSchema);
-const Project = mongoose.model('User', ProjectSchema);
+const Project = mongoose.model('Project', ProjectSchema);
 
 app.use(bodyParser.json()); // Middleware to parse JSON data
 
