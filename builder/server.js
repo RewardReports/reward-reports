@@ -252,6 +252,7 @@ app.post('/select-user-type', async (req, res) => {
 app.get('/project-selection/:userId', async (req, res) => {
   try {
     var user = await User.findOne({ _id: req.params.userId });
+    var organization = await Organization.findOne({ _id: user.organization_id });
     res.render('pages/project-selection', { user: user });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', error });
