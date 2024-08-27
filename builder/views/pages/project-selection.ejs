@@ -180,7 +180,8 @@
 
                                     // Usage
                                     // fetchData('/organizations', set_organization_options);
-                                    fetchData('/projects/' + <%= user.organization_id %>, set_project_options)
+                                    // fetchData('/projects/' + <%= user.organization_id %>, set_project_options)
+                                    set_project_options(<%= projects %>);
                                 </script>
                                 <a href="/build/<%= user._id %>"><button>Let's get started</button></a>
                             </div>
