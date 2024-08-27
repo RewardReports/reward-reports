@@ -182,25 +182,18 @@ app.get('/create-account', (req, res) => {
 // Create user
 app.post('/create-user', async (req, res) => {
   console.log("Create account request: ", req);
-  var newUser;
-  User.create({
-    organization_email: req.body.organization_email,
-    organization_id: req.body.organization_id,
-    full_name: req.body.full_name,
-    user_type: req.body.user_type,
-  })
-    .then(savedUser => {
-      console.log('User created successfully:', savedUser);
-      newUser = savedUser;
-    })
-    .catch(error => {
-      console.error('Error creating user:', error);
+  try {
+    const newUser = new User({
+      organization_email: req.body.organization_email,
+      organization_id: req.body.organization_id,
+      full_name: req.body.full_name,
+      user_type: req.body.user_type,
     });
-  if (newUser) {
-    // Redirect to project selection page after login
+    console.log('User created successfully:', savedUser);
     return res.redirect('/build/' + newUser._id);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating user', error });
   }
-  return res.redirect('/');
 });
 
 // POST route for the form on the 'View Changes' tab
