@@ -191,7 +191,7 @@ app.post('/create-user', async (req, res) => {
     });
     const savedUser = await newUser.save();
     console.log('User created successfully:', savedUser);
-    return res.redirect('/projectSelection/' + savedUser._id);
+    return res.redirect('/project-selection/' + savedUser._id);
   } catch (error) {
     res.status(500).json({ message: 'Error creating user', error });
   }
@@ -254,7 +254,8 @@ app.get('/project-selection/:userId', async (req, res) => {
   try {
     var user = await User.findOne({ _id: req.params.userId });
     var organization = await Organization.findOne({ _id: user.organization_id });
-    res.render('pages/project-selection', { user: user, organization: organization });
+    var projects = await Project.find({ organization_id: user.organization_id });
+    res.render('pages/project-selection', { user: user, organization: organization, projects: projects });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', error });
   }
