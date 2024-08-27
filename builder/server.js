@@ -155,7 +155,8 @@ app.get('/build', async (req, res) => {
   try {
     const user_id = req.query.user_id;
     const project_id = req.query.project_id;
-    
+    const new_project_name = req.query.new_project_name;
+
     const user = await User.findOne({ _id: user_id });
     if (!user) { // Check if the user exists
       return res.status(404).json({ message: 'User not found' });
@@ -164,9 +165,20 @@ app.get('/build', async (req, res) => {
     if (!organization) { // Check if the organization exists
       return res.status(404).json({ message: 'Organization not found' });
     }
-    const project = await Project.findOne({ _id: project_id });
+
+    var project;
+    if (project_id == "new" && new_project_name) {
+      const newProject = new Project({
+        name: new_project_name,
+        organization_id: user.organization_id
+      })
+      project = await newProject.save();
+    } else {
+      project = await Project.findOne({ _id: project_id });
+    }
+
     if (!project) { // Check if the project exists
-      return res.status(404).json({ message: 'Project not found' });
+      return res.status(404).json({ message: 'Project not found or created' });
     }
     res.render('pages/index', { user: user, organization: organization, project: project });
   } catch (error) {
