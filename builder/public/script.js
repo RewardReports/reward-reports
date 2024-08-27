@@ -923,7 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="7" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
+                    <td colspan="8" style="text-align: center; height:60vh;"><i style="color: grey;">Please publish or import report(s) first to view versions.</i>
                     </td>
                 </tr>
             `;
