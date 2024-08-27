@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var userTypeText = {
         "builder": {
-            "description":"(e.g., algorithm designer, ML engineer)",
-            "text":"Welcome, Builders! Your expertise is instrumental in shaping the technical aspects of the Reward Reports. Your primary focus will be on the Performance, Implementation, and Evaluation sections. Dive deep into the technical intricacies and behavior of the model. As you fill out your portion of the report, you'll navigate through these sections, ensuring a comprehensive evaluation of the model's performance and implementation.",
+            "description": "(e.g., algorithm designer, ML engineer)",
+            "text": "Welcome, Builders! Your expertise is instrumental in shaping the technical aspects of the Reward Reports. Your primary focus will be on the Performance, Implementation, and Evaluation sections. Dive deep into the technical intricacies and behavior of the model. As you fill out your portion of the report, you'll navigate through these sections, ensuring a comprehensive evaluation of the model's performance and implementation.",
         },
         "vendor": {
             "description": "(e.g., system administrator, company executive)",
@@ -176,23 +176,23 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.user-column').forEach(div => {
                 div.classList.remove('selected');
             });
-    
+
             // Add 'selected' class to the clicked user column
             this.classList.add('selected');
-    
+
             // Retrieve the user icon within the clicked column
             const userIcon = this.querySelector('.user-icon');
-            
+
             // Set the user type based on the id of the user icon within the clicked column
             const userType = userIcon.id;
             console.log(userType);
-    
+
             // Update the user type description text
             userTypeDescrip.textContent = kebabToTitleCase(userType);
-    
+
             // Update the user recommendation text from a predefined object
             userReccomendation.textContent = userTypeText[userType].text;
-    
+
             // Enable the next button after a selection is made
             nextButton.disabled = false;
         });
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     steps.forEach((step) => {
     //       step.classList.add('hidden');
     //     });
-      
+
     //     // Show the user div by removing the 'hidden' class
     //     userDiv.classList.remove('hidden');
     // });
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     steps.forEach((step) => {
     //       step.classList.add('hidden');
     //     });
-      
+
     //     // Show the user div by removing the 'hidden' class
     //     userDiv.classList.remove('hidden');
     // });
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     steps.forEach((step) => {
     //       step.classList.add('hidden');
     //     });
-      
+
     //     // Show the user div by removing the 'hidden' class
     //     introDiv.classList.remove('hidden');
     // });
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     steps.forEach((step) => {
     //       step.classList.add('hidden');
     //     });
-      
+
     //     // Show the user div by removing the 'hidden' class
     //     startBuild.classList.remove('hidden');
     // });
@@ -1129,13 +1129,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function formatDateTime(dateTime) {
-      const year = dateTime.getFullYear();
-      const month = String(dateTime.getMonth() + 1).padStart(2, '0');
-      const day = String(dateTime.getDate()).padStart(2, '0');
-      const hours = String(dateTime.getHours()).padStart(2, '0');
-      const minutes = String(dateTime.getMinutes()).padStart(2, '0');
-      const seconds = String(dateTime.getSeconds()).padStart(2, '0');
-      return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+        const year = dateTime.getFullYear();
+        const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+        const day = String(dateTime.getDate()).padStart(2, '0');
+        const hours = String(dateTime.getHours()).padStart(2, '0');
+        const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+        const seconds = String(dateTime.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
     }
 
     async function loadReportsFromDatabase() {
@@ -1188,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
+
     async function loadReportsFromGithub(githubUrl) {
         const apiUrl = convertToGitHubAPIUrl(githubUrl);
 
@@ -1539,33 +1539,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function userFilter(userType) {
         sections.forEach(section => section.classList.remove('hidden'));
-        if (userType=="builder") {
+        if (userType == "builder") {
             console.log("this is builder")
             document.getElementById('overview').classList.add('hidden')
             document.getElementById('responsibilities').classList.add('hidden')
             document.getElementById('maintenance').classList.add('hidden')
-        } else if (userType=="vendor") {
+        } else if (userType == "vendor") {
             console.log("this is vendor")
             document.getElementById('performance').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
-            if (reportVersion=="new") {
+            if (reportVersion == "new") {
                 document.getElementById('maintenance').classList.add('hidden')
             }
-        } else if (userType=="client") {
+        } else if (userType == "client") {
             console.log("this is client")
             document.getElementById('performance').classList.add('hidden')
             document.getElementById('implementation').classList.add('hidden')
             document.getElementById('evaluation').classList.add('hidden')
-            if (reportVersion=="new") {
+            if (reportVersion == "new") {
                 document.getElementById('maintenance').classList.add('hidden')
             }
-        } else if (userType=="user") {
+        } else if (userType == "user") {
             console.log("this is client")
             document.getElementById('overview').classList.add('hidden')
             document.getElementById('responsibilities').classList.add('hidden')
             document.getElementById('maintenance').classList.add('hidden')
-        } 
+        }
     }
 
 
@@ -2161,7 +2161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const contextInfoMatch = file.content.match(contextInfoPattern);
             console.log(contextInfoMatch)
             if (contextInfoMatch) {
-                descriptionCell.textContent = contextInfoMatch[2] + " -- " + contextInfoMatch[1];
+                descriptionCell.textContent = contextInfoMatch[2];
             }
 
             contentCell.appendChild(descriptionCell);
@@ -2181,6 +2181,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             contentCell.appendChild(expandButton);
             row.appendChild(contentCell);
+
+            const editorCell = document.createElement('td');
+            editorCell.textContent = contextInfoMatch ? contextInfoMatch[1] : '';
+            row.appendChild(editorCell);
+
+            const editorOrganizationCell = document.createElement('td');
+            editorOrganizationCell.textContent = '';
+            row.appendChild(editorOrganizationCell);
 
             const metric1 = document.createElement('td');
             metric1.textContent = "1";
