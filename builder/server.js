@@ -157,9 +157,13 @@ app.get('/build', async (req, res) => {
 });
 
 app.get('/build/:userId', async (req, res) => {
-  const user_id = req.params.userId;
-  const user = await User.findOne({user_id: user_id})
-  res.render('pages/index', {user: user});
+  try {
+    const user_id = req.params.userId;
+    const user = await User.findOne({user_id: user_id})
+    res.render('pages/index', {user: user});
+  } catch (error) {
+    res.status(500).json({ message: 'Error loading user', error });
+  }
 });
 
 // Define a route to render the login page
@@ -176,6 +180,7 @@ app.get('/create-account', (req, res) => {
 // Create user
 app.post('/create-user', async (req, res) => {
   console.log("Create account request: ", req);
+  var newUser;
   User.create({
     organization_email: req.body.organization_email,
     organization_id: req.body.organization_id,
@@ -184,13 +189,16 @@ app.post('/create-user', async (req, res) => {
   })
     .then(savedUser => {
       console.log('User created successfully:', savedUser);
-      // Redirect to project selection page after login
-      return res.redirect('/build/' + savedUser._id);
+      newUser = savedUser;
     })
     .catch(error => {
       console.error('Error creating user:', error);
     });
-  return res.redirect('/login');
+  if (newUser) {
+    // Redirect to project selection page after login
+    return res.redirect('/build/' + newUser._id);
+  }
+  return res.redirect('/');
 });
 
 // POST route for the form on the 'View Changes' tab
