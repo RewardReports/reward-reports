@@ -131,58 +131,10 @@
                             </select-->
                                 <select v-model="layerValue" id="project_id">
                                     <option :value="null">Select Project</option>
+                                    <% projects.forEach(function(project) { %>
+                                      <option value="<%= project._id %>"><%= project.name %></option>
+                                    <% }); %>
                                 </select>
-                                <script type="text/javascript">
-                                    function set_project_options(projects) {
-                                        // Show organization projects list
-                                        var select_project = document.getElementById('project_id');
-                                        select_project.innerHTML = '';
-                                        projects.forEach(function(project) {
-                                            console.log(project);
-                                            var project_html = `<option value="${project._id}">${project.name}</option>`;
-                                            select_project.innerHTML += project_html;
-                                        });
-                                    }
-                                    
-                                    function set_organization_options(organizations) {
-                                        var select_organization = document.getElementById('organization_id');
-                                        organizations.forEach(function(organization) {
-                                            console.log(organization);
-                                            option_html = "<option value='" + organization._id + "'>" + organization.name + "</option>";
-                                            select_organization.innerHTML += option_html;
-                                        });
-                                    }
-                                    
-                                    async function fetchData(url, set_options_fn) {
-                                      try {
-                                        console.log("Fetching data from " + url);
-                                        const response = await fetch(url);
-                                        if (!response.ok) {
-                                          throw new Error('Network response was not ok');
-                                        }
-                                        const data = await response.json();
-                                        console.log("Received data: ");
-                                        console.log(data);
-                                        set_options_fn(data);
-                                      } catch (error) {
-                                        console.error('Error:', error);
-                                      }
-                                    }
-
-                                    function handleOrganizationChange(selectElement) {
-                                      // Get the selected value
-                                      const selectedOrganizationId = selectElement.value;
-                                      console.log(`Selected organization ID: ${selectedOrganizationId}`);
-
-                                      // Perform any other actions you need
-                                      fetchData('/projects/' + selectedOrganizationId, set_project_options)
-                                    }
-
-                                    // Usage
-                                    // fetchData('/organizations', set_organization_options);
-                                    // fetchData('/projects/' + <%= user.organization_id %>, set_project_options)
-                                    set_project_options(JSON.parse('<%= projects %>'));
-                                </script>
                                 <a href="/build/<%= user._id %>"><button>Let's get started</button></a>
                             </div>
                         </div> 

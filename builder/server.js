@@ -258,7 +258,7 @@ app.get('/project-selection/:userId', async (req, res) => {
     res.render('pages/project-selection', {
       user: user,
       organization: organization,
-      projects: JSON.stringify(projects)
+      projects: projects
     });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', error });
