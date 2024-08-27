@@ -127,15 +127,49 @@
                             <div class="button-container">
                                 <h2>Welcome <%= user.full_name %> to the Reward Reports Portal for <%= organization.name %></h2>
                                 <form action="/build" method="GET" >
-                                    <input type="hidden" name="user_id" value="<%= user._id %>" />
-                                    <select v-model="layerValue" id="project_id">
-                                        <option :value="null">Select Project</option>
+                                    <input name="user_id" type="hidden" value="<%= user._id %>" />
+                                    <label for="project-id">Select Project: </label>
+                                    <select name="project_id" v-model="layerValue" id="project-id" onchange="handleSelectChange()">
                                         <% projects.forEach(function(project) { %>
-                                          <option value="<%= project._id %>"><%= project.name %></option>
+                                          <option value="<%= project._id %>"> <%= project.name %> </option>
                                         <% }); %>
+                                        <option value="new">Create New Project</option>
                                     </select>
+                                    <br />
+                                    <input name="new_project_name" type="text" placeholder="New Project Name" class="hidden" id="new-project-name" />
+                                    <br />
                                     <button type="submit">Let's get started</button>
                                 </form>
+                                <script type="text/javascript">
+                                    function handleSelectChange() {
+                                        const selectElement = document.getElementById('project-id');
+                                        const selectedValue = selectElement.value;
+                                        console.log('Selected value:', selectedValue);
+
+                                        // Add your custom logic here
+                                        if (selectedValue == "new") {
+                                            showNewProjectNameField();
+                                        } else {
+                                            hideNewProjectNameField();
+                                        }
+                                    }
+                                    
+                                    function hideNewProjectNameField() {
+                                        // Get the element
+                                        const myElement = document.getElementById('new-project-name');
+
+                                        // Toggle the visibility
+                                        myElement.style.display = 'none';
+                                    }
+                                    
+                                    function showNewProjectNameField() {
+                                        // Get the element
+                                        const myElement = document.getElementById('new-project-name');
+
+                                        // Toggle the visibility
+                                        myElement.style.display = 'block';
+                                    }
+                                </script>
                             </div>
                         </div> 
                     </div>
