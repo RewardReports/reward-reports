@@ -126,16 +126,16 @@
                             <br><br>
                             <div class="button-container">
                                 <h2>Welcome <%= user.full_name %> to the Reward Reports Portal for <%= organization.name %></h2>
-                                <!--select v-model="layerValue" id="organization_id" ongange="handleOrganizationChange(this)">
-                                    <option :value="null">Select Organization</option>
-                            </select-->
-                                <select v-model="layerValue" id="project_id">
-                                    <option :value="null">Select Project</option>
-                                    <% projects.forEach(function(project) { %>
-                                      <option value="<%= project._id %>"><%= project.name %></option>
-                                    <% }); %>
-                                </select>
-                                <a href="/build/<%= user._id %>"><button>Let's get started</button></a>
+                                <form>
+                                    <input type="hidden" name="user_id" value="<%= user._id %>"
+                                    <select v-model="layerValue" id="project_id">
+                                        <option :value="null">Select Project</option>
+                                        <% projects.forEach(function(project) { %>
+                                          <option value="<%= project._id %>"><%= project.name %></option>
+                                        <% }); %>
+                                    </select>
+                                    <button type="submit">Let's get started</button>
+                                </form>
                             </div>
                         </div> 
                     </div>

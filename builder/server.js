@@ -151,9 +151,10 @@ app.get('/', function(req, res) {
   res.render('pages/start');
 });
 
-app.get('/build/:userId', async (req, res) => {
+app.get('/build', async (req, res) => {
   try {
-    const user_id = req.params.userId;
+    const user_id = req.query.user_id;
+    const project_id = req.query.project_id;
     const user = await User.findOne({ _id: user_id });
     if (!user) { // Check if the user exists
       return res.status(404).json({ message: 'User not found' });
@@ -162,7 +163,11 @@ app.get('/build/:userId', async (req, res) => {
     if (!organization) { // Check if the organization exists
       return res.status(404).json({ message: 'Organization not found' });
     }
-    res.render('pages/index', { user: user, organization: organization });
+    const project = await Project.findOne({ _id: project_id });
+    if (!project) { // Check if the project exists
+      return res.status(404).json({ message: 'Project not found' });
+    }
+    res.render('pages/index', { user: user, organization: organization, project: project });
   } catch (error) {
     res.status(500).json({ message: 'Error loading user', error });
   }
