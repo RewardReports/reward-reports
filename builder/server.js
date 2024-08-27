@@ -153,14 +153,14 @@ app.get('/', function(req, res) {
 
 // Define a route to render the report builder page
 app.get('/build', async (req, res) => {
-  res.render('pages/index');
+  res.render('pages/index', { user: null });
 });
 
 app.get('/build/:userId', async (req, res) => {
   try {
     const user_id = req.params.userId;
-    const user = await User.findOne({user_id: user_id})
-    res.render('pages/index', {user: user});
+    const user = await User.findOne({ user_id: user_id })
+    res.render('pages/index', { user: user });
   } catch (error) {
     res.status(500).json({ message: 'Error loading user', error });
   }
