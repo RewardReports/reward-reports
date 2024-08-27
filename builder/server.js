@@ -151,11 +151,6 @@ app.get('/', function(req, res) {
   res.render('pages/start');
 });
 
-// Define a route to render the report builder page
-app.get('/build', async (req, res) => {
-  res.render('pages/index', { user: null });
-});
-
 app.get('/build/:userId', async (req, res) => {
   try {
     const user_id = req.params.userId;
