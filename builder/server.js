@@ -154,11 +154,15 @@ app.get('/', function(req, res) {
 app.get('/build/:userId', async (req, res) => {
   try {
     const user_id = req.params.userId;
-    const user = await User.findOne({ _id: user_id })
+    const user = await User.findOne({ _id: user_id });
     if (!user) { // Check if the user exists
       return res.status(404).json({ message: 'User not found' });
     }
-    res.render('pages/index', { user: user });
+    const organization = await Organization.findOne({ _id: user.organization_id });
+    if (!organization) { // Check if the organization exists
+      return res.status(404).json({ message: 'Organization not found' });
+    }
+    res.render('pages/index', { user: user, organization: organization });
   } catch (error) {
     res.status(500).json({ message: 'Error loading user', error });
   }

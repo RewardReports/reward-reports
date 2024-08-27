@@ -667,7 +667,7 @@
                 <div class="author-form">
                     <div class="form-content">
                         <label for="editor-input">Editor(s)</label>
-                        <input type="text" id="editor-input" class="full-width" value="<%= user ? user.full_name : 'Enter editor(s)' %>">
+                        <input type="text" id="editor-input" class="full-width" value="<%= (user && organization) ? user.full_name + ' (' + organization.name + ')' : 'Enter editor(s)' %>">
                 
                         <label for="description-input">Description</label>
                         <textarea id="description-input" class="full-width" rows="5" placeholder="Enter description"></textarea>
