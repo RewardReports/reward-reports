@@ -131,6 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let userType;
     let reportVersion;
 
+    const user_id = document.getElementById('user-id').innerText;
+    const organization_id = document.getElementById('organization-id').innerText;
+    const project_id = document.getElementById('project-id').innerText;
 
 
     const offset = 100;
@@ -722,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     datetime: now,
                     markdownContent: markdownContent,
+                    project_id: project_id,
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -1140,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadReportsFromDatabase() {
         try {
-            const response = await fetch("/loadReportVersions");
+            const response = await fetch(`/reports/${project_id}`);
             const reports = await response.json();
             console.log("Fetched reports from database:");
             console.log(reports);

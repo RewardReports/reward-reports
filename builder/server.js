@@ -180,7 +180,10 @@ app.get('/build', async (req, res) => {
     if (!project) { // Check if the project exists
       return res.status(404).json({ message: 'Project not found or created' });
     }
-    res.render('pages/index', { user: user, organization: organization, project: project });
+
+    const reports = await Report.find({ project_id: project_id });
+
+    res.render('pages/index', { user: user, organization: organization, project: project, reports: reports });
   } catch (error) {
     res.status(500).json({ message: 'Error loading user', error });
   }
