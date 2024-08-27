@@ -181,11 +181,11 @@ app.get('/build', async (req, res) => {
       return res.status(404).json({ message: 'Project not found or created' });
     }
 
-    const reports = await Report.find({ project_id: project_id });
+    const reports = await Report.find({ project_id: project._id });
 
     res.render('pages/index', { user: user, organization: organization, project: project, reports: reports });
   } catch (error) {
-    res.status(500).json({ message: 'Error loading user', error });
+    res.status(500).json({ message: 'Error initializing builder', error });
   }
 });
 
