@@ -127,7 +127,7 @@
                             <div class="button-container">
                                 <h2>Welcome <%= user.full_name %> to the Reward Reports Portal for <%= organization.name %></h2>
                                 <form>
-                                    <input type="hidden" name="user_id" value="<%= user._id %>"
+                                    <input type="hidden" name="user_id" value="<%= user._id %>" />
                                     <select v-model="layerValue" id="project_id">
                                         <option :value="null">Select Project</option>
                                         <% projects.forEach(function(project) { %>
