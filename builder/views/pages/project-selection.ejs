@@ -182,7 +182,7 @@
                                     // fetchData('/organizations', set_organization_options);
                                     fetchData('/projects/' + <%= user.organization_id %>, set_project_options)
                                 </script>
-                                <a href="/build"><button>Let's get started</button></a>
+                                <a href="/build/<%= user._id %>"><button>Let's get started</button></a>
                             </div>
                         </div> 
                     </div>
