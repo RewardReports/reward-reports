@@ -136,7 +136,7 @@
                                         <option value="new">Create New Project</option>
                                     </select>
                                     <br />
-                                    <input name="new_project_name" type="text" placeholder="New Project Name" class="hidden" id="new-project-name" />
+                                    <input name="new_project_name" type="text" placeholder="New Project Name" id="new-project-name" style="display: none" />
                                     <br />
                                     <button type="submit">Let's get started</button>
                                 </form>
@@ -146,28 +146,12 @@
                                         const selectedValue = selectElement.value;
                                         console.log('Selected value:', selectedValue);
 
-                                        // Add your custom logic here
+                                        const newProjectNameField = document.getElementById('new-project-name');
                                         if (selectedValue == "new") {
-                                            showNewProjectNameField();
+                                            newProjectNameField.style.display = 'block';
                                         } else {
-                                            hideNewProjectNameField();
+                                            newProjectNameField.style.display = 'none';
                                         }
-                                    }
-                                    
-                                    function hideNewProjectNameField() {
-                                        // Get the element
-                                        const myElement = document.getElementById('new-project-name');
-
-                                        // Toggle the visibility
-                                        myElement.style.display = 'none';
-                                    }
-                                    
-                                    function showNewProjectNameField() {
-                                        // Get the element
-                                        const myElement = document.getElementById('new-project-name');
-
-                                        // Toggle the visibility
-                                        myElement.style.display = 'block';
                                     }
                                 </script>
                             </div>
