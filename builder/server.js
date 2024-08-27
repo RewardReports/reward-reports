@@ -155,6 +155,7 @@ app.get('/build', async (req, res) => {
   try {
     const user_id = req.query.user_id;
     const project_id = req.query.project_id;
+    
     const user = await User.findOne({ _id: user_id });
     if (!user) { // Check if the user exists
       return res.status(404).json({ message: 'User not found' });
