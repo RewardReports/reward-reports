@@ -154,7 +154,10 @@ app.get('/', function(req, res) {
 app.get('/build/:userId', async (req, res) => {
   try {
     const user_id = req.params.userId;
-    const user = await User.findOne({ user_id: user_id })
+    const user = await User.findOne({ _id: user_id })
+    if (!user) { // Check if the user exists
+      return res.status(404).json({ message: 'User not found' });
+    }
     res.render('pages/index', { user: user });
   } catch (error) {
     res.status(500).json({ message: 'Error loading user', error });
