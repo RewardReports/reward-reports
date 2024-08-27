@@ -255,10 +255,13 @@ app.get('/project-selection/:userId', async (req, res) => {
     var user = await User.findOne({ _id: req.params.userId });
     var organization = await Organization.findOne({ _id: user.organization_id });
     var projects = await Project.find({ organization_id: user.organization_id });
-    res.render('pages/project-selection', { user: user, organization: organization, projects: projects });
+    res.render('pages/project-selection', {
+      user: user,
+      organization: organization,
+      projects: JSON.stringify(projects)
+    });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user', error });
   }
 });
-
 
