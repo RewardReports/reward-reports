@@ -191,7 +191,7 @@ app.post('/create-user', async (req, res) => {
     });
     const savedUser = await newUser.save();
     console.log('User created successfully:', savedUser);
-    return res.redirect('/build/' + savedUser._id);
+    return res.redirect('/projectSelection/' + savedUser._id);
   } catch (error) {
     res.status(500).json({ message: 'Error creating user', error });
   }
