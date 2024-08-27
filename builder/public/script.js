@@ -2182,13 +2182,17 @@ document.addEventListener('DOMContentLoaded', () => {
             contentCell.appendChild(expandButton);
             row.appendChild(contentCell);
 
+            // Add editor information to table
             const editorCell = document.createElement('td');
             editorCell.textContent = contextInfoMatch ? contextInfoMatch[1] : '';
             row.appendChild(editorCell);
 
-            const editorOrganizationCell = document.createElement('td');
-            editorOrganizationCell.textContent = '';
-            row.appendChild(editorOrganizationCell);
+            // Add editor organization to table (future)
+            // const editorOrganizationCell = document.createElement('td');
+            // editorOrganizationCell.textContent = '';
+            // look this up based on user's full name?
+            // or better to store user's ID in the markdown, which we currently don't do
+            // row.appendChild(editorOrganizationCell);
 
             const metric1 = document.createElement('td');
             metric1.textContent = "1";
